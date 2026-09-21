@@ -5,7 +5,7 @@ workflows:
     max_build_duration: 120
 
     integrations:
-      app_store_connect: SIQ Codemagic
+      app_store_connect: "SIQ Codemagic"
 
     environment:
       ios_signing:
@@ -17,6 +17,21 @@ workflows:
       cocoapods: default
 
     scripts:
+      - name: Create env file
+        script: |
+          echo "Creating .env file..."
+          echo "USE_FAKE_AUTH=false" > .env
+          echo "SUPABASE_URL=$SUPABASE_URL" >> .env
+          echo "SUPABASE_PUBLISHABLE_KEY=$SUPABASE_PUBLISHABLE_KEY" >> .env
+
+          echo "Checking .env file..."
+          if [ -f ".env" ]; then
+            echo ".env file created successfully"
+          else
+            echo "ERROR: .env file was not created"
+            exit 1
+          fi
+
       - name: Get Flutter packages
         script: |
           flutter pub get
