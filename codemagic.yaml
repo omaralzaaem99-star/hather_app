@@ -1,0 +1,57 @@
+workflows:
+  hather-ios:
+    name: Hather iOS
+    instance_type: mac_mini_m2
+    max_build_duration: 120
+
+    integrations:
+      app_store_connect: SIQ Codemagic
+
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.hather.hatherios
+
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+
+    scripts:
+      - name: Get Flutter packages
+        script: |
+          flutter pub get
+
+      - name: Install CocoaPods dependencies
+        script: |
+          find . -name "Podfile" -execdir pod install \;
+
+      - name: Set up iOS code signing
+        script: |
+          xcode-project use-profiles
+
+      - name: Build iOS IPA
+        script: |
+          flutter build ipa --release \
+            --export-options-plist=/Users/builder/export_options.plist
+
+      - name: Find IPA
+        script: |
+          echo "Looking for IPA files..."
+          find . -name "*.ipa" -type f -print
+
+      - name: Verify IPA
+        script: |
+          echo "=== Searching for IPA ==="
+          find "$CM_BUILD_DIR" -type f -name "*.ipa" -print
+          echo "=== IPA search completed ==="
+
+    artifacts:
+      - "**/*.ipa"
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        submit_to_app_store: false
