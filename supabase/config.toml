@@ -1,0 +1,21 @@
+# Hather Supabase Edge Functions
+# Secrets (Dashboard / CLI):
+#   supabase secrets set OTPIQ_API_KEY=...
+#   supabase secrets set SEND_SMS_HOOK_SECRET=v1,whsec_...
+# Legacy (optional fallback in auth-send-sms only): OTPIQ_API_TOKEN
+# admin-delete-user uses hosted SUPABASE_SERVICE_ROLE_KEY (auto) — never put it in the web app.
+
+[functions.auth-send-sms]
+verify_jwt = false
+
+[functions.admin-delete-user]
+verify_jwt = true
+
+[functions.delete-my-account]
+verify_jwt = true
+
+[functions.dispatch-notification-push]
+verify_jwt = false
+# Secrets: FIREBASE_SERVICE_ACCOUNT_JSON, HATHER_PUSH_WEBHOOK_SECRET
+# Auto-dispatch: migration 039 — pg_net trigger on user_notifications INSERT
+# Auth: x-hather-db-push-token (Vault) or x-hather-push-webhook-secret (manual)

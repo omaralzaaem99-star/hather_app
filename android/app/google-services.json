@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "796926107652",
+    "project_id": "hather-app",
+    "storage_bucket": "hather-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:796926107652:android:21dbb05da44a94df251551",
+        "android_client_info": {
+          "package_name": "com.hather.hatherios"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoaNSC6OnxjTvdDQTOfKoCPXfQjpvWE7k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

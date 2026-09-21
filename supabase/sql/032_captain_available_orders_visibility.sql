@@ -1,0 +1,116 @@
+-- -- 032: Fix captain available-orders visibility gaps (no RLS widen)
+-- -- Depends on: 015/028 list RPC, 014 subscription, 030 expire
+-- --
+-- -- Root causes addressed:
+-- -- 1) pending rows with expires_at <= now() still look "waiting" to users
+-- --    (user list filters by status only) while captains exclude them.
+-- --    → Sync expire before listing; keep captain filter expires_at > now().
+-- -- 2) Active captains approved without a trial/subscription row get silent [].
+-- --    → Best-effort one-time grant for eligible captains (trial settings + never granted).
+-- -- 3) Preserve subscription gate (do NOT remove it).
+
+-- -- ---------------------------------------------------------------------------
+-- -- 1) Best-effort backfill: active captains missing any active subscription
+-- --    who never received a free trial grant.
+-- -- ---------------------------------------------------------------------------
+-- do $$
+-- declare
+--   r record;
+-- begin
+--   for r in
+--     select p.id
+--     from public.profiles p
+--     where p.account_type = 'captain'
+--       and p.account_status = 'active'
+--       and not exists (
+--         select 1
+--         from public.captain_subscriptions s
+--         where s.captain_id = p.id
+--           and s.ends_at > now()
+--       )
+--       and not exists (
+--         select 1
+--         from public.captain_trial_grants g
+--         where g.captain_id = p.id
+--       )
+--   loop
+--     perform public._grant_captain_free_trial(r.id);
+--   end loop;
+-- end;
+-- $$;
+
+-- -- ---------------------------------------------------------------------------
+-- -- 2) captain_list_available_orders — expire sync + same eligibility filters
+-- -- ---------------------------------------------------------------------------
+-- create or replace function public.captain_list_available_orders()
+-- returns jsonb
+-- language plpgsql
+-- security definer
+-- set search_path = public
+-- as $$
+-- declare
+--   prof public.profiles;
+--   result jsonb;
+-- begin
+--   prof := public._require_active_captain();
+
+--   -- Keep pending/expired status aligned before captains query the pool.
+--   -- Safe/idempotent: only pending + null captain + expires_at <= now().
+--   begin
+--     perform public.expire_pending_delivery_orders();
+--   exception
+--     when undefined_function then
+--       null;
+--     when others then
+--       null;
+--   end;
+
+--   if not public.captain_has_active_subscription(prof.id) then
+--     return '[]'::jsonb;
+--   end if;
+
+--   select coalesce(jsonb_agg(row_data order by created_at desc), '[]'::jsonb)
+--   into result
+--   from (
+--     select jsonb_build_object(
+--       'id', o.id,
+--       'request_number', o.request_number,
+--       'order_type_name', o.order_type_name,
+--       'details', o.details,
+--       'destination_label', public._delivery_destination_label(
+--         o.destination_type, o.destination_address
+--       ),
+--       'delivery_fee_iqd', o.delivery_fee_iqd,
+--       'created_at', o.created_at,
+--       'expires_at', o.expires_at
+--     ) as row_data,
+--     o.created_at
+--     from public.delivery_orders o
+--     where o.status = 'pending'
+--       and o.captain_id is null
+--       and o.expires_at > now()
+--   ) q;
+
+--   return result;
+-- end;
+-- $$;
+
+-- revoke all on function public.captain_list_available_orders() from public;
+-- grant execute on function public.captain_list_available_orders() to authenticated;
+
+-- -- ---------------------------------------------------------------------------
+-- -- Manual diagnosis (run in SQL editor as needed; not executed automatically)
+-- -- ---------------------------------------------------------------------------
+-- -- Latest pending orders:
+-- -- select id, request_number, status, captain_id, created_at, expires_at,
+-- --        delete_after_minutes, expires_at > now() as still_open
+-- -- from public.delivery_orders
+-- -- order by created_at desc
+-- -- limit 20;
+-- --
+-- -- Captain subscription:
+-- -- select p.id, p.full_name, p.account_status,
+-- --        s.subscription_type, s.starts_at, s.ends_at, s.ends_at > now() as active
+-- -- from public.profiles p
+-- -- left join public.captain_subscriptions s on s.captain_id = p.id
+-- -- where p.account_type = 'captain';
