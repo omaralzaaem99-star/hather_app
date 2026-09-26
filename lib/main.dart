@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -23,26 +25,42 @@ Future<void> main() async {
   AppConfig.validate();
 
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   if (kDebugMode) {
     debugPrint('Firebase initialized');
   }
 
   final container = ProviderContainer();
+
   await container.read(themeModeProvider.notifier).loadSaved();
+
   final initialMode = container.read(themeModeProvider);
+
   AppColors.bind(
-    initialMode == ThemeMode.light ? Brightness.light : Brightness.dark,
+    initialMode == ThemeMode.light
+        ? Brightness.light
+        : Brightness.dark,
   );
 
   await _initializeSupabaseIfNeeded();
-  await FcmNotificationService.instance.initialize(container: container);
+
   _wirePushAuthLifecycle(container);
 
   runApp(
     UncontrolledProviderScope(
       container: container,
       child: const HatherApp(),
+    ),
+  );
+
+  // FCM must not block the first render of the application.
+  unawaited(
+    FcmNotificationService.instance.initialize(
+      container: container,
     ),
   );
 }
@@ -64,8 +82,11 @@ void _wirePushAuthLifecycle(ProviderContainer container) {
     authControllerProvider,
     (previous, next) {
       final wasAuth = previous?.isAuthenticated ?? false;
+
       if (next.isAuthenticated && !wasAuth) {
-        FcmNotificationService.instance.syncCurrentDevice();
+        unawaited(
+          FcmNotificationService.instance.syncCurrentDevice(),
+        );
       }
     },
     fireImmediately: true,
