@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/core/notifications/push_device_repository.dart';
+import '../lib/core/notifications/push_device_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {

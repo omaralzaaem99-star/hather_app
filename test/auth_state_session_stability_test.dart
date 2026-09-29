@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/features/auth/domain/entities/account_enums.dart';
-import 'package:hather_app/features/auth/domain/entities/auth_user.dart';
-import 'package:hather_app/features/auth/presentation/controllers/auth_state.dart';
+import '../lib/features/auth/domain/entities/account_enums.dart';
+import '../lib/features/auth/domain/entities/auth_user.dart';
+import '../lib/features/auth/presentation/controllers/auth_state.dart';
 
 void main() {
   AuthSession sessionWith({
@@ -27,10 +27,7 @@ void main() {
   }
 
   test('isAuthenticated stays true while loading with a valid session', () {
-    final state = AuthState(
-      status: AuthStatus.loading,
-      session: sessionWith(),
-    );
+    final state = AuthState(status: AuthStatus.loading, session: sessionWith());
     expect(state.isAuthenticated, isTrue);
   });
 
@@ -73,31 +70,34 @@ void main() {
     expect(state.isAuthenticated, isFalse);
   });
 
-  test('five consecutive user→captain/pending session updates stay authenticated', () {
-    for (var i = 0; i < 5; i++) {
-      final active = AuthState(
-        status: AuthStatus.authenticated,
-        session: sessionWith(),
-      );
-      expect(active.isAuthenticated, isTrue);
+  test(
+    'five consecutive user→captain/pending session updates stay authenticated',
+    () {
+      for (var i = 0; i < 5; i++) {
+        final active = AuthState(
+          status: AuthStatus.authenticated,
+          session: sessionWith(),
+        );
+        expect(active.isAuthenticated, isTrue);
 
-      // Mimic old bug: brief loading during convert must NOT drop auth.
-      final midConvert = AuthState(
-        status: AuthStatus.loading,
-        session: active.session,
-      );
-      expect(midConvert.isAuthenticated, isTrue);
+        // Mimic old bug: brief loading during convert must NOT drop auth.
+        final midConvert = AuthState(
+          status: AuthStatus.loading,
+          session: active.session,
+        );
+        expect(midConvert.isAuthenticated, isTrue);
 
-      final pending = AuthState(
-        status: AuthStatus.authenticated,
-        session: sessionWith(
-          type: AccountType.captain,
-          status: AccountStatus.pending,
-        ),
-      );
-      expect(pending.isAuthenticated, isTrue);
-      expect(pending.user?.accountType, AccountType.captain);
-      expect(pending.user?.accountStatus, AccountStatus.pending);
-    }
-  });
+        final pending = AuthState(
+          status: AuthStatus.authenticated,
+          session: sessionWith(
+            type: AccountType.captain,
+            status: AccountStatus.pending,
+          ),
+        );
+        expect(pending.isAuthenticated, isTrue);
+        expect(pending.user?.accountType, AccountType.captain);
+        expect(pending.user?.accountStatus, AccountStatus.pending);
+      }
+    },
+  );
 }

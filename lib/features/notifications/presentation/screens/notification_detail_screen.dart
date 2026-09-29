@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/routing/safe_navigation.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_dimensions.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/core/utils/app_date_time_format.dart';
-import 'package:hather_app/features/notifications/domain/entities/user_notification.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/routing/safe_navigation.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/app_date_time_format.dart';
+import '../../domain/entities/user_notification.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Full content for general / non-routable notifications.
 class NotificationDetailScreen extends StatelessWidget {
@@ -25,7 +25,8 @@ class NotificationDetailScreen extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
           color: AppColors.textPrimary,
-          onPressed: () => safeBack(context, fallbackLocation: '/notifications'),
+          onPressed: () =>
+              safeBack(context, fallbackLocation: '/notifications'),
         ),
         title: Text(l10n.notificationsTitle, style: AppTextStyles.screenTitle),
       ),

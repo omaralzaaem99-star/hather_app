@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/features/account/presentation/widgets/account_widgets.dart';
-import 'package:hather_app/features/captain/presentation/widgets/captain_subscription_card.dart';
-import 'package:hather_app/features/subscription/domain/entities/captain_subscription_info.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import 'account_widgets.dart';
+import '../../../captain/presentation/widgets/captain_subscription_card.dart';
+import '../../../subscription/domain/entities/captain_subscription_info.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Subscription details inside the captain account card.
 class CaptainSubscriptionAccordionBody extends StatelessWidget {
-  const CaptainSubscriptionAccordionBody({
-    required this.info,
-    super.key,
-  });
+  const CaptainSubscriptionAccordionBody({required this.info, super.key});
 
   final CaptainSubscriptionInfo info;
 
@@ -63,9 +60,7 @@ class CaptainSubscriptionAccordionBody extends StatelessWidget {
         children: [
           Row(
             children: [
-              Expanded(
-                child: Text(typeLabel, style: AppTextStyles.bodyStrong),
-              ),
+              Expanded(child: Text(typeLabel, style: AppTextStyles.bodyStrong)),
               AccountStatusBadge(
                 label: l10n.subscriptionStatusActive,
                 tone: AccountBadgeTone.active,
@@ -110,11 +105,7 @@ class _Shell extends StatelessWidget {
 }
 
 class _DetailLine extends StatelessWidget {
-  const _DetailLine({
-    required this.icon,
-    required this.text,
-    this.ltr = false,
-  });
+  const _DetailLine({required this.icon, required this.text, this.ltr = false});
 
   final IconData icon;
   final String text;
@@ -144,10 +135,7 @@ class _DetailLine extends StatelessWidget {
 
 /// Placeholder body for technical support — ready for admin panel data later.
 class TechnicalSupportAccordionBody extends StatelessWidget {
-  const TechnicalSupportAccordionBody({
-    required this.onOpenSupport,
-    super.key,
-  });
+  const TechnicalSupportAccordionBody({required this.onOpenSupport, super.key});
 
   final VoidCallback onOpenSupport;
 

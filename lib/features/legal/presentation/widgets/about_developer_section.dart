@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/constants/app_info.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_dimensions.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/features/delivery/presentation/utils/order_contact_launcher.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/constants/app_info.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../delivery/presentation/utils/order_contact_launcher.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Developer contact footer on the About screen — phone tap opens WhatsApp/call sheet.
 class AboutDeveloperSection extends StatelessWidget {
@@ -24,8 +24,9 @@ class AboutDeveloperSection extends StatelessWidget {
 
   Future<void> _openWhatsApp(BuildContext context) async {
     final l10n = AppLocalizations.of(context);
-    final uris =
-        OrderContactLauncher.whatsAppLaunchUris(AppInfo.developerPhoneE164);
+    final uris = OrderContactLauncher.whatsAppLaunchUris(
+      AppInfo.developerPhoneE164,
+    );
     if (uris.isEmpty) {
       _showLaunchFailed(context, l10n.captainWhatsAppLaunchFailed);
       return;
@@ -36,9 +37,9 @@ class AboutDeveloperSection extends StatelessWidget {
   }
 
   void _showLaunchFailed(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   Future<void> _showContactSheet(BuildContext context) async {
@@ -134,11 +135,7 @@ class AboutDeveloperSection extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
-                      Icons.phone_outlined,
-                      size: 18,
-                      color: AppColors.icon,
-                    ),
+                    Icon(Icons.phone_outlined, size: 18, color: AppColors.icon),
                     const SizedBox(width: 6),
                     Text(
                       AppInfo.developerPhoneLocal,

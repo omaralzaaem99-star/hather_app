@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hather_app/core/notifications/notification_navigation.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_dimensions.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/features/notifications/domain/entities/user_notification.dart';
-import 'package:hather_app/features/notifications/presentation/providers/notifications_providers.dart';
-import 'package:hather_app/features/notifications/presentation/utils/notification_time_format.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/notifications/notification_navigation.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../domain/entities/user_notification.dart';
+import '../providers/notifications_providers.dart';
+import '../utils/notification_time_format.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class NotificationsScreen extends ConsumerStatefulWidget {
   const NotificationsScreen({super.key});
@@ -227,10 +227,7 @@ class _NotificationCard extends StatelessWidget {
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
-            border: Border.all(
-              color: borderColor,
-              width: unread ? 1.3 : 1,
-            ),
+            border: Border.all(color: borderColor, width: unread ? 1.3 : 1),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -255,8 +252,9 @@ class _NotificationCard extends StatelessWidget {
                           child: Text(
                             notification.title,
                             style: AppTextStyles.bodyStrong.copyWith(
-                              fontWeight:
-                                  unread ? FontWeight.w700 : FontWeight.w600,
+                              fontWeight: unread
+                                  ? FontWeight.w700
+                                  : FontWeight.w600,
                             ),
                           ),
                         ),

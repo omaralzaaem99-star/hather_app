@@ -2,18 +2,18 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:crypto/crypto.dart';
-import 'package:hather_app/core/config/app_config.dart';
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/features/auth/data/datasources/auth_remote_datasource.dart';
-import 'package:hather_app/features/auth/data/models/auth_session_model.dart';
-import 'package:hather_app/features/auth/data/models/auth_user_model.dart';
-import 'package:hather_app/features/auth/data/models/login_request_model.dart';
-import 'package:hather_app/features/auth/data/models/otp_request_models.dart';
-import 'package:hather_app/features/auth/data/models/register_request_model.dart';
-import 'package:hather_app/features/auth/domain/entities/account_enums.dart';
-import 'package:hather_app/features/auth/domain/entities/login_phone_status.dart';
-import 'package:hather_app/features/auth/domain/entities/phone_registration_status.dart';
-import 'package:hather_app/features/auth/domain/entities/verify_otp_result.dart';
+import '../../../../core/config/app_config.dart';
+import '../../../../core/errors/failures.dart';
+import 'auth_remote_datasource.dart';
+import '../models/auth_session_model.dart';
+import '../models/auth_user_model.dart';
+import '../models/login_request_model.dart';
+import '../models/otp_request_models.dart';
+import '../models/register_request_model.dart';
+import '../../domain/entities/account_enums.dart';
+import '../../domain/entities/login_phone_status.dart';
+import '../../domain/entities/phone_registration_status.dart';
+import '../../domain/entities/verify_otp_result.dart';
 import 'package:uuid/uuid.dart';
 
 /// Development-only authentication fallback (in-memory).
@@ -24,8 +24,13 @@ class FakeAuthRemoteDataSource implements AuthRemoteDataSource {
     Uuid? uuid,
     this.rateLimit = const Duration(seconds: 5),
     this.networkDelay = const Duration(milliseconds: 250),
+    bool seedDefaultAccounts = true,
   }) : _random = random ?? Random.secure(),
-       _uuid = uuid ?? const Uuid();
+       _uuid = uuid ?? const Uuid() {
+    if (seedDefaultAccounts) {
+      _seedDefaultAccounts();
+    }
+  }
 
   final Random _random;
   final Uuid _uuid;
@@ -376,6 +381,39 @@ class FakeAuthRemoteDataSource implements AuthRemoteDataSource {
   String _hashSecret(String value) {
     // Local fake only — real secret comparison must happen on the server.
     return sha256.convert(utf8.encode(value)).toString();
+  }
+
+  void _seedDefaultAccounts() {
+    final now = DateTime.now().toUtc();
+    const demoUserPhone = '+9647700000000';
+    _accountsByPhone[demoUserPhone] = _StoredAccount(
+      user: AuthUserModel(
+        id: 'fake-user-demo-001',
+        fullName: 'مستخدم تجريبي',
+        phone: demoUserPhone,
+        accountType: AccountType.user,
+        accountStatus: AccountStatus.active,
+        phoneVerified: true,
+        createdAt: now,
+        updatedAt: now,
+      ),
+      secretCodeHash: _hashSecret('123456'),
+    );
+
+    const demoCaptainPhone = '+9647711111111';
+    _accountsByPhone[demoCaptainPhone] = _StoredAccount(
+      user: AuthUserModel(
+        id: 'fake-captain-demo-002',
+        fullName: 'كابتن تجريبي',
+        phone: demoCaptainPhone,
+        accountType: AccountType.captain,
+        accountStatus: AccountStatus.active,
+        phoneVerified: true,
+        createdAt: now,
+        updatedAt: now,
+      ),
+      secretCodeHash: _hashSecret('123456'),
+    );
   }
 
   Future<void> _simulateLatency() async {

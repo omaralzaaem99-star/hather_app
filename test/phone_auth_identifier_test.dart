@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/core/utils/phone_auth_identifier.dart';
-import 'package:hather_app/core/utils/phone_number_formatter.dart';
+import '../lib/core/utils/phone_auth_identifier.dart';
+import '../lib/core/utils/phone_number_formatter.dart';
 
 void main() {
   group('PhoneAuthIdentifier', () {

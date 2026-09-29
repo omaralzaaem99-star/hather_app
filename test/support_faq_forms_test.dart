@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/features/support/domain/entities/support_faq.dart';
-import 'package:hather_app/features/support/domain/entities/support_form.dart';
-import 'package:hather_app/features/support/domain/entities/support_request.dart';
+import '../lib/features/support/domain/entities/support_faq.dart';
+import '../lib/features/support/domain/entities/support_form.dart';
+import '../lib/features/support/domain/entities/support_request.dart';
 
 void main() {
   group('SupportFaq', () {

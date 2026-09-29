@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:hather_app/core/errors/backend_error_mapper.dart';
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/core/utils/phone_auth_identifier.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import 'backend_error_mapper.dart';
+import 'failures.dart';
+import '../utils/phone_auth_identifier.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Maps domain failures to localized Arabic messages.
 String mapFailureToMessage(BuildContext context, Failure failure) {
@@ -17,28 +17,28 @@ String mapFailureToMessage(BuildContext context, Failure failure) {
     InvalidOtpFailure() => l10n.errorInvalidOtp,
     OtpExpiredFailure() => l10n.errorOtpExpired,
     NetworkFailure() => sanitizeFailureMessage(
-        failure.message,
-        context: BackendErrorContext.generic,
-        isNetwork: true,
-      ),
+      failure.message,
+      context: BackendErrorContext.generic,
+      isNetwork: true,
+    ),
     TooManyRequestsFailure() => l10n.errorTooManyRequests,
     InvalidPhoneFailure() => l10n.errorPhoneInvalid,
     ServerFailure() => sanitizeFailureMessage(
-        failure.message,
-        context: BackendErrorContext.generic,
-      ),
+      failure.message,
+      context: BackendErrorContext.generic,
+    ),
     ValidationFailure() => sanitizeFailureMessage(
-        failure.message,
-        context: BackendErrorContext.generic,
-      ),
+      failure.message,
+      context: BackendErrorContext.generic,
+    ),
     UnauthorizedFailure() => sanitizeFailureMessage(
-        failure.message,
-        context: BackendErrorContext.generic,
-      ),
+      failure.message,
+      context: BackendErrorContext.generic,
+    ),
     UnknownFailure() => sanitizeFailureMessage(
-        failure.message,
-        context: BackendErrorContext.generic,
-      ),
+      failure.message,
+      context: BackendErrorContext.generic,
+    ),
   };
 
   return PhoneAuthIdentifier.sanitizeUserMessage(raw);

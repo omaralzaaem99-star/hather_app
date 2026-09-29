@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/features/account/presentation/widgets/account_widgets.dart';
+import '../../../../core/theme/app_colors.dart';
+import 'account_widgets.dart';
 
 /// Shared account page — fixed profile banner + separate section cards.
 class AccountPageLayout extends StatelessWidget {

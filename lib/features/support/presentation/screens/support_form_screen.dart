@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/features/support/domain/entities/support_form.dart';
-import 'package:hather_app/features/support/presentation/providers/support_providers.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../domain/entities/support_form.dart';
+import '../providers/support_providers.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class SupportFormScreen extends ConsumerStatefulWidget {
   const SupportFormScreen({required this.formId, super.key});
@@ -44,7 +44,9 @@ class _SupportFormScreenState extends ConsumerState<SupportFormScreen> {
 
     setState(() => _submitting = true);
     final l10n = AppLocalizations.of(context);
-    final result = await ref.read(supportRepositoryProvider).submitForm(
+    final result = await ref
+        .read(supportRepositoryProvider)
+        .submitForm(
           formId: widget.formId,
           answers: Map<String, String>.from(_values),
         );
@@ -55,15 +57,15 @@ class _SupportFormScreenState extends ConsumerState<SupportFormScreen> {
     result.when(
       success: (_) {
         ref.invalidate(mySupportRequestsProvider);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.supportFormSubmitted)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.supportFormSubmitted)));
         context.pop();
       },
       onFailure: (_) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.supportSubmitFailed)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.supportSubmitFailed)));
       },
     );
   }
@@ -81,7 +83,8 @@ class _SupportFormScreenState extends ConsumerState<SupportFormScreen> {
         elevation: 0,
         title: formAsync.maybeWhen(
           data: (form) => Text(form.title, style: AppTextStyles.sectionTitle),
-          orElse: () => Text(l10n.supportFormsTitle, style: AppTextStyles.sectionTitle),
+          orElse: () =>
+              Text(l10n.supportFormsTitle, style: AppTextStyles.sectionTitle),
         ),
       ),
       body: formAsync.when(
@@ -101,7 +104,8 @@ class _SupportFormScreenState extends ConsumerState<SupportFormScreen> {
             child: ListView(
               padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
               children: [
-                if (form.description != null && form.description!.isNotEmpty) ...[
+                if (form.description != null &&
+                    form.description!.isNotEmpty) ...[
                   Text(
                     form.description!,
                     style: AppTextStyles.body.copyWith(
@@ -121,7 +125,8 @@ class _SupportFormScreenState extends ConsumerState<SupportFormScreen> {
                       setState(() => _values[field.fieldKey] = value);
                     },
                     validator: (value) {
-                      if (field.isRequired && (value == null || value.trim().isEmpty)) {
+                      if (field.isRequired &&
+                          (value == null || value.trim().isEmpty)) {
                         return l10n.supportRequiredField;
                       }
                       return null;
@@ -181,13 +186,13 @@ class _DynamicField extends StatelessWidget {
     if (field.isSelect) {
       return DropdownButtonFormField<String>(
         initialValue: value != null && value!.isNotEmpty ? value : null,
-        decoration: _decoration(label, field.placeholder ?? l10n.supportSelectPlaceholder),
+        decoration: _decoration(
+          label,
+          field.placeholder ?? l10n.supportSelectPlaceholder,
+        ),
         items: field.options
             .map(
-              (opt) => DropdownMenuItem<String>(
-                value: opt,
-                child: Text(opt),
-              ),
+              (opt) => DropdownMenuItem<String>(value: opt, child: Text(opt)),
             )
             .toList(),
         onChanged: (v) => onChanged(v ?? ''),
@@ -213,13 +218,17 @@ class _DynamicField extends StatelessWidget {
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: AppColors.borderSubtle.withValues(alpha: 0.35)),
+        borderSide: BorderSide(
+          color: AppColors.borderSubtle.withValues(alpha: 0.35),
+        ),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: const BorderSide(color: AppColors.primary),
       ),
-      labelStyle: AppTextStyles.caption.copyWith(color: AppColors.textSecondary),
+      labelStyle: AppTextStyles.caption.copyWith(
+        color: AppColors.textSecondary,
+      ),
     );
   }
 }

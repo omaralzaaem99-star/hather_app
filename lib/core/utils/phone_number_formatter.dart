@@ -1,4 +1,4 @@
-import 'package:hather_app/core/config/app_config.dart';
+import '../config/app_config.dart';
 
 /// Central Iraqi phone number formatting and validation.
 ///

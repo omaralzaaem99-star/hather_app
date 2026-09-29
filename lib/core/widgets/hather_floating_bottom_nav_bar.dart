@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
 
 class ShellNavItem {
   const ShellNavItem({
@@ -85,8 +85,7 @@ class HatherFloatingBottomNavBar extends StatelessWidget {
                 builder: (context, constraints) {
                   final itemWidth = constraints.maxWidth / items.length;
                   const capsuleInset = 5.0;
-                  final highlightLeft =
-                      _visualIndex * itemWidth + capsuleInset;
+                  final highlightLeft = _visualIndex * itemWidth + capsuleInset;
 
                   return Stack(
                     clipBehavior: Clip.none,
@@ -110,9 +109,7 @@ class HatherFloatingBottomNavBar extends StatelessWidget {
                                     ]
                                   : [
                                       AppColors.primary.withValues(alpha: 0.32),
-                                      AppColors.primary.withValues(
-                                        alpha: 0.18,
-                                      ),
+                                      AppColors.primary.withValues(alpha: 0.18),
                                     ],
                             ),
                             borderRadius: BorderRadius.circular(pillRadius),
@@ -132,8 +129,7 @@ class HatherFloatingBottomNavBar extends StatelessWidget {
                                 label: item.label,
                                 icon: item.icon,
                                 activeIcon: item.activeIcon,
-                                selected:
-                                    selectedBranch == item.branchIndex,
+                                selected: selectedBranch == item.branchIndex,
                                 isLight: isLight,
                                 onTap: () => onTap(item.branchIndex),
                                 compact: textScale > 1.15,

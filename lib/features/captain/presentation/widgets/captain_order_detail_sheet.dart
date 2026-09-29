@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hather_app/core/errors/failure_messages.dart';
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/core/routing/authenticated_routes.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/core/utils/app_date_time_format.dart';
-import 'package:hather_app/core/utils/iqd_format.dart';
-import 'package:hather_app/core/utils/phone_number_formatter.dart';
-import 'package:hather_app/core/widgets/primary_button.dart';
-import 'package:hather_app/features/captain/domain/entities/captain_order.dart';
-import 'package:hather_app/features/captain/presentation/providers/captain_order_providers.dart';
-import 'package:hather_app/features/delivery/presentation/utils/delivery_request_number.dart';
-import 'package:hather_app/features/delivery/presentation/utils/order_remaining_time.dart';
-import 'package:hather_app/features/subscription/presentation/providers/subscription_providers.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/errors/failure_messages.dart';
+import '../../../../core/errors/failures.dart';
+import '../../../../core/routing/authenticated_routes.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/app_date_time_format.dart';
+import '../../../../core/utils/iqd_format.dart';
+import '../../../../core/utils/phone_number_formatter.dart';
+import '../../../../core/widgets/primary_button.dart';
+import '../../domain/entities/captain_order.dart';
+import '../providers/captain_order_providers.dart';
+import '../../../delivery/presentation/utils/delivery_request_number.dart';
+import '../../../delivery/presentation/utils/order_remaining_time.dart';
+import '../../../subscription/presentation/providers/subscription_providers.dart';
+import '../../../../l10n/app_localizations.dart';
 
 Future<void> showCaptainAvailableOrderSheet(
   BuildContext context,
@@ -57,9 +57,9 @@ Future<void> showCaptainMyOrderDetailSheet(
       final message = failure is Failure
           ? mapFailureToMessage(context, failure)
           : AppLocalizations.of(context).errorUnknown;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(message)));
     },
   );
 }
@@ -82,9 +82,9 @@ class _CaptainAvailableOrderSheetState
     if (_accepting) return;
     final l10n = AppLocalizations.of(context);
     if (OrderRemainingTime.isExpired(widget.order.expiresAt)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.captainOrderExpiredLabel)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.captainOrderExpiredLabel)));
       return;
     }
     final subscription = ref.read(myCaptainSubscriptionProvider).value;
@@ -106,9 +106,9 @@ class _CaptainAvailableOrderSheetState
       success: (detail) {
         refreshCaptainOrders(ref);
         Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.captainAcceptOrderSuccess)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.captainAcceptOrderSuccess)));
         context.go(AuthenticatedRoutes.captainOrders);
       },
       onFailure: (failure) {
@@ -116,9 +116,9 @@ class _CaptainAvailableOrderSheetState
             ? mapFailureToMessage(context, failure)
             : l10n.errorUnknown;
         refreshCaptainOrders(ref);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(message)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(message)));
         if (message.contains('كابتن آخر') ||
             message.contains('انتهت صلاحية') ||
             message.contains('الحد الأقصى من الطلبات قيد التنفيذ')) {
@@ -161,10 +161,7 @@ class _CaptainAvailableOrderSheetState
             ),
           ),
           const SizedBox(height: 16),
-          Text(
-            l10n.captainViewOrderDetails,
-            style: AppTextStyles.sectionTitle,
-          ),
+          Text(l10n.captainViewOrderDetails, style: AppTextStyles.sectionTitle),
           const SizedBox(height: 16),
           if (widget.order.requestNumber != null)
             _OrderNumberCopyRow(requestNumber: widget.order.requestNumber!),
@@ -173,7 +170,10 @@ class _CaptainAvailableOrderSheetState
             label: l10n.captainOrderTypeLabel,
             value: l10n.deliveryOrderDisplayTitle,
           ),
-          _PreviewRow(label: l10n.captainOrderDetailsLabel, value: widget.order.details),
+          _PreviewRow(
+            label: l10n.captainOrderDetailsLabel,
+            value: widget.order.details,
+          ),
           _PreviewRow(
             label: l10n.captainOrderDestinationLabel,
             value: widget.order.destinationLabel,
@@ -200,8 +200,9 @@ class _CaptainAvailableOrderSheetState
                   builder: (context, label, isExpired) => Text(
                     isExpired ? label : '⏱ $label',
                     style: AppTextStyles.body.copyWith(
-                      color:
-                          isExpired ? AppColors.error : AppColors.textPrimary,
+                      color: isExpired
+                          ? AppColors.error
+                          : AppColors.textPrimary,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -275,9 +276,9 @@ class _CaptainMyOrderDetailSheetState
             ? mapFailureToMessage(context, failure)
             : l10n.errorUnknown;
         refreshCaptainOrders(ref);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(message)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(message)));
       },
     );
   }
@@ -288,7 +289,7 @@ class _CaptainMyOrderDetailSheetState
     final phone = _detail.customerPhone == null
         ? '—'
         : (PhoneNumberFormatter.toLocalDisplay(_detail.customerPhone!) ??
-            _detail.customerPhone!);
+              _detail.customerPhone!);
     final completedAt = _detail.completedAt;
 
     return Padding(
@@ -302,19 +303,24 @@ class _CaptainMyOrderDetailSheetState
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(l10n.deliveryOrderDisplayTitle, style: AppTextStyles.sectionTitle),
+          Text(
+            l10n.deliveryOrderDisplayTitle,
+            style: AppTextStyles.sectionTitle,
+          ),
           if (_detail.requestNumber != null) ...[
             const SizedBox(height: 12),
             _OrderNumberCopyRow(requestNumber: _detail.requestNumber!),
           ],
           const SizedBox(height: 12),
-          _PreviewRow(label: l10n.captainOrderDetailsLabel, value: _detail.details),
+          _PreviewRow(
+            label: l10n.captainOrderDetailsLabel,
+            value: _detail.details,
+          ),
           _PreviewRow(
             label: l10n.captainOrderDestinationLabel,
             value: _detail.destinationAddress ?? _detail.destinationLabel,
           ),
-          if (_detail.destinationLat != null &&
-              _detail.destinationLng != null)
+          if (_detail.destinationLat != null && _detail.destinationLng != null)
             _PreviewRow(
               label: l10n.captainOrderGpsLabel,
               value:

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_dimensions.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_dimensions.dart';
+import '../theme/app_text_styles.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Same green hero gradient as [AccountProfileHeader].
 LinearGradient get _accountHeaderGradient => LinearGradient(
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      colors: [
-        AppColors.primary.withValues(alpha: 0.95),
-        AppColors.primary.withValues(alpha: 0.82),
-        AppColors.primary.withValues(alpha: 0.68),
-      ],
-    );
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
+  colors: [
+    AppColors.primary.withValues(alpha: 0.95),
+    AppColors.primary.withValues(alpha: 0.82),
+    AppColors.primary.withValues(alpha: 0.68),
+  ],
+);
 
 /// Subtle topography lines — matches account profile header pattern.
 class _HomeHeaderPatternPainter extends CustomPainter {
@@ -68,9 +68,7 @@ class HomeScreenHeader extends StatelessWidget {
     final badge = _badgeLabel;
 
     return DecoratedBox(
-      decoration: BoxDecoration(
-        gradient: _accountHeaderGradient,
-      ),
+      decoration: BoxDecoration(gradient: _accountHeaderGradient),
       child: SizedBox(
         width: double.infinity,
         child: Stack(
@@ -104,9 +102,7 @@ class HomeScreenHeader extends StatelessWidget {
                           l10n.homeWelcome(welcomeName),
                           style: AppTextStyles.caption.copyWith(
                             fontSize: 13,
-                            color: AppColors.onPrimary.withValues(
-                              alpha: 0.88,
-                            ),
+                            color: AppColors.onPrimary.withValues(alpha: 0.88),
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -124,12 +120,11 @@ class HomeScreenHeader extends StatelessWidget {
                         onPressed: onNotificationsPressed,
                         visualDensity: VisualDensity.compact,
                         style: IconButton.styleFrom(
-                          backgroundColor:
-                              AppColors.onPrimary.withValues(alpha: 0.12),
+                          backgroundColor: AppColors.onPrimary.withValues(
+                            alpha: 0.12,
+                          ),
                           side: BorderSide(
-                            color: AppColors.onPrimary.withValues(
-                              alpha: 0.22,
-                            ),
+                            color: AppColors.onPrimary.withValues(alpha: 0.22),
                           ),
                           minimumSize: const Size(44, 44),
                           padding: EdgeInsets.zero,

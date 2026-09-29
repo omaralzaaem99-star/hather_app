@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/features/delivery/presentation/utils/order_remaining_time.dart';
+import '../lib/features/delivery/presentation/utils/order_remaining_time.dart';
 
 void main() {
   group('OrderRemainingTime', () {
@@ -11,10 +11,7 @@ void main() {
         OrderRemainingTime.compactLabel(expires, now: now),
         'متبقي 10 دقائق',
       );
-      expect(
-        OrderRemainingTime.detailValue(expires, now: now),
-        '10 دقائق',
-      );
+      expect(OrderRemainingTime.detailValue(expires, now: now), '10 دقائق');
     });
 
     test('formats one hour with minutes', () {
@@ -44,10 +41,7 @@ void main() {
 
     test('less than one minute', () {
       final expires = now.add(const Duration(seconds: 40));
-      expect(
-        OrderRemainingTime.detailValue(expires, now: now),
-        'أقل من دقيقة',
-      );
+      expect(OrderRemainingTime.detailValue(expires, now: now), 'أقل من دقيقة');
     });
   });
 }

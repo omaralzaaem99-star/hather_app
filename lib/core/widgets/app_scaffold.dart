@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_dimensions.dart';
-import 'package:hather_app/core/utils/localization_helpers.dart';
-import 'package:hather_app/core/widgets/loading_overlay.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_dimensions.dart';
+import '../utils/localization_helpers.dart';
+import 'loading_overlay.dart';
 
 class AppScaffold extends StatelessWidget {
   const AppScaffold({

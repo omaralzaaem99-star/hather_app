@@ -1,7 +1,7 @@
-import 'package:hather_app/core/utils/result.dart';
-import 'package:hather_app/features/auth/domain/entities/account_enums.dart';
-import 'package:hather_app/features/auth/domain/entities/auth_user.dart';
-import 'package:hather_app/features/auth/domain/entities/verify_otp_result.dart';
+import '../../../../core/utils/result.dart';
+import '../entities/account_enums.dart';
+import '../entities/auth_user.dart';
+import '../entities/verify_otp_result.dart';
 
 /// Auth contract — screens never talk to Supabase/API directly.
 abstract class AuthRepository {

@@ -1,5 +1,5 @@
-import 'package:hather_app/core/utils/result.dart';
-import 'package:hather_app/features/delivery/domain/entities/delivery_entities.dart';
+import '../../../../core/utils/result.dart';
+import '../entities/delivery_entities.dart';
 
 abstract class DeliveryRepository {
   Future<Result<List<OrderTypeOption>>> fetchOrderTypes();

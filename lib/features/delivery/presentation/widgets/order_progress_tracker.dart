@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_dimensions.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/theme/app_text_styles.dart';
 
 enum OrderProgressStepState { completed, current, upcoming }
 
 /// Dark progress card for user delivery order detail (4 steps, RTL-friendly).
 class OrderProgressTracker extends StatelessWidget {
-  const OrderProgressTracker({
-    required this.status,
-    super.key,
-  });
+  const OrderProgressTracker({required this.status, super.key});
 
   final String status;
 
@@ -203,10 +200,7 @@ class _StepperRow extends StatelessWidget {
 }
 
 class _Connector extends StatelessWidget {
-  const _Connector({
-    required this.filled,
-    required this.accent,
-  });
+  const _Connector({required this.filled, required this.accent});
 
   final bool filled;
   final Color accent;
@@ -229,10 +223,7 @@ class _Connector extends StatelessWidget {
 }
 
 class _StepDot extends StatelessWidget {
-  const _StepDot({
-    required this.state,
-    required this.accent,
-  });
+  const _StepDot({required this.state, required this.accent});
 
   final OrderProgressStepState state;
   final Color accent;
@@ -251,11 +242,7 @@ class _StepDot extends StatelessWidget {
             shape: BoxShape.circle,
             border: Border.all(color: AppColors.success, width: 1.6),
           ),
-          child: Icon(
-            Icons.check_rounded,
-            size: 16,
-            color: AppColors.success,
-          ),
+          child: Icon(Icons.check_rounded, size: 16, color: AppColors.success),
         );
       case OrderProgressStepState.current:
         return Container(
@@ -291,10 +278,7 @@ class _StepDot extends StatelessWidget {
 }
 
 class _SimpleStatusCard extends StatelessWidget {
-  const _SimpleStatusCard({
-    required this.message,
-    required this.color,
-  });
+  const _SimpleStatusCard({required this.message, required this.color});
 
   final String message;
   final Color color;

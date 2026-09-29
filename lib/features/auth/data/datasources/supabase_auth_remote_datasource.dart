@@ -1,23 +1,23 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:hather_app/core/config/app_config.dart';
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/core/utils/phone_number_formatter.dart';
-import 'package:hather_app/features/auth/core/auth_log.dart';
-import 'package:hather_app/features/auth/data/datasources/auth_remote_datasource.dart';
-import 'package:hather_app/features/auth/data/auth_session_restore.dart';
-import 'package:hather_app/features/auth/data/models/auth_session_model.dart';
-import 'package:hather_app/features/auth/data/models/auth_user_model.dart';
-import 'package:hather_app/features/auth/data/models/login_request_model.dart';
-import 'package:hather_app/features/auth/data/models/otp_request_models.dart';
-import 'package:hather_app/features/auth/data/models/register_request_model.dart';
-import 'package:hather_app/features/auth/domain/entities/account_enums.dart';
-import 'package:hather_app/features/auth/domain/entities/login_phone_status.dart';
-import 'package:hather_app/features/auth/domain/entities/phone_registration_status.dart';
-import 'package:hather_app/features/auth/data/datasources/supabase_error_mapper.dart';
-import 'package:hather_app/features/auth/domain/entities/restore_session_outcome.dart';
-import 'package:hather_app/features/auth/domain/entities/verify_otp_result.dart';
+import '../../../../core/config/app_config.dart';
+import '../../../../core/errors/failures.dart';
+import '../../../../core/utils/phone_number_formatter.dart';
+import '../../core/auth_log.dart';
+import 'auth_remote_datasource.dart';
+import '../auth_session_restore.dart';
+import '../models/auth_session_model.dart';
+import '../models/auth_user_model.dart';
+import '../models/login_request_model.dart';
+import '../models/otp_request_models.dart';
+import '../models/register_request_model.dart';
+import '../../domain/entities/account_enums.dart';
+import '../../domain/entities/login_phone_status.dart';
+import '../../domain/entities/phone_registration_status.dart';
+import 'supabase_error_mapper.dart';
+import '../../domain/entities/restore_session_outcome.dart';
+import '../../domain/entities/verify_otp_result.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide AuthState;
 import 'package:uuid/uuid.dart';
 
@@ -110,9 +110,7 @@ class SupabaseAuthRemoteDataSource implements AuthRemoteDataSource {
       await _client.auth.signUp(
         phone: request.phone,
         password: request.secretCode,
-        data: <String, dynamic>{
-          'full_name': request.fullName,
-        },
+        data: <String, dynamic>{'full_name': request.fullName},
       );
       AuthLog.registerSignUpSuccess(request.phone);
       return _createRegistrationChallenge(request);
@@ -216,15 +214,14 @@ class SupabaseAuthRemoteDataSource implements AuthRemoteDataSource {
       if (purpose == OtpPurpose.registration) {
         final pending = _pendingByChallenge[challengeId];
         if (pending == null) {
-          throw const ServerFailure(message: 'انتهت جلسة التسجيل، ابدأ من جديد');
+          throw const ServerFailure(
+            message: 'انتهت جلسة التسجيل، ابدأ من جديد',
+          );
         }
         await _client.auth.resend(phone: phone, type: _phoneOtpType);
         _otpVerifyTypeByChallenge[challengeId] = _phoneOtpType;
       } else {
-        await _client.auth.signInWithOtp(
-          phone: phone,
-          shouldCreateUser: false,
-        );
+        await _client.auth.signInWithOtp(phone: phone, shouldCreateUser: false);
         _otpVerifyTypeByChallenge[challengeId] = _phoneOtpType;
       }
 
@@ -316,7 +313,9 @@ class SupabaseAuthRemoteDataSource implements AuthRemoteDataSource {
       final purpose = _purposeByChallenge[request.challengeId];
       final phone = _phoneByChallenge[request.challengeId];
       if (purpose != OtpPurpose.passwordReset || phone == null) {
-        throw const ServerFailure(message: 'انتهت جلسة الاستعادة، ابدأ من جديد');
+        throw const ServerFailure(
+          message: 'انتهت جلسة الاستعادة، ابدأ من جديد',
+        );
       }
 
       final current = _client.auth.currentSession;
@@ -525,9 +524,7 @@ class SupabaseAuthRemoteDataSource implements AuthRemoteDataSource {
       final status = _parseRegistrationPhoneStatus(raw);
       if (status == null) {
         if (kDebugMode) {
-          debugPrint(
-            'REGISTER_PHONE_STATUS_UNEXPECTED raw=$raw',
-          );
+          debugPrint('REGISTER_PHONE_STATUS_UNEXPECTED raw=$raw');
         }
         throw const ServerFailure(
           message: 'تعذر التحقق من الرقم. حاول مرة أخرى.',
@@ -750,8 +747,10 @@ class SupabaseAuthRemoteDataSource implements AuthRemoteDataSource {
         );
       }
       return RestoreSessionKeepCached(
-        _sessionFromSupabase(session, _fallbackUserFromAuth(session, cachedUser))
-            .toEntity(),
+        _sessionFromSupabase(
+          session,
+          _fallbackUserFromAuth(session, cachedUser),
+        ).toEntity(),
         reason: error.toString(),
       );
     }

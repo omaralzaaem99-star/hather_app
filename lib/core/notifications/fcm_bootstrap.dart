@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hather_app/app/app_router.dart';
-import 'package:hather_app/core/notifications/fcm_notification_service.dart';
-import 'package:hather_app/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../app/app_router.dart';
+import 'fcm_notification_service.dart';
+import '../../features/auth/presentation/controllers/auth_controller.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Binds FCM navigation + app resume sync without coupling to feature UI.
@@ -62,12 +62,14 @@ class _FcmBootstrapState extends ConsumerState<FcmBootstrap>
       }
 
       // FcmBootstrap wraps MaterialApp — use the router navigator context.
-      final navContext =
-          ref.read(goRouterProvider).routerDelegate.navigatorKey.currentContext;
-      final messenger =
-          navContext != null && navContext.mounted
-              ? ScaffoldMessenger.maybeOf(navContext)
-              : null;
+      final navContext = ref
+          .read(goRouterProvider)
+          .routerDelegate
+          .navigatorKey
+          .currentContext;
+      final messenger = navContext != null && navContext.mounted
+          ? ScaffoldMessenger.maybeOf(navContext)
+          : null;
       if (navContext == null || !navContext.mounted || messenger == null) {
         if (attempt < 40) {
           _attemptPermissionDeniedFeedback(attempt: attempt + 1);

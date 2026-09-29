@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/features/delivery/domain/entities/delivery_entities.dart';
+import '../lib/features/delivery/domain/entities/delivery_entities.dart';
 
 void main() {
   DeliveryOrder order({required String status}) {

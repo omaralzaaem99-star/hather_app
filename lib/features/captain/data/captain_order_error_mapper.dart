@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:hather_app/core/errors/backend_error_mapper.dart';
-import 'package:hather_app/core/errors/failures.dart';
+import '../../../core/errors/backend_error_mapper.dart';
+import '../../../core/errors/failures.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Maps captain order RPC errors to user-facing Arabic [Failure] messages.

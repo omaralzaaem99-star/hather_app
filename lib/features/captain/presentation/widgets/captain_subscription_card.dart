@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_dimensions.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/core/utils/app_date_time_format.dart';
-import 'package:hather_app/features/subscription/domain/entities/captain_subscription_info.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/app_date_time_format.dart';
+import '../../../subscription/domain/entities/captain_subscription_info.dart';
+import '../../../../l10n/app_localizations.dart';
 
 String captainSubscriptionSummary(
   AppLocalizations l10n,
@@ -26,10 +26,7 @@ String captainSubscriptionSummary(
 String formatCaptainDateTime(DateTime utc) => AppDateTimeFormat.dateTime(utc);
 
 class CaptainSubscriptionCard extends StatelessWidget {
-  const CaptainSubscriptionCard({
-    required this.info,
-    super.key,
-  });
+  const CaptainSubscriptionCard({required this.info, super.key});
 
   final CaptainSubscriptionInfo info;
 
@@ -69,7 +66,9 @@ class CaptainSubscriptionCard extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               l10n.captainSubscriptionRemaining(info.remainingDays.toString()),
-              style: AppTextStyles.caption.copyWith(color: AppColors.textSecondary),
+              style: AppTextStyles.caption.copyWith(
+                color: AppColors.textSecondary,
+              ),
             ),
           ],
           if (info.endsAt != null) ...[
@@ -88,11 +87,7 @@ class CaptainSubscriptionCard extends StatelessWidget {
 }
 
 class CaptainInfoTile extends StatelessWidget {
-  const CaptainInfoTile({
-    required this.label,
-    required this.value,
-    super.key,
-  });
+  const CaptainInfoTile({required this.label, required this.value, super.key});
 
   final String label;
   final String value;
@@ -110,11 +105,8 @@ class CaptainInfoTile extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Expanded(
-            child: Text(label, style: AppTextStyles.caption),
-          ),
-          if (value.isNotEmpty)
-            Text(value, style: AppTextStyles.bodyStrong),
+          Expanded(child: Text(label, style: AppTextStyles.caption)),
+          if (value.isNotEmpty) Text(value, style: AppTextStyles.bodyStrong),
         ],
       ),
     );

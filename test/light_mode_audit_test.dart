@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_theme.dart';
-import 'package:hather_app/core/theme/hather_theme_colors.dart';
-import 'package:hather_app/core/widgets/auth_header.dart';
-import 'package:hather_app/core/widgets/error_message.dart';
-import 'package:hather_app/core/widgets/home_screen_header.dart';
-import 'package:hather_app/core/widgets/hather_floating_bottom_nav_bar.dart';
-import 'package:hather_app/features/auth/presentation/widgets/create_account_notch.dart';
-import 'package:hather_app/features/delivery/presentation/widgets/order_progress_tracker.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../lib/core/theme/app_colors.dart';
+import '../lib/core/theme/app_theme.dart';
+import '../lib/core/theme/hather_theme_colors.dart';
+import '../lib/core/widgets/auth_header.dart';
+import '../lib/core/widgets/error_message.dart';
+import '../lib/core/widgets/home_screen_header.dart';
+import '../lib/core/widgets/hather_floating_bottom_nav_bar.dart';
+import '../lib/features/auth/presentation/widgets/create_account_notch.dart';
+import '../lib/features/delivery/presentation/widgets/order_progress_tracker.dart';
+import '../lib/l10n/app_localizations.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -31,10 +31,7 @@ void main() {
 
   group('Light mode audit widgets', () {
     test('light glassFill is opaque enough for auth cards', () {
-      expect(
-        HatherThemeColors.light.glassFill.a,
-        greaterThan(0.85),
-      );
+      expect(HatherThemeColors.light.glassFill.a, greaterThan(0.85));
     });
 
     testWidgets('HomeScreenHeader shows app name and welcome text', (
@@ -74,9 +71,7 @@ void main() {
         ),
       );
 
-      final errorText = tester.widget<Text>(
-        find.text('خطأ في تسجيل الدخول'),
-      );
+      final errorText = tester.widget<Text>(find.text('خطأ في تسجيل الدخول'));
       expect(errorText.style?.color, AppColors.error);
     });
 
@@ -85,10 +80,7 @@ void main() {
     ) async {
       await tester.pumpWidget(
         lightHarness(
-          child: CreateAccountNotch(
-            label: 'إنشاء حساب',
-            onTap: () {},
-          ),
+          child: CreateAccountNotch(label: 'إنشاء حساب', onTap: () {}),
         ),
       );
 
@@ -100,9 +92,7 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        lightHarness(
-          child: const OrderProgressTracker(status: 'pending'),
-        ),
+        lightHarness(child: const OrderProgressTracker(status: 'pending')),
       );
 
       expect(find.textContaining('بانتظار'), findsWidgets);
@@ -113,9 +103,7 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        lightHarness(
-          child: const OrderProgressTracker(status: 'active'),
-        ),
+        lightHarness(child: const OrderProgressTracker(status: 'active')),
       );
 
       final container = tester.widget<Container>(

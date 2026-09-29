@@ -1,4 +1,4 @@
-import 'package:hather_app/core/utils/phone_number_formatter.dart';
+import 'phone_number_formatter.dart';
 
 /// App-wide display formatting for dates/times.
 ///

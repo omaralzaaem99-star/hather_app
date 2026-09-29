@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_dimensions.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/core/utils/app_date_time_format.dart';
-import 'package:hather_app/features/support/domain/entities/support_request.dart';
-import 'package:hather_app/features/support/presentation/providers/support_providers.dart';
-import 'package:hather_app/features/support/presentation/widgets/support_widgets.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/app_date_time_format.dart';
+import '../../domain/entities/support_request.dart';
+import '../providers/support_providers.dart';
+import '../widgets/support_widgets.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class SupportRequestDetailScreen extends ConsumerWidget {
   const SupportRequestDetailScreen({super.key, required this.requestId});
@@ -51,7 +51,9 @@ class SupportRequestDetailScreen extends ConsumerWidget {
             padding: const EdgeInsets.all(24),
             child: Text(
               l10n.supportSubmitFailed,
-              style: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
+              style: AppTextStyles.body.copyWith(
+                color: AppColors.textSecondary,
+              ),
               textAlign: TextAlign.center,
             ),
           ),
@@ -107,10 +109,7 @@ class SupportRequestDetailScreen extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text(
-                          answer.label,
-                          style: AppTextStyles.bodyStrong,
-                        ),
+                        Text(answer.label, style: AppTextStyles.bodyStrong),
                         const SizedBox(height: 8),
                         Text(
                           answer.value,

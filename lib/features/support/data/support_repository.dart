@@ -1,10 +1,10 @@
-import 'package:hather_app/core/errors/backend_error_mapper.dart';
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/core/utils/result.dart';
-import 'package:hather_app/features/support/domain/entities/support_faq.dart';
-import 'package:hather_app/features/support/domain/entities/support_form.dart';
-import 'package:hather_app/features/support/domain/entities/support_request.dart';
-import 'package:hather_app/features/support/domain/entities/support_settings.dart';
+import '../../../core/errors/backend_error_mapper.dart';
+import '../../../core/errors/failures.dart';
+import '../../../core/utils/result.dart';
+import '../domain/entities/support_faq.dart';
+import '../domain/entities/support_form.dart';
+import '../domain/entities/support_request.dart';
+import '../domain/entities/support_settings.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class SupportRemoteDataSource {
@@ -44,7 +44,7 @@ Map<String, dynamic> _asMap(Object? raw) {
 
 class SupabaseSupportRemoteDataSource implements SupportRemoteDataSource {
   SupabaseSupportRemoteDataSource({SupabaseClient? client})
-      : _client = client ?? Supabase.instance.client;
+    : _client = client ?? Supabase.instance.client;
 
   final SupabaseClient _client;
 
@@ -146,10 +146,7 @@ class SupabaseSupportRemoteDataSource implements SupportRemoteDataSource {
     try {
       final row = await _client.rpc(
         'submit_support_request',
-        params: {
-          'p_form_id': formId,
-          'p_answers': answers,
-        },
+        params: {'p_form_id': formId, 'p_answers': answers},
       );
       return SupportSubmissionResult.fromJson(_asMap(row));
     } on Object catch (error) {
@@ -216,7 +213,8 @@ class FakeSupportRemoteDataSource implements SupportRemoteDataSource {
 }
 
 class SupportRepository {
-  SupportRepository({required SupportRemoteDataSource remote}) : _remote = remote;
+  SupportRepository({required SupportRemoteDataSource remote})
+    : _remote = remote;
 
   final SupportRemoteDataSource _remote;
 
@@ -241,8 +239,7 @@ class SupportRepository {
   Future<Result<SupportSubmissionResult>> submitForm({
     required String formId,
     required Map<String, String> answers,
-  }) =>
-      _wrap(() => _remote.submitForm(formId: formId, answers: answers));
+  }) => _wrap(() => _remote.submitForm(formId: formId, answers: answers));
 
   Future<Result<T>> _wrap<T>(Future<T> Function() action) async {
     try {

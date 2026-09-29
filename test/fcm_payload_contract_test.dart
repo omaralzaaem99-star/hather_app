@@ -1,6 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/core/notifications/fcm_payload_contract.dart';
+import '../lib/core/notifications/fcm_payload_contract.dart';
 
 void main() {
   group('FcmPushPayload', () {
@@ -25,10 +25,7 @@ void main() {
 
     test('parses tap_destination', () {
       final message = RemoteMessage(
-        data: const {
-          'type': 'admin_broadcast',
-          'tap_destination': 'home',
-        },
+        data: const {'type': 'admin_broadcast', 'tap_destination': 'home'},
       );
 
       final payload = FcmPushPayload.fromRemoteMessage(message);

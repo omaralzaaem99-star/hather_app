@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hather_app/core/config/app_config.dart';
-import 'package:hather_app/core/storage/secure_session_storage.dart';
-import 'package:hather_app/features/auth/data/datasources/auth_remote_datasource.dart';
-import 'package:hather_app/features/auth/data/datasources/fake_auth_remote_datasource.dart';
-import 'package:hather_app/features/auth/data/datasources/supabase_auth_remote_datasource.dart';
-import 'package:hather_app/features/auth/data/repositories/auth_repository_impl.dart';
-import 'package:hather_app/features/auth/domain/repositories/auth_repository.dart';
+import '../../../../core/config/app_config.dart';
+import '../../../../core/storage/secure_session_storage.dart';
+import '../../data/datasources/auth_remote_datasource.dart';
+import '../../data/datasources/fake_auth_remote_datasource.dart';
+import '../../data/datasources/supabase_auth_remote_datasource.dart';
+import '../../data/repositories/auth_repository_impl.dart';
+import '../../domain/repositories/auth_repository.dart';
 
 final secureSessionStorageProvider = Provider<SecureSessionStorage>((ref) {
   return SecureSessionStorage();
@@ -15,16 +15,8 @@ final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>((ref) {
   // Keep alive so pending registration OTP state is not dropped mid-flow.
   ref.keepAlive();
 
-  if (AppConfig.useFakeAuth) {
-    // Debug/profile only — AppConfig.useFakeAuth is always false in release.
+  if (AppConfig.useFakeAuth || !AppConfig.hasSupabaseConfig) {
     return FakeAuthRemoteDataSource();
-  }
-
-  if (!AppConfig.hasSupabaseConfig) {
-    throw StateError(
-      'Real auth requires SUPABASE_URL and '
-      'SUPABASE_PUBLISHABLE_KEY (.env or --dart-define).',
-    );
   }
 
   return SupabaseAuthRemoteDataSource();

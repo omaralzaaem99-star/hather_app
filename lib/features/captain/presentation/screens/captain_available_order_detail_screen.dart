@@ -3,31 +3,31 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hather_app/core/errors/failure_messages.dart';
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/core/routing/authenticated_routes.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_dimensions.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/core/utils/app_date_time_format.dart';
-import 'package:hather_app/core/widgets/primary_button.dart';
-import 'package:hather_app/features/captain/domain/entities/captain_order.dart';
-import 'package:hather_app/features/captain/presentation/providers/captain_order_providers.dart';
-import 'package:hather_app/features/captain/presentation/utils/captain_order_launcher.dart';
-import 'package:hather_app/features/delivery/presentation/utils/delivery_request_number.dart';
-import 'package:hather_app/features/delivery/presentation/utils/order_remaining_time.dart';
-import 'package:hather_app/features/subscription/presentation/providers/subscription_providers.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/errors/failure_messages.dart';
+import '../../../../core/errors/failures.dart';
+import '../../../../core/routing/authenticated_routes.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/app_date_time_format.dart';
+import '../../../../core/widgets/primary_button.dart';
+import '../../domain/entities/captain_order.dart';
+import '../providers/captain_order_providers.dart';
+import '../utils/captain_order_launcher.dart';
+import '../../../delivery/presentation/utils/delivery_request_number.dart';
+import '../../../delivery/presentation/utils/order_remaining_time.dart';
+import '../../../subscription/presentation/providers/subscription_providers.dart';
+import '../../../../l10n/app_localizations.dart';
 
 Color _captainCardBorder(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
-        ? AppColors.border
-        : AppColors.icon.withValues(alpha: 0.4);
+    ? AppColors.border
+    : AppColors.icon.withValues(alpha: 0.4);
 
 Color _captainAccentAmount(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
-        ? AppColors.primary
-        : AppColors.icon;
+    ? AppColors.primary
+    : AppColors.icon;
 
 /// Full-screen available-order detail: preview → accept → owned active detail.
 class CaptainAvailableOrderDetailScreen extends ConsumerStatefulWidget {
@@ -101,11 +101,10 @@ class _CaptainAvailableOrderDetailScreenState
     if (_accepting || _accepted != null) return;
     final l10n = AppLocalizations.of(context);
     final preview = _preview;
-    if (preview != null &&
-        OrderRemainingTime.isExpired(preview.expiresAt)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.captainOrderExpiredLabel)),
-      );
+    if (preview != null && OrderRemainingTime.isExpired(preview.expiresAt)) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.captainOrderExpiredLabel)));
       return;
     }
 
@@ -128,18 +127,18 @@ class _CaptainAvailableOrderDetailScreenState
       success: (detail) {
         refreshCaptainOrders(ref);
         setState(() => _accepted = detail);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.captainAcceptOrderSuccess)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.captainAcceptOrderSuccess)));
       },
       onFailure: (failure) {
         final message = failure is Failure
             ? mapFailureToMessage(context, failure)
             : l10n.errorUnknown;
         refreshCaptainOrders(ref);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(message)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(message)));
         if (message.contains('كابتن آخر') ||
             message.contains('انتهت صلاحية') ||
             message.contains('الحد الأقصى من الطلبات قيد التنفيذ')) {
@@ -178,9 +177,9 @@ class _CaptainAvailableOrderDetailScreenState
             ? mapFailureToMessage(context, failure)
             : l10n.errorUnknown;
         refreshCaptainOrders(ref);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(message)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(message)));
       },
     );
   }
@@ -189,17 +188,17 @@ class _CaptainAvailableOrderDetailScreenState
     final l10n = AppLocalizations.of(context);
     final uri = CaptainOrderLauncher.telUri(phone);
     if (uri == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.captainCallLaunchFailed)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.captainCallLaunchFailed)));
       return;
     }
     final ok = await CaptainOrderLauncher.tryLaunch(uri);
     if (!mounted) return;
     if (!ok) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.captainCallLaunchFailed)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.captainCallLaunchFailed)));
     }
   }
 
@@ -207,17 +206,17 @@ class _CaptainAvailableOrderDetailScreenState
     final l10n = AppLocalizations.of(context);
     final uris = CaptainOrderLauncher.whatsAppLaunchUris(phone);
     if (uris.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.captainWhatsAppLaunchFailed)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.captainWhatsAppLaunchFailed)));
       return;
     }
     final ok = await CaptainOrderLauncher.launchFirst(uris);
     if (!mounted) return;
     if (!ok) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.captainWhatsAppLaunchFailed)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.captainWhatsAppLaunchFailed)));
     }
   }
 
@@ -231,9 +230,9 @@ class _CaptainAvailableOrderDetailScreenState
     );
     if (!mounted) return;
     if (!ok) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.captainWazeLaunchFailed)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.captainWazeLaunchFailed)));
     }
   }
 
@@ -275,9 +274,9 @@ class _CaptainAvailableOrderDetailScreenState
         final message = failure is Failure
             ? mapFailureToMessage(context, failure)
             : l10n.errorUnknown;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(message)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(message)));
       },
     );
   }
@@ -400,9 +399,9 @@ class _CaptainAvailableOrderDetailScreenState
     result.when(
       success: (_) {
         refreshCaptainOrders(ref);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.captainTransferSuccess)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.captainTransferSuccess)));
         if (context.canPop()) {
           context.pop();
         } else {
@@ -414,9 +413,9 @@ class _CaptainAvailableOrderDetailScreenState
             ? mapFailureToMessage(context, failure)
             : l10n.errorUnknown;
         refreshCaptainOrders(ref);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(message)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(message)));
       },
     );
   }
@@ -453,51 +452,51 @@ class _CaptainAvailableOrderDetailScreenState
               onTransfer: _transferOrder,
             )
           : preview == null
-              ? Center(
-                  child: _loadError != null
-                      ? Padding(
-                          padding: const EdgeInsets.all(24),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.info_outline,
-                                size: 48,
-                                color: AppColors.textMuted.withValues(alpha: 0.8),
-                              ),
-                              const SizedBox(height: 16),
-                              Text(
-                                _loadError!,
-                                style: AppTextStyles.body,
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(height: 24),
-                              PrimaryButton(
-                                label: l10n.retryAction,
-                                onPressed: () {
-                                  setState(() => _loadError = null);
-                                  ref.invalidate(captainAvailableOrdersProvider);
-                                  unawaited(_resolvePreview());
-                                },
-                              ),
-                              const SizedBox(height: 12),
-                              TextButton(
-                                onPressed: () => context.pop(),
-                                child: Text(
-                                  l10n.okAction,
-                                  style: AppTextStyles.link,
-                                ),
-                              ),
-                            ],
+          ? Center(
+              child: _loadError != null
+                  ? Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.info_outline,
+                            size: 48,
+                            color: AppColors.textMuted.withValues(alpha: 0.8),
                           ),
-                        )
-                      : CircularProgressIndicator(color: AppColors.icon),
-                )
-              : _PreviewBody(
-                  order: preview,
-                  accepting: _accepting,
-                  onAccept: _acceptOrder,
-                ),
+                          const SizedBox(height: 16),
+                          Text(
+                            _loadError!,
+                            style: AppTextStyles.body,
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 24),
+                          PrimaryButton(
+                            label: l10n.retryAction,
+                            onPressed: () {
+                              setState(() => _loadError = null);
+                              ref.invalidate(captainAvailableOrdersProvider);
+                              unawaited(_resolvePreview());
+                            },
+                          ),
+                          const SizedBox(height: 12),
+                          TextButton(
+                            onPressed: () => context.pop(),
+                            child: Text(
+                              l10n.okAction,
+                              style: AppTextStyles.link,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : CircularProgressIndicator(color: AppColors.icon),
+            )
+          : _PreviewBody(
+              order: preview,
+              accepting: _accepting,
+              onAccept: _acceptOrder,
+            ),
     );
   }
 }
@@ -516,7 +515,9 @@ class _PreviewBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final canSubscribe = ref.watch(myCaptainSubscriptionProvider).maybeWhen(
+    final canSubscribe = ref
+        .watch(myCaptainSubscriptionProvider)
+        .maybeWhen(
           data: (info) => info.hasActiveSubscription,
           orElse: () => false,
         );
@@ -560,7 +561,9 @@ class _PreviewBody extends ConsumerWidget {
                       style: AppTextStyles.bodyStrong.copyWith(
                         fontSize: 20,
                         height: 1.4,
-                        color: expired ? AppColors.error : AppColors.textPrimary,
+                        color: expired
+                            ? AppColors.error
+                            : AppColors.textPrimary,
                       ),
                     ),
                   ),
@@ -639,10 +642,9 @@ class _AcceptedBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final phone = CaptainOrderLauncher.localPhone(detail.customerPhone) ?? '—';
-    final locationText =
-        (detail.destinationAddress?.trim().isNotEmpty ?? false)
-            ? detail.destinationAddress!.trim()
-            : detail.destinationLabel;
+    final locationText = (detail.destinationAddress?.trim().isNotEmpty ?? false)
+        ? detail.destinationAddress!.trim()
+        : detail.destinationLabel;
     final feeText = CaptainOrderLauncher.formatIqd(detail.effectiveDeliveryFee);
     final showDiscount = detail.couponDiscountIqd > 0;
 
@@ -657,8 +659,9 @@ class _AcceptedBody extends StatelessWidget {
                 statusLabel: detail.isCompleted
                     ? l10n.captainOrderCompletedBadge
                     : l10n.captainOrderStatusActive,
-                statusColor:
-                    detail.isCompleted ? AppColors.success : AppColors.icon,
+                statusColor: detail.isCompleted
+                    ? AppColors.success
+                    : AppColors.icon,
               ),
               const SizedBox(height: 16),
               _ExpandingDetailsCard(details: detail.details),
@@ -781,10 +784,7 @@ class _InfoCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
-        border: Border.all(
-          color: _captainCardBorder(context),
-          width: 1.2,
-        ),
+        border: Border.all(color: _captainCardBorder(context), width: 1.2),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -835,10 +835,7 @@ class _CustomerInfoCard extends StatelessWidget {
             style: AppTextStyles.caption.copyWith(fontSize: 14),
           ),
           const SizedBox(height: 4),
-          Text(
-            name,
-            style: AppTextStyles.bodyStrong.copyWith(fontSize: 18),
-          ),
+          Text(name, style: AppTextStyles.bodyStrong.copyWith(fontSize: 18)),
           const SizedBox(height: 14),
           Text(
             l10n.captainCustomerPhoneLabel,
@@ -870,11 +867,7 @@ class _CustomerInfoCard extends StatelessWidget {
               );
               if (stacked) {
                 return Column(
-                  children: [
-                    callBtn,
-                    const SizedBox(height: 10),
-                    waBtn,
-                  ],
+                  children: [callBtn, const SizedBox(height: 10), waBtn],
                 );
               }
               return Row(
@@ -941,11 +934,7 @@ class _NavigationCard extends StatelessWidget {
                 );
                 if (stacked) {
                   return Column(
-                    children: [
-                      wazeBtn,
-                      const SizedBox(height: 10),
-                      mapsBtn,
-                    ],
+                    children: [wazeBtn, const SizedBox(height: 10), mapsBtn],
                   );
                 }
                 return Row(
@@ -1160,10 +1149,7 @@ class _ExpandingDetailsCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
-        border: Border.all(
-          color: _captainCardBorder(context),
-          width: 1.2,
-        ),
+        border: Border.all(color: _captainCardBorder(context), width: 1.2),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

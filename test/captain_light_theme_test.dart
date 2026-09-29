@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_theme.dart';
-import 'package:hather_app/core/theme/hather_theme_colors.dart';
-import 'package:hather_app/features/captain/domain/entities/captain_order.dart';
-import 'package:hather_app/features/captain/presentation/widgets/available_order_card.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../lib/core/theme/app_colors.dart';
+import '../lib/core/theme/app_theme.dart';
+import '../lib/core/theme/hather_theme_colors.dart';
+import '../lib/features/captain/domain/entities/captain_order.dart';
+import '../lib/features/captain/presentation/widgets/available_order_card.dart';
+import '../lib/l10n/app_localizations.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  Widget captainHarness({
-    required ThemeData theme,
-    required Widget child,
-  }) {
+  Widget captainHarness({required ThemeData theme, required Widget child}) {
     return MaterialApp(
       theme: theme,
       locale: const Locale('ar'),
@@ -50,9 +47,7 @@ void main() {
         ),
       );
 
-      final requestText = tester.widget<Text>(
-        find.textContaining('#'),
-      );
+      final requestText = tester.widget<Text>(find.textContaining('#'));
       expect(requestText.style?.color, AppColors.primary);
     });
 
@@ -66,9 +61,7 @@ void main() {
         ),
       );
 
-      final requestText = tester.widget<Text>(
-        find.textContaining('#'),
-      );
+      final requestText = tester.widget<Text>(find.textContaining('#'));
       expect(requestText.style?.color, AppColors.icon);
     });
 

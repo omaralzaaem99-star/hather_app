@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
 
 class AuthInfoBanner extends StatelessWidget {
   const AuthInfoBanner({super.key, required this.message});

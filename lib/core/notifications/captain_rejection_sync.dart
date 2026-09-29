@@ -4,11 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hather_app/core/routing/authenticated_routes.dart';
-import 'package:hather_app/features/auth/domain/entities/auth_user.dart';
-import 'package:hather_app/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:hather_app/features/notifications/domain/entities/user_notification.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../routing/authenticated_routes.dart';
+import '../../features/auth/domain/entities/auth_user.dart';
+import '../../features/auth/presentation/controllers/auth_controller.dart';
+import '../../features/notifications/domain/entities/user_notification.dart';
+import '../../l10n/app_localizations.dart';
 
 enum CaptainRejectionSyncOutcome { success, profileRefreshFailed }
 
@@ -47,8 +47,9 @@ abstract final class CaptainRejectionSync {
     }
 
     _log('refreshing profile');
-    final refreshed =
-        await ref.read(authControllerProvider.notifier).refreshProfile();
+    final refreshed = await ref
+        .read(authControllerProvider.notifier)
+        .refreshProfile();
     if (!refreshed) {
       _log('profile refresh failed');
       _log('keeping existing session');
@@ -122,9 +123,9 @@ abstract final class CaptainRejectionSync {
           ? body
           : l10n.captainRejectionMessage;
 
-      ScaffoldMessenger.of(snackContext).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
+      ScaffoldMessenger.of(
+        snackContext,
+      ).showSnackBar(SnackBar(content: Text(message)));
     });
   }
 
@@ -145,14 +146,15 @@ abstract final class CaptainRejectionSync {
             label: l10n.retryAction,
             onPressed: () {
               unawaited(
-                syncAfterRejection(ref).then(
-                  (retry) => applySyncResult(
+                syncAfterRejection(ref).then((retry) {
+                  if (!snackContext.mounted) return;
+                  applySyncResult(
                     ref: ref,
                     result: retry,
                     context: snackContext,
                     navigatorKey: navigatorKey,
-                  ),
-                ),
+                  );
+                }),
               );
             },
           ),

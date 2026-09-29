@@ -5,28 +5,26 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hather_app/app/app_router.dart';
-import 'package:hather_app/core/config/app_config.dart';
-import 'package:hather_app/core/notifications/account_reactivated_sync.dart';
-import 'package:hather_app/core/notifications/captain_rejection_sync.dart';
-import 'package:hather_app/core/notifications/expired_order_dialog.dart';
-import 'package:hather_app/core/notifications/fcm_payload_contract.dart';
-import 'package:hather_app/core/notifications/local_notification_service.dart';
-import 'package:hather_app/core/notifications/notification_navigation.dart';
-import 'package:hather_app/core/notifications/push_device_repository.dart';
-import 'package:hather_app/core/notifications/push_installation_storage.dart';
-import 'package:hather_app/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:hather_app/features/captain/presentation/providers/captain_available_orders_push_refresh.dart';
-import 'package:hather_app/features/notifications/presentation/providers/notifications_providers.dart';
+import '../../app/app_router.dart';
+import '../config/app_config.dart';
+import 'account_reactivated_sync.dart';
+import 'captain_rejection_sync.dart';
+import 'expired_order_dialog.dart';
+import 'fcm_payload_contract.dart';
+import 'local_notification_service.dart';
+import 'notification_navigation.dart';
+import 'push_device_repository.dart';
+import 'push_installation_storage.dart';
+import '../../features/auth/presentation/controllers/auth_controller.dart';
+import '../../features/captain/presentation/providers/captain_available_orders_push_refresh.dart';
+import '../../features/notifications/presentation/providers/notifications_providers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 /// One-shot UX after the user denies notification permission (no nag loop).
 class NotificationPermissionDeniedFeedback {
-  const NotificationPermissionDeniedFeedback({
-    required this.offerOpenSettings,
-  });
+  const NotificationPermissionDeniedFeedback({required this.offerOpenSettings});
 
   /// When true, UI may offer a soft "open app settings" action.
   final bool offerOpenSettings;
@@ -39,7 +37,8 @@ class FcmNotificationService {
   static final FcmNotificationService instance = FcmNotificationService._();
 
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
-  final PushInstallationStorage _installationStorage = PushInstallationStorage();
+  final PushInstallationStorage _installationStorage =
+      PushInstallationStorage();
   final PushDeviceRepository _pushDevices = PushDeviceRepository();
 
   static const _permissionDeniedFeedbackKey =

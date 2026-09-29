@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_theme.dart';
-import 'package:hather_app/core/theme/hather_theme_colors.dart';
-import 'package:hather_app/core/theme/theme_mode_provider.dart';
-import 'package:hather_app/core/theme/theme_preference_repository.dart';
+import '../lib/core/theme/app_colors.dart';
+import '../lib/core/theme/app_theme.dart';
+import '../lib/core/theme/hather_theme_colors.dart';
+import '../lib/core/theme/theme_mode_provider.dart';
+import '../lib/core/theme/theme_preference_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -29,10 +29,8 @@ void main() {
 
   group('AppTheme', () {
     test('dark and light themes include HatherThemeColors extension', () {
-      final darkExt =
-          AppTheme.dark.extension<HatherThemeColors>();
-      final lightExt =
-          AppTheme.light.extension<HatherThemeColors>();
+      final darkExt = AppTheme.dark.extension<HatherThemeColors>();
+      final lightExt = AppTheme.light.extension<HatherThemeColors>();
       expect(darkExt, HatherThemeColors.dark);
       expect(lightExt, HatherThemeColors.light);
     });

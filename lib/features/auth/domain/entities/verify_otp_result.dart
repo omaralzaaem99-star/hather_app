@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:hather_app/features/auth/domain/entities/auth_user.dart';
+import 'auth_user.dart';
 
 /// Result of OTP verification — registration completes session; reset needs new code.
 sealed class VerifyOtpResult extends Equatable {

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/features/captain/presentation/providers/captain_available_orders_push_refresh.dart';
+import '../lib/features/captain/presentation/providers/captain_available_orders_push_refresh.dart';
 
 void main() {
   group('shouldRefreshCaptainAvailableOrdersFromPush', () {

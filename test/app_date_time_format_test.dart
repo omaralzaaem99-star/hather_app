@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/core/utils/app_date_time_format.dart';
+import '../lib/core/utils/app_date_time_format.dart';
 
 void main() {
   test('dateTime uses 12-hour format with Arabic meridiem', () {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/features/legal/domain/entities/legal_document.dart';
-import 'package:hather_app/features/legal/presentation/providers/legal_providers.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../domain/entities/legal_document.dart';
+import '../providers/legal_providers.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class LegalDocumentScreen extends ConsumerWidget {
   const LegalDocumentScreen({
@@ -44,9 +44,7 @@ class LegalDocumentScreen extends ConsumerWidget {
           data: doc.content,
           selectable: true,
           padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
-          styleSheet: MarkdownStyleSheet.fromTheme(
-            Theme.of(context),
-          ).copyWith(
+          styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
             p: AppTextStyles.body.copyWith(
               color: AppColors.textSecondary,
               height: 1.65,
@@ -102,13 +100,12 @@ class _LegalLoadError extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
+              style: AppTextStyles.body.copyWith(
+                color: AppColors.textSecondary,
+              ),
             ),
             const SizedBox(height: 16),
-            FilledButton(
-              onPressed: onRetry,
-              child: Text(retryLabel),
-            ),
+            FilledButton(onPressed: onRetry, child: Text(retryLabel)),
           ],
         ),
       ),

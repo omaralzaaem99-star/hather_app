@@ -1,6 +1,6 @@
-import 'package:hather_app/core/routing/account_access.dart';
-import 'package:hather_app/features/auth/domain/entities/account_enums.dart';
-import 'package:hather_app/features/auth/domain/entities/auth_user.dart';
+import 'account_access.dart';
+import '../../features/auth/domain/entities/account_enums.dart';
+import '../../features/auth/domain/entities/auth_user.dart';
 
 enum AccountRouteZone {
   user,

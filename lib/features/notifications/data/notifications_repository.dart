@@ -1,6 +1,6 @@
-import 'package:hather_app/core/errors/backend_error_mapper.dart';
-import 'package:hather_app/core/utils/result.dart';
-import 'package:hather_app/features/notifications/domain/entities/user_notification.dart';
+import '../../../core/errors/backend_error_mapper.dart';
+import '../../../core/utils/result.dart';
+import '../domain/entities/user_notification.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class NotificationsRemoteDataSource {
@@ -29,7 +29,7 @@ List<UserNotification> _parseList(Object? raw) {
 class SupabaseNotificationsRemoteDataSource
     implements NotificationsRemoteDataSource {
   SupabaseNotificationsRemoteDataSource({SupabaseClient? client})
-      : _client = client ?? Supabase.instance.client;
+    : _client = client ?? Supabase.instance.client;
 
   final SupabaseClient _client;
 
@@ -41,10 +41,7 @@ class SupabaseNotificationsRemoteDataSource
     try {
       final raw = await _client.rpc(
         'get_my_notifications',
-        params: {
-          'p_limit': limit,
-          'p_offset': offset,
-        },
+        params: {'p_limit': limit, 'p_offset': offset},
       );
       return _parseList(raw);
     } on Object catch (error) {
@@ -120,8 +117,7 @@ class FakeNotificationsRemoteDataSource
   }
 
   @override
-  Future<int> fetchUnreadCount() async =>
-      _items.where((n) => !n.isRead).length;
+  Future<int> fetchUnreadCount() async => _items.where((n) => !n.isRead).length;
 
   @override
   Future<bool> markRead(String notificationId) async {
@@ -168,7 +164,7 @@ class FakeNotificationsRemoteDataSource
 
 class NotificationsRepository {
   NotificationsRepository({required NotificationsRemoteDataSource remote})
-      : _remote = remote;
+    : _remote = remote;
 
   final NotificationsRemoteDataSource _remote;
 

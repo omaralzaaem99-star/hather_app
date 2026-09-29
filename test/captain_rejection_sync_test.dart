@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/core/notifications/notification_navigation.dart';
-import 'package:hather_app/core/routing/authenticated_routes.dart';
-import 'package:hather_app/features/auth/domain/entities/account_enums.dart';
-import 'package:hather_app/features/auth/domain/entities/auth_user.dart';
+import '../lib/core/notifications/notification_navigation.dart';
+import '../lib/core/routing/authenticated_routes.dart';
+import '../lib/features/auth/domain/entities/account_enums.dart';
+import '../lib/features/auth/domain/entities/auth_user.dart';
 
 AuthUser _user({
   AccountType type = AccountType.user,
@@ -31,13 +31,16 @@ void main() {
       expect(location, AuthenticatedRoutes.home);
     });
 
-    test('TEST F: captain+active routes to captain home (approval unchanged)', () {
-      final location = NotificationNavigation.resolveLocation(
-        user: _user(type: AccountType.captain, status: AccountStatus.active),
-        type: 'captain_approved',
-      );
-      expect(location, AuthenticatedRoutes.captainHome);
-    });
+    test(
+      'TEST F: captain+active routes to captain home (approval unchanged)',
+      () {
+        final location = NotificationNavigation.resolveLocation(
+          user: _user(type: AccountType.captain, status: AccountStatus.active),
+          type: 'captain_approved',
+        );
+        expect(location, AuthenticatedRoutes.captainHome);
+      },
+    );
 
     test('TEST G: captain suspended routes to suspended screen', () {
       final location = NotificationNavigation.resolveLocation(

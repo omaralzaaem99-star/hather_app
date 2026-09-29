@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_dimensions.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/core/utils/app_date_time_format.dart';
-import 'package:hather_app/core/utils/iqd_format.dart';
-import 'package:hather_app/features/captain/domain/entities/captain_order.dart';
-import 'package:hather_app/features/delivery/presentation/utils/delivery_request_number.dart';
-import 'package:hather_app/features/delivery/presentation/utils/order_remaining_time.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/app_date_time_format.dart';
+import '../../../../core/utils/iqd_format.dart';
+import '../../domain/entities/captain_order.dart';
+import '../../../delivery/presentation/utils/delivery_request_number.dart';
+import '../../../delivery/presentation/utils/order_remaining_time.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Compact available-order preview on Captain Home (tap → detail, no Accept).
 class AvailableOrderCard extends StatelessWidget {
@@ -54,8 +54,10 @@ class AvailableOrderCard extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.pendingOrder.withValues(alpha: 0.14),
                       borderRadius: BorderRadius.circular(20),
@@ -99,8 +101,9 @@ class AvailableOrderCard extends StatelessWidget {
                       return Text(
                         expired ? label : '⏱ $label',
                         style: AppTextStyles.caption.copyWith(
-                          color:
-                              expired ? AppColors.error : AppColors.textSecondary,
+                          color: expired
+                              ? AppColors.error
+                              : AppColors.textSecondary,
                           fontWeight: FontWeight.w600,
                         ),
                       );
@@ -183,13 +186,16 @@ class CaptainMyOrderCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: statusColor.withValues(alpha: 0.16),
                       borderRadius: BorderRadius.circular(20),
-                      border:
-                          Border.all(color: statusColor.withValues(alpha: 0.4)),
+                      border: Border.all(
+                        color: statusColor.withValues(alpha: 0.4),
+                      ),
                     ),
                     child: Text(
                       statusLabel,
@@ -202,10 +208,7 @@ class CaptainMyOrderCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 8),
-              Text(
-                order.destinationLabel,
-                style: AppTextStyles.caption,
-              ),
+              Text(order.destinationLabel, style: AppTextStyles.caption),
               const SizedBox(height: 10),
               Text(date, style: AppTextStyles.caption),
             ],

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:hather_app/features/auth/data/models/register_request_model.dart';
-import 'package:hather_app/features/auth/domain/entities/account_enums.dart';
+import 'register_request_model.dart';
+import '../../domain/entities/account_enums.dart';
 
 class SendOtpRequestModel extends Equatable {
   const SendOtpRequestModel({required this.phone, required this.purpose});

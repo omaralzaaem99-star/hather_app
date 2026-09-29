@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hather_app/core/errors/failure_messages.dart';
-import 'package:hather_app/core/routing/authenticated_routes.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/utils/phone_number_formatter.dart';
-import 'package:hather_app/features/account/presentation/widgets/account_page_layout.dart';
-import 'package:hather_app/features/account/presentation/widgets/account_screen_sections.dart';
-import 'package:hather_app/features/account/presentation/widgets/account_theme_setting_row.dart';
-import 'package:hather_app/features/account/presentation/widgets/account_widgets.dart';
-import 'package:hather_app/features/account/presentation/widgets/delete_account_flow.dart';
-import 'package:hather_app/features/auth/domain/entities/account_enums.dart';
-import 'package:hather_app/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/errors/failure_messages.dart';
+import '../../../../core/routing/authenticated_routes.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/utils/phone_number_formatter.dart';
+import '../../../account/presentation/widgets/account_page_layout.dart';
+import '../../../account/presentation/widgets/account_screen_sections.dart';
+import '../../../account/presentation/widgets/account_theme_setting_row.dart';
+import '../../../account/presentation/widgets/account_widgets.dart';
+import '../../../account/presentation/widgets/delete_account_flow.dart';
+import '../../../auth/domain/entities/account_enums.dart';
+import '../../../auth/presentation/controllers/auth_controller.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class AccountScreen extends ConsumerStatefulWidget {
   const AccountScreen({super.key});
@@ -59,8 +59,9 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
     if (confirmed != true || !mounted) return;
 
     setState(() => _converting = true);
-    final ok =
-        await ref.read(authControllerProvider.notifier).convertToCaptain();
+    final ok = await ref
+        .read(authControllerProvider.notifier)
+        .convertToCaptain();
     if (!mounted) return;
     setState(() => _converting = false);
 
@@ -73,9 +74,9 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
     final message = failure == null
         ? l10n.errorUnknown
         : mapFailureToMessage(context, failure);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   Future<void> _onDeleteAccount() async {

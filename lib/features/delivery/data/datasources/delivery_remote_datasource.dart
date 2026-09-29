@@ -1,4 +1,4 @@
-import 'package:hather_app/features/delivery/domain/entities/delivery_entities.dart';
+import '../../domain/entities/delivery_entities.dart';
 
 abstract class DeliveryRemoteDataSource {
   Future<List<OrderTypeOption>> fetchOrderTypes();

@@ -2,16 +2,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hather_app/core/notifications/account_reactivated_sync.dart';
-import 'package:hather_app/core/notifications/captain_rejection_sync.dart';
-import 'package:hather_app/core/notifications/expired_order_dialog.dart';
-import 'package:hather_app/core/notifications/fcm_payload_contract.dart';
-import 'package:hather_app/core/routing/authenticated_routes.dart';
-import 'package:hather_app/features/auth/domain/entities/auth_user.dart';
-import 'package:hather_app/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:hather_app/features/notifications/domain/entities/user_notification.dart';
-import 'package:hather_app/features/notifications/presentation/providers/notifications_providers.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import 'account_reactivated_sync.dart';
+import 'captain_rejection_sync.dart';
+import 'expired_order_dialog.dart';
+import 'fcm_payload_contract.dart';
+import '../routing/authenticated_routes.dart';
+import '../../features/auth/domain/entities/auth_user.dart';
+import '../../features/auth/presentation/controllers/auth_controller.dart';
+import '../../features/notifications/domain/entities/user_notification.dart';
+import '../../features/notifications/presentation/providers/notifications_providers.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Shared navigation for in-app list taps, FCM taps, and local notifications.
 class NotificationNavigation {
@@ -142,6 +142,7 @@ class NotificationNavigation {
 
     if (type == 'captain_rejected') {
       final result = await CaptainRejectionSync.syncAfterRejection(ref);
+      if (context != null && !context.mounted) return;
       CaptainRejectionSync.applySyncResult(
         ref: ref,
         result: result,
@@ -268,9 +269,9 @@ class NotificationNavigation {
     if (snackContext == null || !snackContext.mounted) return;
 
     final l10n = AppLocalizations.of(snackContext);
-    ScaffoldMessenger.of(snackContext).showSnackBar(
-      SnackBar(content: Text(l10n.notificationOrderReleased)),
-    );
+    ScaffoldMessenger.of(
+      snackContext,
+    ).showSnackBar(SnackBar(content: Text(l10n.notificationOrderReleased)));
   }
 
   /// Role-aware route resolution — no arbitrary server routes.

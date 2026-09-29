@@ -1,4 +1,4 @@
-import 'package:hather_app/features/captain/domain/entities/captain_order.dart';
+import '../../domain/entities/captain_order.dart';
 
 /// Captain home "الطلبات المتاحة": oldest created order first (FIFO).
 List<CaptainAvailableOrder> sortCaptainAvailableOrders(

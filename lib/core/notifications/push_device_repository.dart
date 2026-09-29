@@ -1,4 +1,4 @@
-import 'package:hather_app/core/config/app_config.dart';
+import '../config/app_config.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
@@ -7,8 +7,7 @@ class PushDeviceRepository {
 
   final SupabaseClient? _client;
 
-  bool get isEnabled =>
-      !AppConfig.useFakeAuth && AppConfig.hasSupabaseConfig;
+  bool get isEnabled => !AppConfig.useFakeAuth && AppConfig.hasSupabaseConfig;
 
   SupabaseClient get client {
     final value = _client;

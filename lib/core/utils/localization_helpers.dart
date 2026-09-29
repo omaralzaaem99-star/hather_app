@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/utils/validators.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import 'validators.dart';
+import '../../l10n/app_localizations.dart';
 
 String localizeFieldError(AppLocalizations l10n, FieldValidationError error) {
   return switch (error) {

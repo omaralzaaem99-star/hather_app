@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hather_app/core/config/app_config.dart';
-import 'package:hather_app/core/utils/phone_number_formatter.dart';
-import 'package:hather_app/core/widgets/delivery_otp_pin.dart';
-import 'package:hather_app/core/widgets/dotted_route_painter.dart';
+import '../config/app_config.dart';
+import '../utils/phone_number_formatter.dart';
+import 'delivery_otp_pin.dart';
+import 'dotted_route_painter.dart';
 
 /// Six delivery-pin OTP fields — keeps paste / focus / clear API for auth screens.
 class OtpInput extends StatefulWidget {
@@ -218,7 +218,11 @@ class OtpInputState extends State<OtpInput> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          for (var index = 0; index < widget.length; index++) ...[
+                          for (
+                            var index = 0;
+                            index < widget.length;
+                            index++
+                          ) ...[
                             if (index > 0) const SizedBox(width: gap),
                             Focus(
                               onKeyEvent: (node, event) => _onKey(index, event),
@@ -227,7 +231,8 @@ class OtpInputState extends State<OtpInput> {
                                 focusNode: _focusNodes[index],
                                 width: pinWidth,
                                 enabled: widget.enabled,
-                                isActive: widget.enabled &&
+                                isActive:
+                                    widget.enabled &&
                                     _focusNodes[index].hasFocus,
                                 isFilled: _controllers[index].text.isNotEmpty,
                                 hasError: hasError,

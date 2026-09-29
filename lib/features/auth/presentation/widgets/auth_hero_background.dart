@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/constants/auth_assets.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
+import '../../../../core/constants/auth_assets.dart';
+import '../../../../core/theme/app_colors.dart';
 
 /// Full-bleed auth background: photo + light dark overlay for readability.
 class AuthHeroBackground extends StatelessWidget {

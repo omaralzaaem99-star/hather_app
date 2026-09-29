@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:hather_app/features/auth/data/models/auth_user_model.dart';
-import 'package:hather_app/features/auth/domain/entities/auth_user.dart';
+import 'auth_user_model.dart';
+import '../../domain/entities/auth_user.dart';
 
 class AuthSessionModel extends Equatable {
   const AuthSessionModel({

@@ -1,45 +1,43 @@
-import 'package:hather_app/core/errors/backend_error_mapper.dart';
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/core/utils/result.dart';
-import 'package:hather_app/features/delivery/data/datasources/delivery_remote_datasource.dart';
-import 'package:hather_app/features/delivery/domain/entities/delivery_entities.dart';
-import 'package:hather_app/features/delivery/domain/repositories/delivery_repository.dart';
-import 'package:hather_app/features/delivery/presentation/utils/user_orders_sort.dart';
+import '../../../../core/errors/backend_error_mapper.dart';
+import '../../../../core/errors/failures.dart';
+import '../../../../core/utils/result.dart';
+import '../datasources/delivery_remote_datasource.dart';
+import '../../domain/entities/delivery_entities.dart';
+import '../../domain/repositories/delivery_repository.dart';
+import '../../presentation/utils/user_orders_sort.dart';
 
 class DeliveryRepositoryImpl implements DeliveryRepository {
-  DeliveryRepositoryImpl({
-    required DeliveryRemoteDataSource remote,
-  }) : _remote = remote;
+  DeliveryRepositoryImpl({required DeliveryRemoteDataSource remote})
+    : _remote = remote;
 
   final DeliveryRemoteDataSource _remote;
 
   @override
   Future<Result<List<OrderTypeOption>>> fetchOrderTypes() => _guard(
-        () => _remote.fetchOrderTypes(),
-        context: BackendErrorContext.deliverySettings,
-      );
+    () => _remote.fetchOrderTypes(),
+    context: BackendErrorContext.deliverySettings,
+  );
 
   @override
   Future<Result<DeliveryOrderSettings>> fetchOrderSettings() => _guard(
-        () => _remote.fetchOrderSettings(),
-        context: BackendErrorContext.deliverySettings,
-      );
+    () => _remote.fetchOrderSettings(),
+    context: BackendErrorContext.deliverySettings,
+  );
 
   @override
   Future<Result<List<HomeAd>>> fetchHomeAds() => _guard(
-        () => _remote.fetchHomeAds(),
-        context: BackendErrorContext.generic,
-      );
+    () => _remote.fetchHomeAds(),
+    context: BackendErrorContext.generic,
+  );
 
   @override
   Future<Result<CouponValidation>> validateCoupon({
     required String code,
     required String feeOptionId,
-  }) =>
-      _guard(
-        () => _remote.validateCoupon(code: code, feeOptionId: feeOptionId),
-        context: BackendErrorContext.deliveryCoupon,
-      );
+  }) => _guard(
+    () => _remote.validateCoupon(code: code, feeOptionId: feeOptionId),
+    context: BackendErrorContext.deliveryCoupon,
+  );
 
   @override
   Future<Result<DeliveryOrder>> createOrder(CreateDeliveryOrderInput input) {
@@ -51,13 +49,10 @@ class DeliveryRepositoryImpl implements DeliveryRepository {
 
   @override
   Future<Result<List<DeliveryOrder>>> fetchMyOrders() {
-    return _guard(
-      () async {
-        final orders = await _remote.fetchMyOrders();
-        return sortUserDeliveryOrders(orders);
-      },
-      context: BackendErrorContext.deliveryOrders,
-    );
+    return _guard(() async {
+      final orders = await _remote.fetchMyOrders();
+      return sortUserDeliveryOrders(orders);
+    }, context: BackendErrorContext.deliveryOrders);
   }
 
   @override

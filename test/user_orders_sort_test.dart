@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/features/delivery/domain/entities/delivery_entities.dart';
-import 'package:hather_app/features/delivery/presentation/utils/user_orders_sort.dart';
+import '../lib/features/delivery/domain/entities/delivery_entities.dart';
+import '../lib/features/delivery/presentation/utils/user_orders_sort.dart';
 
 DeliveryOrder _order({
   required String id,
@@ -40,13 +40,7 @@ void main() {
       _order(id: 'p1', status: 'pending', createdAt: t2),
     ]);
 
-    expect(sorted.map((o) => o.id).toList(), [
-      'p1',
-      'a1',
-      'c3',
-      'c2',
-      'c1',
-    ]);
+    expect(sorted.map((o) => o.id).toList(), ['p1', 'a1', 'c3', 'c2', 'c1']);
   });
 
   test('newest first within same status', () {
@@ -66,11 +60,7 @@ void main() {
       _order(id: 'x-live', status: 'active', createdAt: t3),
     ]);
 
-    expect(sorted.map((o) => o.id).toList(), [
-      'x-live',
-      'x-done',
-      'x-cancel',
-    ]);
+    expect(sorted.map((o) => o.id).toList(), ['x-live', 'x-done', 'x-cancel']);
   });
 
   test('expired orders are excluded', () {

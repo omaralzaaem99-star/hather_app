@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/core/notifications/notification_navigation.dart';
-import 'package:hather_app/core/routing/authenticated_routes.dart';
-import 'package:hather_app/features/auth/domain/entities/account_enums.dart';
-import 'package:hather_app/features/auth/domain/entities/auth_user.dart';
-import 'package:hather_app/features/notifications/domain/entities/user_notification.dart';
+import '../lib/core/notifications/notification_navigation.dart';
+import '../lib/core/routing/authenticated_routes.dart';
+import '../lib/features/auth/domain/entities/account_enums.dart';
+import '../lib/features/auth/domain/entities/auth_user.dart';
+import '../lib/features/notifications/domain/entities/user_notification.dart';
 
 AuthUser _user({
   AccountType type = AccountType.user,
@@ -43,44 +43,53 @@ UserNotification _notification({
 
 void main() {
   group('NotificationNavigation.resolveLocation', () {
-    test('TEST A: delivery_order_available routes active captain to available detail', () {
-      final location = NotificationNavigation.resolveLocation(
-        user: _user(type: AccountType.captain, status: AccountStatus.active),
-        type: 'delivery_order_available',
-        orderId: 'order-abc',
-      );
+    test(
+      'TEST A: delivery_order_available routes active captain to available detail',
+      () {
+        final location = NotificationNavigation.resolveLocation(
+          user: _user(type: AccountType.captain, status: AccountStatus.active),
+          type: 'delivery_order_available',
+          orderId: 'order-abc',
+        );
 
-      expect(
-        location,
-        AuthenticatedRoutes.captainAvailableOrderPath('order-abc'),
-      );
-    });
+        expect(
+          location,
+          AuthenticatedRoutes.captainAvailableOrderPath('order-abc'),
+        );
+      },
+    );
 
-    test('TEST B: delivery_order_assigned routes active captain to order detail', () {
-      final location = NotificationNavigation.resolveLocation(
-        user: _user(type: AccountType.captain, status: AccountStatus.active),
-        type: 'delivery_order_assigned',
-        orderId: 'order-abc',
-      );
+    test(
+      'TEST B: delivery_order_assigned routes active captain to order detail',
+      () {
+        final location = NotificationNavigation.resolveLocation(
+          user: _user(type: AccountType.captain, status: AccountStatus.active),
+          type: 'delivery_order_assigned',
+          orderId: 'order-abc',
+        );
 
-      expect(
-        location,
-        AuthenticatedRoutes.captainAvailableOrderPath('order-abc'),
-      );
-    });
+        expect(
+          location,
+          AuthenticatedRoutes.captainAvailableOrderPath('order-abc'),
+        );
+      },
+    );
 
-    test('TEST C: delivery_order_completed routes active captain to order detail', () {
-      final location = NotificationNavigation.resolveLocation(
-        user: _user(type: AccountType.captain, status: AccountStatus.active),
-        type: 'delivery_order_completed',
-        orderId: 'order-abc',
-      );
+    test(
+      'TEST C: delivery_order_completed routes active captain to order detail',
+      () {
+        final location = NotificationNavigation.resolveLocation(
+          user: _user(type: AccountType.captain, status: AccountStatus.active),
+          type: 'delivery_order_completed',
+          orderId: 'order-abc',
+        );
 
-      expect(
-        location,
-        AuthenticatedRoutes.captainAvailableOrderPath('order-abc'),
-      );
-    });
+        expect(
+          location,
+          AuthenticatedRoutes.captainAvailableOrderPath('order-abc'),
+        );
+      },
+    );
 
     test('TEST D: delivery_order_released + order_id routes captain home', () {
       final location = NotificationNavigation.resolveLocation(
@@ -96,41 +105,53 @@ void main() {
       );
     });
 
-    test('TEST E: delivery_order_cancelled + order_id routes captain to detail', () {
-      final location = NotificationNavigation.resolveLocation(
-        user: _user(type: AccountType.captain, status: AccountStatus.active),
-        type: 'delivery_order_cancelled',
-        orderId: 'order-abc',
-        notification: _notification(
+    test(
+      'TEST E: delivery_order_cancelled + order_id routes captain to detail',
+      () {
+        final location = NotificationNavigation.resolveLocation(
+          user: _user(type: AccountType.captain, status: AccountStatus.active),
           type: 'delivery_order_cancelled',
           orderId: 'order-abc',
-        ),
-      );
+          notification: _notification(
+            type: 'delivery_order_cancelled',
+            orderId: 'order-abc',
+          ),
+        );
 
-      expect(location, NotificationNavigation.detailRoute);
-      expect(
-        location,
-        isNot(AuthenticatedRoutes.captainAvailableOrderPath('order-abc')),
-      );
-    });
+        expect(location, NotificationNavigation.detailRoute);
+        expect(
+          location,
+          isNot(AuthenticatedRoutes.captainAvailableOrderPath('order-abc')),
+        );
+      },
+    );
 
-    test('TEST F: released/cancelled without order_id use safe captain destinations', () {
-      expect(
-        NotificationNavigation.resolveLocation(
-          user: _user(type: AccountType.captain, status: AccountStatus.active),
-          type: 'delivery_order_released',
-        ),
-        AuthenticatedRoutes.captainHome,
-      );
-      expect(
-        NotificationNavigation.resolveLocation(
-          user: _user(type: AccountType.captain, status: AccountStatus.active),
-          type: 'delivery_order_cancelled',
-          notification: _notification(type: 'delivery_order_cancelled'),
-        ),
-        NotificationNavigation.detailRoute,
-      );
-    });
+    test(
+      'TEST F: released/cancelled without order_id use safe captain destinations',
+      () {
+        expect(
+          NotificationNavigation.resolveLocation(
+            user: _user(
+              type: AccountType.captain,
+              status: AccountStatus.active,
+            ),
+            type: 'delivery_order_released',
+          ),
+          AuthenticatedRoutes.captainHome,
+        );
+        expect(
+          NotificationNavigation.resolveLocation(
+            user: _user(
+              type: AccountType.captain,
+              status: AccountStatus.active,
+            ),
+            type: 'delivery_order_cancelled',
+            notification: _notification(type: 'delivery_order_cancelled'),
+          ),
+          NotificationNavigation.detailRoute,
+        );
+      },
+    );
 
     test('delivery_order_cancelled routes user to delivery order detail', () {
       final location = NotificationNavigation.resolveLocation(
@@ -142,15 +163,18 @@ void main() {
       expect(location, '/delivery/orders/order-xyz');
     });
 
-    test('delivery_order_available routes user to order detail when order_id present', () {
-      final location = NotificationNavigation.resolveLocation(
-        user: _user(),
-        type: 'delivery_order_available',
-        orderId: 'order-abc',
-      );
+    test(
+      'delivery_order_available routes user to order detail when order_id present',
+      () {
+        final location = NotificationNavigation.resolveLocation(
+          user: _user(),
+          type: 'delivery_order_available',
+          orderId: 'order-abc',
+        );
 
-      expect(location, '/delivery/orders/order-abc');
-    });
+        expect(location, '/delivery/orders/order-abc');
+      },
+    );
 
     test('delivery_order_available opens detail when order_id missing', () {
       final location = NotificationNavigation.resolveLocation(

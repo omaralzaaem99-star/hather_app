@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/core/storage/secure_session_storage.dart';
-import 'package:hather_app/features/auth/data/datasources/fake_auth_remote_datasource.dart';
-import 'package:hather_app/features/auth/data/repositories/auth_repository_impl.dart';
-import 'package:hather_app/features/auth/domain/entities/verify_otp_result.dart';
+import '../lib/core/errors/failures.dart';
+import '../lib/core/storage/secure_session_storage.dart';
+import '../lib/features/auth/data/datasources/fake_auth_remote_datasource.dart';
+import '../lib/features/auth/data/repositories/auth_repository_impl.dart';
+import '../lib/features/auth/domain/entities/verify_otp_result.dart';
 
 void main() {
   late FakeAuthRemoteDataSource remote;

@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hather_app/core/routing/authenticated_routes.dart';
-import 'package:hather_app/features/auth/domain/entities/auth_user.dart';
-import 'package:hather_app/features/auth/presentation/controllers/auth_controller.dart';
+import '../routing/authenticated_routes.dart';
+import '../../features/auth/domain/entities/auth_user.dart';
+import '../../features/auth/presentation/controllers/auth_controller.dart';
 
 enum AccountReactivatedSyncOutcome { success, profileRefreshFailed }
 
@@ -47,8 +47,9 @@ abstract final class AccountReactivatedSync {
     }
 
     _log('refreshing profile');
-    final refreshed =
-        await ref.read(authControllerProvider.notifier).refreshProfile();
+    final refreshed = await ref
+        .read(authControllerProvider.notifier)
+        .refreshProfile();
     if (!refreshed) {
       _log('profile refresh failed');
       return const AccountReactivatedSyncResult(

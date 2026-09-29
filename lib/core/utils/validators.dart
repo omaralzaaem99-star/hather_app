@@ -1,5 +1,5 @@
-import 'package:hather_app/core/config/app_config.dart';
-import 'package:hather_app/core/utils/phone_number_formatter.dart';
+import '../config/app_config.dart';
+import 'phone_number_formatter.dart';
 
 /// Field-level validation helpers. Messages are Arabic keys resolved by UI/l10n.
 enum FieldValidationError {

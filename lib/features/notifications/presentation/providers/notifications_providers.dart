@@ -1,31 +1,32 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hather_app/core/config/app_config.dart';
-import 'package:hather_app/features/notifications/data/notifications_repository.dart';
-import 'package:hather_app/features/notifications/domain/entities/user_notification.dart';
+import '../../../../core/config/app_config.dart';
+import '../../data/notifications_repository.dart';
+import '../../domain/entities/user_notification.dart';
 
 const kNotificationsPageSize = 30;
 
 final notificationsRemoteDataSourceProvider =
     Provider<NotificationsRemoteDataSource>((ref) {
-  if (AppConfig.useFakeAuth || !AppConfig.hasSupabaseConfig) {
-    return FakeNotificationsRemoteDataSource();
-  }
-  return SupabaseNotificationsRemoteDataSource();
-});
+      if (AppConfig.useFakeAuth || !AppConfig.hasSupabaseConfig) {
+        return FakeNotificationsRemoteDataSource();
+      }
+      return SupabaseNotificationsRemoteDataSource();
+    });
 
-final notificationsRepositoryProvider = Provider<NotificationsRepository>((ref) {
+final notificationsRepositoryProvider = Provider<NotificationsRepository>((
+  ref,
+) {
   return NotificationsRepository(
     remote: ref.watch(notificationsRemoteDataSourceProvider),
   );
 });
 
 final unreadNotificationCountProvider = FutureProvider<int>((ref) async {
-  final result = await ref.watch(notificationsRepositoryProvider).getUnreadCount();
-  return result.when(
-    success: (value) => value,
-    onFailure: (_) => 0,
-  );
+  final result = await ref
+      .watch(notificationsRepositoryProvider)
+      .getUnreadCount();
+  return result.when(success: (value) => value, onFailure: (_) => 0);
 });
 
 class NotificationsListState {
@@ -178,5 +179,5 @@ class NotificationsListController extends Notifier<NotificationsListState> {
 
 final notificationsListControllerProvider =
     NotifierProvider<NotificationsListController, NotificationsListState>(
-  NotificationsListController.new,
-);
+      NotificationsListController.new,
+    );

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hather_app/core/routing/authenticated_routes.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_dimensions.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/features/captain/presentation/providers/captain_order_providers.dart';
-import 'package:hather_app/features/captain/presentation/widgets/available_order_card.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/routing/authenticated_routes.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../providers/captain_order_providers.dart';
+import '../widgets/available_order_card.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Captain "طلباتي": tabs for active vs completed only.
 class CaptainOrdersScreen extends ConsumerStatefulWidget {
@@ -131,8 +131,9 @@ class _CaptainOrdersScreenState extends ConsumerState<CaptainOrdersScreen> {
                                     Icon(
                                       Icons.receipt_long_outlined,
                                       size: 52,
-                                      color: AppColors.textMuted
-                                          .withValues(alpha: 0.7),
+                                      color: AppColors.textMuted.withValues(
+                                        alpha: 0.7,
+                                      ),
                                     ),
                                     const SizedBox(height: 14),
                                     Text(
@@ -158,10 +159,11 @@ class _CaptainOrdersScreenState extends ConsumerState<CaptainOrdersScreen> {
                                     final order = list[index];
                                     return CaptainMyOrderCard(
                                       order: order,
-                                      statusLabel:
-                                          _statusLabel(l10n, order.status),
-                                      statusColor:
-                                          _statusColor(order.status),
+                                      statusLabel: _statusLabel(
+                                        l10n,
+                                        order.status,
+                                      ),
+                                      statusColor: _statusColor(order.status),
                                       onTap: () =>
                                           _openOrder(context, order.id),
                                     );

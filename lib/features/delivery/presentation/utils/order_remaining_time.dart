@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/utils/phone_number_formatter.dart';
+import '../../../../core/utils/phone_number_formatter.dart';
 
 /// Formats countdown from [expiresAt] for captain available-order UI.
 ///
@@ -74,7 +74,7 @@ class OrderRemainingTimeText extends StatefulWidget {
   /// When true uses [OrderRemainingTime.compactLabel], else [detailValue].
   final bool compact;
   final Widget Function(BuildContext context, String label, bool expired)
-      builder;
+  builder;
 
   @override
   State<OrderRemainingTimeText> createState() => _OrderRemainingTimeTextState();

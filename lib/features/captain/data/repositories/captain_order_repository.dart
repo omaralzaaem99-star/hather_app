@@ -1,13 +1,13 @@
-import 'package:hather_app/core/config/app_config.dart';
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/core/utils/result.dart';
-import 'package:hather_app/features/captain/data/datasources/captain_order_remote_datasource.dart';
-import 'package:hather_app/features/captain/domain/entities/captain_order.dart';
-import 'package:hather_app/features/captain/presentation/utils/captain_available_orders_sort.dart';
+import '../../../../core/config/app_config.dart';
+import '../../../../core/errors/failures.dart';
+import '../../../../core/utils/result.dart';
+import '../datasources/captain_order_remote_datasource.dart';
+import '../../domain/entities/captain_order.dart';
+import '../../presentation/utils/captain_available_orders_sort.dart';
 
 class CaptainOrderRepository {
   CaptainOrderRepository({required CaptainOrderRemoteDataSource remote})
-      : _remote = remote;
+    : _remote = remote;
 
   final CaptainOrderRemoteDataSource _remote;
 

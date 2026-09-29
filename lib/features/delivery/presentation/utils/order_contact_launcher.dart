@@ -1,5 +1,5 @@
-import 'package:hather_app/core/utils/phone_number_formatter.dart';
-import 'package:hather_app/features/support/core/support_launcher.dart';
+import '../../../../core/utils/phone_number_formatter.dart';
+import '../../../support/core/support_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Launch helpers for user ↔ captain contact on order detail.

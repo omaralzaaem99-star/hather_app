@@ -2,21 +2,21 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hather_app/core/config/app_config.dart';
-import 'package:hather_app/features/auth/core/auth_log.dart';
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/core/notifications/fcm_notification_service.dart';
-import 'package:hather_app/core/utils/phone_number_formatter.dart';
-import 'package:hather_app/core/utils/validators.dart';
-import 'package:hather_app/features/auth/data/datasources/supabase_auth_remote_datasource.dart';
-import 'package:hather_app/features/auth/domain/entities/account_enums.dart';
-import 'package:hather_app/features/auth/domain/entities/auth_user.dart';
-import 'package:hather_app/features/auth/domain/entities/login_phone_status.dart';
-import 'package:hather_app/features/auth/domain/entities/pending_registration_draft.dart';
-import 'package:hather_app/features/auth/domain/entities/verify_otp_result.dart';
-import 'package:hather_app/features/auth/domain/repositories/auth_repository.dart';
-import 'package:hather_app/features/auth/presentation/controllers/auth_state.dart';
-import 'package:hather_app/features/auth/presentation/providers/auth_providers.dart';
+import '../../../../core/config/app_config.dart';
+import '../../core/auth_log.dart';
+import '../../../../core/errors/failures.dart';
+import '../../../../core/notifications/fcm_notification_service.dart';
+import '../../../../core/utils/phone_number_formatter.dart';
+import '../../../../core/utils/validators.dart';
+import '../../data/datasources/supabase_auth_remote_datasource.dart';
+import '../../domain/entities/account_enums.dart';
+import '../../domain/entities/auth_user.dart';
+import '../../domain/entities/login_phone_status.dart';
+import '../../domain/entities/pending_registration_draft.dart';
+import '../../domain/entities/verify_otp_result.dart';
+import '../../domain/repositories/auth_repository.dart';
+import 'auth_state.dart';
+import '../providers/auth_providers.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide AuthState;
 
 final authControllerProvider = NotifierProvider<AuthController, AuthState>(
@@ -73,6 +73,7 @@ class AuthController extends Notifier<AuthState> {
         }
       case AuthChangeEvent.mfaChallengeVerified:
         AuthLog.authEvent('mfaChallengeVerified');
+      // ignore: deprecated_member_use
       case AuthChangeEvent.userDeleted:
         AuthLog.authEvent('userDeleted');
     }
@@ -83,10 +84,7 @@ class AuthController extends Notifier<AuthState> {
     result.when(
       success: (session) {
         if (session != null) {
-          state = AuthState(
-            status: AuthStatus.authenticated,
-            session: session,
-          );
+          state = AuthState(status: AuthStatus.authenticated, session: session);
         }
       },
       onFailure: (_) {
@@ -135,8 +133,7 @@ class AuthController extends Notifier<AuthState> {
       return;
     }
     final session = state.session;
-    if (session != null &&
-        session.expiresAt.isAfter(DateTime.now().toUtc())) {
+    if (session != null && session.expiresAt.isAfter(DateTime.now().toUtc())) {
       AuthLog.appResumeSessionValid();
       return;
     }
@@ -316,9 +313,10 @@ class AuthController extends Notifier<AuthState> {
         if (failure is PhoneAlreadyExistsFailure) {
           final phoneForRedirect = failure.phoneE164 ?? e164 ?? phone;
           final localPhone =
-              PhoneNumberFormatter.toLocalDisplay(phoneForRedirect) ??
-              phone;
-          AuthLog.registerBlockedExistingPhone(failure.phoneE164 ?? e164 ?? phone);
+              PhoneNumberFormatter.toLocalDisplay(phoneForRedirect) ?? phone;
+          AuthLog.registerBlockedExistingPhone(
+            failure.phoneE164 ?? e164 ?? phone,
+          );
           state = AuthState(
             status: AuthStatus.unauthenticated,
             loginPrefillPhoneLocal: localPhone,

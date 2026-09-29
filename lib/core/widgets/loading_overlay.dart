@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
+import '../theme/app_colors.dart';
 
 class LoadingOverlay extends StatelessWidget {
   const LoadingOverlay({

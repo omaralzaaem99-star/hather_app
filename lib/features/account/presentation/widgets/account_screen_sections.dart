@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hather_app/core/constants/app_info.dart';
-import 'package:hather_app/core/routing/authenticated_routes.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/features/account/presentation/widgets/account_widgets.dart';
-import 'package:hather_app/features/account/presentation/widgets/captain_subscription_accordion_body.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/constants/app_info.dart';
+import '../../../../core/routing/authenticated_routes.dart';
+import '../../../../core/theme/app_colors.dart';
+import 'account_widgets.dart';
+import 'captain_subscription_accordion_body.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Shared account section cards for user and captain screens.
 class AccountScreenSections {
@@ -64,10 +64,7 @@ class AccountScreenSections {
           label: l10n.accountAppVersion,
           trailing: Text(
             AppInfo.version,
-            style: TextStyle(
-              color: AppColors.textMuted,
-              fontSize: 14,
-            ),
+            style: TextStyle(color: AppColors.textMuted, fontSize: 14),
             textDirection: TextDirection.ltr,
           ),
           showDivider: false,

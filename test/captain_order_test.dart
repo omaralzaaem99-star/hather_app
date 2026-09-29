@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/features/captain/data/captain_order_error_mapper.dart';
-import 'package:hather_app/features/captain/data/datasources/captain_order_remote_datasource.dart';
-import 'package:hather_app/features/captain/domain/entities/captain_order.dart';
+import '../lib/core/errors/failures.dart';
+import '../lib/features/captain/data/captain_order_error_mapper.dart';
+import '../lib/features/captain/data/datasources/captain_order_remote_datasource.dart';
+import '../lib/features/captain/domain/entities/captain_order.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {
@@ -55,10 +55,7 @@ void main() {
     );
 
     expect(failure, isA<ServerFailure>());
-    expect(
-      (failure as ServerFailure).message,
-      contains('كابتن آخر'),
-    );
+    expect((failure as ServerFailure).message, contains('كابتن آخر'));
   });
 
   test('mapCaptainOrderError maps subscription message', () {
@@ -96,41 +93,45 @@ void main() {
   test('mapCaptainOrderError maps complete denial messages', () {
     expect(
       (mapCaptainOrderError(
-        const PostgrestException(
-          message: 'لا يمكنك إكمال هذا الطلب',
-          code: 'P0001',
-        ),
-      ) as ServerFailure)
+                const PostgrestException(
+                  message: 'لا يمكنك إكمال هذا الطلب',
+                  code: 'P0001',
+                ),
+              )
+              as ServerFailure)
           .message,
       'لا يمكنك إكمال هذا الطلب',
     );
     expect(
       (mapCaptainOrderError(
-        const PostgrestException(
-          message: 'تم إكمال الطلب مسبقاً',
-          code: 'P0001',
-        ),
-      ) as ServerFailure)
+                const PostgrestException(
+                  message: 'تم إكمال الطلب مسبقاً',
+                  code: 'P0001',
+                ),
+              )
+              as ServerFailure)
           .message,
       'تم إكمال الطلب مسبقاً',
     );
     expect(
       (mapCaptainOrderError(
-        const PostgrestException(
-          message: 'هذا الطلب لم يعد جارياً',
-          code: 'P0001',
-        ),
-      ) as ServerFailure)
+                const PostgrestException(
+                  message: 'هذا الطلب لم يعد جارياً',
+                  code: 'P0001',
+                ),
+              )
+              as ServerFailure)
           .message,
       'هذا الطلب لم يعد جارياً',
     );
     expect(
       (mapCaptainOrderError(
-        const PostgrestException(
-          message: 'captain only',
-          code: 'P0001',
-        ),
-      ) as ServerFailure)
+                const PostgrestException(
+                  message: 'captain only',
+                  code: 'P0001',
+                ),
+              )
+              as ServerFailure)
           .message,
       'لا يمكنك إكمال هذا الطلب',
     );
@@ -188,31 +189,34 @@ void main() {
   test('mapCaptainOrderError maps transfer denial messages', () {
     expect(
       (mapCaptainOrderError(
-        const PostgrestException(
-          message: 'لا يمكنك تحويل هذا الطلب',
-          code: 'P0001',
-        ),
-      ) as ServerFailure)
+                const PostgrestException(
+                  message: 'لا يمكنك تحويل هذا الطلب',
+                  code: 'P0001',
+                ),
+              )
+              as ServerFailure)
           .message,
       contains('تحويل'),
     );
     expect(
       (mapCaptainOrderError(
-        const PostgrestException(
-          message: 'انتهت صلاحية هذا الطلب ولا يمكن تحويله',
-          code: 'P0001',
-        ),
-      ) as ServerFailure)
+                const PostgrestException(
+                  message: 'انتهت صلاحية هذا الطلب ولا يمكن تحويله',
+                  code: 'P0001',
+                ),
+              )
+              as ServerFailure)
           .message,
       contains('ولا يمكن تحويله'),
     );
     expect(
       (mapCaptainOrderError(
-        const PostgrestException(
-          message: 'لا يمكن تحويل طلب مكتمل',
-          code: 'P0001',
-        ),
-      ) as ServerFailure)
+                const PostgrestException(
+                  message: 'لا يمكن تحويل طلب مكتمل',
+                  code: 'P0001',
+                ),
+              )
+              as ServerFailure)
           .message,
       'لا يمكن تحويل طلب مكتمل',
     );

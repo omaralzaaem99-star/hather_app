@@ -2,18 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/home_ads/home_ad_launcher.dart';
-import 'package:hather_app/core/home_ads/home_ads_constants.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/features/delivery/domain/entities/delivery_entities.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../home_ads/home_ad_launcher.dart';
+import '../home_ads/home_ads_constants.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
+import '../../features/delivery/domain/entities/delivery_entities.dart';
+import '../../l10n/app_localizations.dart';
 
 class HomeAdsCarousel extends StatefulWidget {
-  const HomeAdsCarousel({
-    required this.ads,
-    super.key,
-  });
+  const HomeAdsCarousel({required this.ads, super.key});
 
   final List<HomeAd> ads;
 
@@ -106,10 +103,7 @@ class _HomeAdsCarouselState extends State<HomeAdsCarousel> {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Text(
-            l10n.adsSectionTitle,
-            style: AppTextStyles.bodyStrong,
-          ),
+          child: Text(l10n.adsSectionTitle, style: AppTextStyles.bodyStrong),
         ),
         const SizedBox(height: 10),
         SizedBox(
@@ -186,10 +180,7 @@ class _AdPlaceholderCard extends StatelessWidget {
               style: AppTextStyles.sectionTitle.copyWith(fontSize: 20),
             ),
             const SizedBox(height: 8),
-            Text(
-              l10n.adsPlaceholderBody,
-              style: AppTextStyles.caption,
-            ),
+            Text(l10n.adsPlaceholderBody, style: AppTextStyles.caption),
           ],
         ),
       ),
@@ -198,11 +189,7 @@ class _AdPlaceholderCard extends StatelessWidget {
 }
 
 class _RemoteAdCard extends StatelessWidget {
-  const _RemoteAdCard({
-    required this.ad,
-    required this.title,
-    this.onTap,
-  });
+  const _RemoteAdCard({required this.ad, required this.title, this.onTap});
 
   final HomeAd ad;
   final String title;

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/core/theme/theme_mode_provider.dart';
-import 'package:hather_app/features/account/presentation/widgets/account_widgets.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/theme/theme_mode_provider.dart';
+import 'account_widgets.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Theme toggle row for account settings (user + captain).
 class AccountThemeSettingRow extends ConsumerWidget {

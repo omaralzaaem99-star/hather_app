@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:hather_app/features/auth/domain/entities/account_enums.dart';
+import 'account_enums.dart';
 
 class AuthUser extends Equatable {
   const AuthUser({

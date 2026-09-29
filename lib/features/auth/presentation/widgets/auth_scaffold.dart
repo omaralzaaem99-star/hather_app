@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/constants/auth_assets.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_dimensions.dart';
-import 'package:hather_app/core/utils/localization_helpers.dart';
-import 'package:hather_app/features/auth/presentation/widgets/auth_hero_background.dart';
+import '../../../../core/constants/auth_assets.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/utils/localization_helpers.dart';
+import 'auth_hero_background.dart';
 
 /// Shared auth shell: hero background, keyboard-safe scroll, dismiss on tap.
 class AuthScaffold extends StatelessWidget {
@@ -144,9 +144,7 @@ class AuthBackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: AppColors.background,
-      shape: CircleBorder(
-        side: BorderSide(color: AppColors.authPanelBorder),
-      ),
+      shape: CircleBorder(side: BorderSide(color: AppColors.authPanelBorder)),
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: onPressed,

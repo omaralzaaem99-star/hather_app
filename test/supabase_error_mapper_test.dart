@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/features/auth/data/datasources/supabase_error_mapper.dart';
+import '../lib/core/errors/failures.dart';
+import '../lib/features/auth/data/datasources/supabase_error_mapper.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {
@@ -16,10 +16,7 @@ void main() {
   });
 
   test('token expired only maps to OtpExpiredFailure', () {
-    const error = AuthException(
-      'Token has expired',
-      statusCode: '401',
-    );
+    const error = AuthException('Token has expired', statusCode: '401');
 
     final failure = mapSupabaseError(error);
 
@@ -27,10 +24,7 @@ void main() {
   });
 
   test('token invalid only maps to InvalidOtpFailure', () {
-    const error = AuthException(
-      'Token is invalid',
-      statusCode: '401',
-    );
+    const error = AuthException('Token is invalid', statusCode: '401');
 
     final failure = mapSupabaseError(error);
 

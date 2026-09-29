@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:hather_app/features/auth/data/models/auth_session_model.dart';
+import '../../features/auth/data/models/auth_session_model.dart';
 
 /// Abstraction so tests can use in-memory storage without platform channels.
 abstract class SessionStorage {

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:hather_app/core/utils/phone_number_formatter.dart';
-import 'package:hather_app/features/auth/domain/entities/phone_registration_status.dart';
+import '../../../core/utils/phone_number_formatter.dart';
+import '../domain/entities/phone_registration_status.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Safe auth diagnostics — never log secrets, tokens, or OTP.
@@ -47,9 +47,7 @@ abstract final class AuthLog {
     PhoneRegistrationStatus status,
   ) {
     if (!kDebugMode) return;
-    debugPrint(
-      'REGISTER: phone status=${status.name} phone=${_mask(e164)}',
-    );
+    debugPrint('REGISTER: phone status=${status.name} phone=${_mask(e164)}');
   }
 
   static void registerPhoneStatusRechecked(
@@ -64,9 +62,7 @@ abstract final class AuthLog {
 
   static void registerPendingVerificationResend(String e164) {
     if (!kDebugMode) return;
-    debugPrint(
-      'REGISTER: pending verification resend phone=${_mask(e164)}',
-    );
+    debugPrint('REGISTER: pending verification resend phone=${_mask(e164)}');
   }
 
   static void registerBlockedExistingPhone(String e164) {
@@ -101,16 +97,12 @@ abstract final class AuthLog {
 
   static void registerAttemptingResendRecovery(String e164) {
     if (!kDebugMode) return;
-    debugPrint(
-      'REGISTER: attempting resend recovery phone=${_mask(e164)}',
-    );
+    debugPrint('REGISTER: attempting resend recovery phone=${_mask(e164)}');
   }
 
   static void registerResendRecoverySuccess(String e164) {
     if (!kDebugMode) return;
-    debugPrint(
-      'REGISTER: resend recovery success phone=${_mask(e164)}',
-    );
+    debugPrint('REGISTER: resend recovery success phone=${_mask(e164)}');
   }
 
   static void registerResendRecoveryFailed(

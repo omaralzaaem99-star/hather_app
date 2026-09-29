@@ -3,20 +3,20 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hather_app/core/errors/failure_messages.dart';
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/core/routing/authenticated_routes.dart';
-import 'package:hather_app/core/routing/safe_navigation.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_dimensions.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/core/widgets/app_text_field.dart';
-import 'package:hather_app/core/widgets/error_message.dart';
-import 'package:hather_app/core/widgets/primary_button.dart';
-import 'package:hather_app/core/utils/iqd_format.dart';
-import 'package:hather_app/features/delivery/domain/entities/delivery_entities.dart';
-import 'package:hather_app/features/delivery/presentation/providers/delivery_providers.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/errors/failure_messages.dart';
+import '../../../../core/errors/failures.dart';
+import '../../../../core/routing/authenticated_routes.dart';
+import '../../../../core/routing/safe_navigation.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/app_text_field.dart';
+import '../../../../core/widgets/error_message.dart';
+import '../../../../core/widgets/primary_button.dart';
+import '../../../../core/utils/iqd_format.dart';
+import '../../domain/entities/delivery_entities.dart';
+import '../providers/delivery_providers.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class CreateDeliveryOrderScreen extends ConsumerStatefulWidget {
   const CreateDeliveryOrderScreen({super.key});
@@ -144,10 +144,9 @@ class _CreateDeliveryOrderScreenState
       _validatingCoupon = true;
       _couponMessage = null;
     });
-    final result = await ref.read(deliveryRepositoryProvider).validateCoupon(
-          code: code,
-          feeOptionId: _fee!.id,
-        );
+    final result = await ref
+        .read(deliveryRepositoryProvider)
+        .validateCoupon(code: code, feeOptionId: _fee!.id);
     if (!mounted) return;
     result.when(
       success: (coupon) {
@@ -155,7 +154,9 @@ class _CreateDeliveryOrderScreenState
           _validatingCoupon = false;
           _coupon = coupon;
           _couponOk = true;
-          _couponMessage = l10n.couponValid(IqdFormat.format(coupon.discountIqd));
+          _couponMessage = l10n.couponValid(
+            IqdFormat.format(coupon.discountIqd),
+          );
         });
       },
       onFailure: (error) {
@@ -212,8 +213,9 @@ class _CreateDeliveryOrderScreenState
       couponCode: _coupon?.code,
     );
 
-    final result =
-        await ref.read(deliveryRepositoryProvider).createOrder(input);
+    final result = await ref
+        .read(deliveryRepositoryProvider)
+        .createOrder(input);
     if (!mounted) return;
 
     await result.when(
@@ -374,247 +376,243 @@ class _CreateDeliveryOrderScreenState
     return ListView(
       padding: AppDimensions.screenPadding,
       children: [
-        Text(
-          l10n.createDeliveryOrderSubtitle,
-          style: AppTextStyles.caption,
-        ),
+        Text(l10n.createDeliveryOrderSubtitle, style: AppTextStyles.caption),
         const SizedBox(height: 16),
         AuthFormErrorBanner(message: _formError),
         _SectionLabel(l10n.orderDetailsLabel),
-          TextField(
-            controller: _detailsController,
-            minLines: 4,
-            maxLines: 10,
-            keyboardType: TextInputType.multiline,
-            style: AppTextStyles.input,
-            cursorColor: AppColors.icon,
-            onChanged: (_) {
-              if (_formError != null) setState(() => _formError = null);
-            },
-            decoration: InputDecoration(
-              hintText: l10n.orderDetailsHint,
-              hintStyle:
-                  AppTextStyles.body.copyWith(color: AppColors.textMuted),
-              filled: true,
-              fillColor: AppColors.inputFill,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
-                borderSide: BorderSide(color: AppColors.borderSubtle),
+        TextField(
+          controller: _detailsController,
+          minLines: 4,
+          maxLines: 10,
+          keyboardType: TextInputType.multiline,
+          style: AppTextStyles.input,
+          cursorColor: AppColors.icon,
+          onChanged: (_) {
+            if (_formError != null) setState(() => _formError = null);
+          },
+          decoration: InputDecoration(
+            hintText: l10n.orderDetailsHint,
+            hintStyle: AppTextStyles.body.copyWith(color: AppColors.textMuted),
+            filled: true,
+            fillColor: AppColors.inputFill,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
+              borderSide: BorderSide(color: AppColors.borderSubtle),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
+              borderSide: BorderSide(color: AppColors.borderSubtle),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
+              borderSide: BorderSide(
+                color: AppColors.icon.withValues(alpha: 0.85),
               ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
-                borderSide: BorderSide(color: AppColors.borderSubtle),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
-                borderSide: BorderSide(
-                  color: AppColors.icon.withValues(alpha: 0.85),
-                ),
-              ),
-              contentPadding: const EdgeInsets.all(14),
+            ),
+            contentPadding: const EdgeInsets.all(14),
+          ),
+        ),
+        const SizedBox(height: 14),
+        _SectionLabel(l10n.destinationLabel),
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: (_loadingLocation || _submitting)
+                ? null
+                : _useCurrentLocation,
+            icon: _loadingLocation
+                ? const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.my_location_rounded, size: 18),
+            label: Text(
+              _destination == null
+                  ? l10n.currentLocation
+                  : l10n.updateLocationAction,
+            ),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: AppColors.textPrimary,
+              side: BorderSide(color: AppColors.borderSubtle),
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              minimumSize: const Size(double.infinity, 48),
             ),
           ),
-          const SizedBox(height: 14),
-          _SectionLabel(l10n.destinationLabel),
-          SizedBox(
+        ),
+        if (_destination != null) ...[
+          const SizedBox(height: 10),
+          Container(
             width: double.infinity,
-            child: OutlinedButton.icon(
-              onPressed: (_loadingLocation || _submitting)
-                  ? null
-                  : _useCurrentLocation,
-              icon: _loadingLocation
-                  ? const SizedBox(
-                      width: 16,
-                      height: 16,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Icon(Icons.my_location_rounded, size: 18),
-              label: Text(
-                _destination == null
-                    ? l10n.currentLocation
-                    : l10n.updateLocationAction,
-              ),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: AppColors.textPrimary,
-                side: BorderSide(color: AppColors.borderSubtle),
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                minimumSize: const Size(double.infinity, 48),
-              ),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(AppDimensions.radiusSm),
+              border: Border.all(color: AppColors.borderSubtle),
             ),
-          ),
-          if (_destination != null) ...[
-            const SizedBox(height: 10),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(AppDimensions.radiusSm),
-                border: Border.all(color: AppColors.borderSubtle),
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.check_circle, color: AppColors.success, size: 20),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      l10n.locationConfirmed,
-                      style: AppTextStyles.bodyStrong,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-          const SizedBox(height: 14),
-          _SectionLabel(l10n.destinationAddressLabel),
-          AppTextField(
-            controller: _addressController,
-            hintText: l10n.destinationAddressHint,
-            textInputAction: TextInputAction.next,
-            onChanged: _syncAddressIntoDestination,
-          ),
-          const SizedBox(height: 14),
-          _SectionLabel(l10n.orderDeleteDurationLabel),
-          _DropdownField<DeleteDurationOption>(
-            value: _duration,
-            hint: l10n.orderDeleteDurationHint,
-            items: durations,
-            labelBuilder: (item) => item.labelAr,
-            onChanged: (value) => setState(() => _duration = value),
-          ),
-          const SizedBox(height: 14),
-          _SectionLabel(l10n.deliveryFeeLabel),
-          _DropdownField<DeliveryFeeOption>(
-            value: _fee,
-            hint: l10n.deliveryFeeHint,
-            items: fees,
-            labelBuilder: (item) => item.labelAr,
-            onChanged: (value) {
-              setState(() {
-                _fee = value;
-                _coupon = null;
-                _couponOk = false;
-                _couponMessage = null;
-              });
-            },
-          ),
-          const SizedBox(height: 14),
-          _SectionLabel(l10n.couponLabel),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: AppTextField(
-                  controller: _couponController,
-                  hintText: l10n.couponHint,
-                  textInputAction: TextInputAction.done,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.deny(RegExp(r'\s')),
-                  ],
-                  onChanged: (_) {
-                    setState(() {
-                      _coupon = null;
-                      _couponOk = false;
-                      _couponMessage = null;
-                    });
-                  },
-                ),
-              ),
-              const SizedBox(width: 10),
-              SizedBox(
-                height: AppDimensions.inputHeight,
-                child: ElevatedButton(
-                  onPressed:
-                      (_validatingCoupon || _submitting) ? null : _validateCoupon,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: AppColors.onPrimary,
-                    minimumSize: Size(96, AppDimensions.inputHeight),
-                    maximumSize: Size(140, AppDimensions.inputHeight),
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(AppDimensions.radiusMd),
-                    ),
-                  ),
-                  child: _validatingCoupon
-                      ? const SizedBox(
-                          width: 18,
-                          height: 18,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
-                        )
-                      : Text(l10n.verifyCouponAction),
-                ),
-              ),
-            ],
-          ),
-          if (_couponMessage != null)
-            Padding(
-              padding: const EdgeInsets.only(top: 8),
-              child: Text(
-                _couponMessage!,
-                style: AppTextStyles.caption.copyWith(
-                  color: _couponOk ? AppColors.success : AppColors.error,
-                ),
-              ),
-            ),
-          if (_couponOk && _fee != null) ...[
-            const SizedBox(height: 12),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(AppDimensions.radiusSm),
-                border: Border.all(color: AppColors.borderSubtle),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'أجرة التوصيل        ${IqdFormat.format(feeAmount)} د.ع',
-                    style: AppTextStyles.body,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'الخصم                 ${IqdFormat.format(discount)} د.ع',
-                    style: AppTextStyles.body,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'الإجمالي            ${IqdFormat.format(finalAmount)} د.ع',
+            child: Row(
+              children: [
+                Icon(Icons.check_circle, color: AppColors.success, size: 20),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    l10n.locationConfirmed,
                     style: AppTextStyles.bodyStrong,
                   ),
+                ),
+              ],
+            ),
+          ),
+        ],
+        const SizedBox(height: 14),
+        _SectionLabel(l10n.destinationAddressLabel),
+        AppTextField(
+          controller: _addressController,
+          hintText: l10n.destinationAddressHint,
+          textInputAction: TextInputAction.next,
+          onChanged: _syncAddressIntoDestination,
+        ),
+        const SizedBox(height: 14),
+        _SectionLabel(l10n.orderDeleteDurationLabel),
+        _DropdownField<DeleteDurationOption>(
+          value: _duration,
+          hint: l10n.orderDeleteDurationHint,
+          items: durations,
+          labelBuilder: (item) => item.labelAr,
+          onChanged: (value) => setState(() => _duration = value),
+        ),
+        const SizedBox(height: 14),
+        _SectionLabel(l10n.deliveryFeeLabel),
+        _DropdownField<DeliveryFeeOption>(
+          value: _fee,
+          hint: l10n.deliveryFeeHint,
+          items: fees,
+          labelBuilder: (item) => item.labelAr,
+          onChanged: (value) {
+            setState(() {
+              _fee = value;
+              _coupon = null;
+              _couponOk = false;
+              _couponMessage = null;
+            });
+          },
+        ),
+        const SizedBox(height: 14),
+        _SectionLabel(l10n.couponLabel),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: AppTextField(
+                controller: _couponController,
+                hintText: l10n.couponHint,
+                textInputAction: TextInputAction.done,
+                inputFormatters: [
+                  FilteringTextInputFormatter.deny(RegExp(r'\s')),
                 ],
+                onChanged: (_) {
+                  setState(() {
+                    _coupon = null;
+                    _couponOk = false;
+                    _couponMessage = null;
+                  });
+                },
+              ),
+            ),
+            const SizedBox(width: 10),
+            SizedBox(
+              height: AppDimensions.inputHeight,
+              child: ElevatedButton(
+                onPressed: (_validatingCoupon || _submitting)
+                    ? null
+                    : _validateCoupon,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: AppColors.onPrimary,
+                  minimumSize: Size(96, AppDimensions.inputHeight),
+                  maximumSize: Size(140, AppDimensions.inputHeight),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
+                  ),
+                ),
+                child: _validatingCoupon
+                    ? const SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Text(l10n.verifyCouponAction),
               ),
             ),
           ],
-          if (durations.isEmpty) ...[
-            const SizedBox(height: 12),
-            Text(
-              'لا توجد مدة متاحة حالياً.',
-              style: AppTextStyles.caption.copyWith(color: AppColors.error),
+        ),
+        if (_couponMessage != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Text(
+              _couponMessage!,
+              style: AppTextStyles.caption.copyWith(
+                color: _couponOk ? AppColors.success : AppColors.error,
+              ),
             ),
-          ],
-          if (fees.isEmpty) ...[
-            const SizedBox(height: 8),
-            Text(
-              'لا توجد أجور توصيل متاحة حالياً.',
-              style: AppTextStyles.caption.copyWith(color: AppColors.error),
-            ),
-          ],
-          const SizedBox(height: 24),
-          PrimaryButton(
-            label: l10n.submitOrderAction,
-            isLoading: _submitting,
-            onPressed: (_submitting || !canSubmit) ? null : _submit,
           ),
-          const SizedBox(height: 24),
+        if (_couponOk && _fee != null) ...[
+          const SizedBox(height: 12),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(AppDimensions.radiusSm),
+              border: Border.all(color: AppColors.borderSubtle),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'أجرة التوصيل        ${IqdFormat.format(feeAmount)} د.ع',
+                  style: AppTextStyles.body,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'الخصم                 ${IqdFormat.format(discount)} د.ع',
+                  style: AppTextStyles.body,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'الإجمالي            ${IqdFormat.format(finalAmount)} د.ع',
+                  style: AppTextStyles.bodyStrong,
+                ),
+              ],
+            ),
+          ),
         ],
+        if (durations.isEmpty) ...[
+          const SizedBox(height: 12),
+          Text(
+            'لا توجد مدة متاحة حالياً.',
+            style: AppTextStyles.caption.copyWith(color: AppColors.error),
+          ),
+        ],
+        if (fees.isEmpty) ...[
+          const SizedBox(height: 8),
+          Text(
+            'لا توجد أجور توصيل متاحة حالياً.',
+            style: AppTextStyles.caption.copyWith(color: AppColors.error),
+          ),
+        ],
+        const SizedBox(height: 24),
+        PrimaryButton(
+          label: l10n.submitOrderAction,
+          isLoading: _submitting,
+          onPressed: (_submitting || !canSubmit) ? null : _submit,
+        ),
+        const SizedBox(height: 24),
+      ],
     );
   }
 }

@@ -1,8 +1,8 @@
-import 'package:hather_app/core/errors/backend_error_mapper.dart';
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/core/utils/result.dart';
-import 'package:hather_app/features/legal/data/legal_document_cache.dart';
-import 'package:hather_app/features/legal/domain/entities/legal_document.dart';
+import '../../../core/errors/backend_error_mapper.dart';
+import '../../../core/errors/failures.dart';
+import '../../../core/utils/result.dart';
+import 'legal_document_cache.dart';
+import '../domain/entities/legal_document.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class LegalRemoteDataSource {
@@ -11,7 +11,7 @@ abstract class LegalRemoteDataSource {
 
 class SupabaseLegalRemoteDataSource implements LegalRemoteDataSource {
   SupabaseLegalRemoteDataSource({SupabaseClient? client})
-      : _client = client ?? Supabase.instance.client;
+    : _client = client ?? Supabase.instance.client;
 
   final SupabaseClient _client;
 
@@ -26,8 +26,8 @@ class SupabaseLegalRemoteDataSource implements LegalRemoteDataSource {
       final map = row is Map<String, dynamic>
           ? row
           : row is Map
-              ? Map<String, dynamic>.from(row)
-              : null;
+          ? Map<String, dynamic>.from(row)
+          : null;
       if (map == null) return null;
       final doc = LegalDocument.fromJson(map, fallbackType: type);
       return doc.hasContent ? doc : null;
@@ -63,8 +63,8 @@ class LegalRepository {
   LegalRepository({
     required LegalRemoteDataSource remote,
     LegalDocumentCache? cache,
-  })  : _remote = remote,
-        _cache = cache ?? LegalDocumentCache();
+  }) : _remote = remote,
+       _cache = cache ?? LegalDocumentCache();
 
   final LegalRemoteDataSource _remote;
   final LegalDocumentCache _cache;
@@ -81,9 +81,7 @@ class LegalRepository {
       }
       final cached = await _cache.read(type);
       if (cached != null) return Success(cached);
-      return const Err(
-        ServerFailure(message: 'المحتوى غير متوفر حالياً'),
-      );
+      return const Err(ServerFailure(message: 'المحتوى غير متوفر حالياً'));
     } on Failure catch (failure) {
       final cached = await _cache.read(type);
       if (cached != null) return Success(cached);

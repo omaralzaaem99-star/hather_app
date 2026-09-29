@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hather_app/core/routing/authenticated_routes.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/core/widgets/home_ads_carousel.dart';
-import 'package:hather_app/core/widgets/home_screen_header.dart';
-import 'package:hather_app/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:hather_app/features/captain/presentation/providers/captain_order_providers.dart';
-import 'package:hather_app/features/captain/presentation/widgets/available_order_card.dart';
-import 'package:hather_app/features/delivery/domain/entities/delivery_entities.dart';
-import 'package:hather_app/features/delivery/presentation/providers/delivery_providers.dart';
-import 'package:hather_app/features/notifications/presentation/providers/notifications_providers.dart';
-import 'package:hather_app/features/subscription/presentation/providers/subscription_providers.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/routing/authenticated_routes.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/home_ads_carousel.dart';
+import '../../../../core/widgets/home_screen_header.dart';
+import '../../../auth/presentation/controllers/auth_controller.dart';
+import '../providers/captain_order_providers.dart';
+import '../widgets/available_order_card.dart';
+import '../../../delivery/domain/entities/delivery_entities.dart';
+import '../../../delivery/presentation/providers/delivery_providers.dart';
+import '../../../notifications/presentation/providers/notifications_providers.dart';
+import '../../../subscription/presentation/providers/subscription_providers.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class CaptainHomeScreen extends ConsumerStatefulWidget {
   const CaptainHomeScreen({super.key});
@@ -204,10 +204,7 @@ class _CaptainHomeScreenState extends ConsumerState<CaptainHomeScreen>
 }
 
 class _AvailableOrdersEmpty extends StatelessWidget {
-  const _AvailableOrdersEmpty({
-    required this.title,
-    required this.hint,
-  });
+  const _AvailableOrdersEmpty({required this.title, required this.hint});
 
   final String title;
   final String hint;
@@ -230,11 +227,7 @@ class _AvailableOrdersEmpty extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 6),
-          Text(
-            hint,
-            style: AppTextStyles.caption,
-            textAlign: TextAlign.center,
-          ),
+          Text(hint, style: AppTextStyles.caption, textAlign: TextAlign.center),
         ],
       ),
     );

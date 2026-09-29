@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hather_app/core/errors/failure_messages.dart';
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/core/routing/safe_navigation.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_dimensions.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/core/utils/app_date_time_format.dart';
-import 'package:hather_app/core/utils/iqd_format.dart';
-import 'package:hather_app/core/widgets/error_message.dart';
-import 'package:hather_app/core/widgets/primary_button.dart';
-import 'package:hather_app/features/delivery/domain/entities/delivery_entities.dart';
-import 'package:hather_app/features/delivery/presentation/providers/delivery_providers.dart';
-import 'package:hather_app/features/delivery/presentation/utils/delivery_request_number.dart';
-import 'package:hather_app/features/delivery/presentation/widgets/order_captain_contact_section.dart';
-import 'package:hather_app/features/delivery/presentation/widgets/order_progress_tracker.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/errors/failure_messages.dart';
+import '../../../../core/errors/failures.dart';
+import '../../../../core/routing/safe_navigation.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/app_date_time_format.dart';
+import '../../../../core/utils/iqd_format.dart';
+import '../../../../core/widgets/error_message.dart';
+import '../../../../core/widgets/primary_button.dart';
+import '../../domain/entities/delivery_entities.dart';
+import '../providers/delivery_providers.dart';
+import '../utils/delivery_request_number.dart';
+import '../widgets/order_captain_contact_section.dart';
+import '../widgets/order_progress_tracker.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class UserOrderDetailScreen extends ConsumerStatefulWidget {
   const UserOrderDetailScreen({super.key, required this.orderId});
@@ -64,17 +64,18 @@ class _UserOrderDetailScreenState extends ConsumerState<UserOrderDetailScreen> {
       _cancelling = true;
       _actionError = null;
     });
-    final result =
-        await ref.read(deliveryRepositoryProvider).cancelOrder(order.id);
+    final result = await ref
+        .read(deliveryRepositoryProvider)
+        .cancelOrder(order.id);
     if (!mounted) return;
     result.when(
       success: (_) {
         setState(() => _cancelling = false);
         ref.invalidate(orderDetailProvider(widget.orderId));
         ref.invalidate(myOrdersProvider);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.orderCancelledSuccess)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.orderCancelledSuccess)));
       },
       onFailure: (error) {
         setState(() {
@@ -215,8 +216,9 @@ class _UserOrderDetailScreenState extends ConsumerState<UserOrderDetailScreen> {
                     PrimaryButton(
                       label: l10n.cancelOrderAction,
                       isLoading: _cancelling,
-                      onPressed:
-                          _cancelling ? null : () => _confirmCancel(order),
+                      onPressed: _cancelling
+                          ? null
+                          : () => _confirmCancel(order),
                     ),
                   ],
                 ],
@@ -277,10 +279,7 @@ class _OrderNumberRow extends StatelessWidget {
 }
 
 class _OrderDetailsCard extends StatelessWidget {
-  const _OrderDetailsCard({
-    required this.label,
-    required this.details,
-  });
+  const _OrderDetailsCard({required this.label, required this.details});
 
   final String label;
   final String details;

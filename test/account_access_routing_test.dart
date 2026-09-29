@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/core/routing/account_access.dart';
-import 'package:hather_app/core/routing/authenticated_routes.dart';
-import 'package:hather_app/features/auth/domain/entities/account_enums.dart';
-import 'package:hather_app/features/auth/domain/entities/auth_user.dart';
+import '../lib/core/routing/account_access.dart';
+import '../lib/core/routing/authenticated_routes.dart';
+import '../lib/features/auth/domain/entities/account_enums.dart';
+import '../lib/features/auth/domain/entities/auth_user.dart';
 
 AuthUser _user({
   AccountType type = AccountType.user,
@@ -29,9 +29,7 @@ void main() {
 
     test('disabled user is restricted', () {
       expect(
-        AccountAccess.isUserBlocked(
-          _user(status: AccountStatus.disabled),
-        ),
+        AccountAccess.isUserBlocked(_user(status: AccountStatus.disabled)),
         isTrue,
       );
     });
@@ -58,27 +56,30 @@ void main() {
       );
     });
 
-    test('TEST B: blocked user with session routes to account blocked screen', () {
-      final blocked = _user(status: AccountStatus.disabled);
-      expect(
-        AuthenticatedRoutes.homeFor(blocked),
-        AuthenticatedRoutes.accountBlocked,
-      );
-      expect(
-        AuthenticatedRoutes.redirectForAuthenticated(
-          user: blocked,
-          location: '/home',
-        ),
-        AuthenticatedRoutes.accountBlocked,
-      );
-      expect(
-        AuthenticatedRoutes.redirectForAuthenticated(
-          user: blocked,
-          location: '/delivery/create-order',
-        ),
-        AuthenticatedRoutes.accountBlocked,
-      );
-    });
+    test(
+      'TEST B: blocked user with session routes to account blocked screen',
+      () {
+        final blocked = _user(status: AccountStatus.disabled);
+        expect(
+          AuthenticatedRoutes.homeFor(blocked),
+          AuthenticatedRoutes.accountBlocked,
+        );
+        expect(
+          AuthenticatedRoutes.redirectForAuthenticated(
+            user: blocked,
+            location: '/home',
+          ),
+          AuthenticatedRoutes.accountBlocked,
+        );
+        expect(
+          AuthenticatedRoutes.redirectForAuthenticated(
+            user: blocked,
+            location: '/delivery/create-order',
+          ),
+          AuthenticatedRoutes.accountBlocked,
+        );
+      },
+    );
 
     test('TEST C: blocked user login destination is not home', () {
       final blocked = _user(status: AccountStatus.disabled);

@@ -1,9 +1,9 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Pointy-top hexagon clip for profile avatar.
 class AccountHexagonClipper extends CustomClipper<Path> {
@@ -154,8 +154,9 @@ class AccountProfileHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final displayName =
-        fullName.trim().isEmpty ? l10n.valueNotAvailable : fullName.trim();
+    final displayName = fullName.trim().isEmpty
+        ? l10n.valueNotAvailable
+        : fullName.trim();
 
     return Container(
       width: double.infinity,
@@ -172,9 +173,7 @@ class AccountProfileHeader extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          Positioned.fill(
-            child: CustomPaint(painter: _HeaderPatternPainter()),
-          ),
+          Positioned.fill(child: CustomPaint(painter: _HeaderPatternPainter())),
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
             child: Column(
@@ -233,10 +232,7 @@ class AccountProfileHeader extends StatelessWidget {
 
 /// Individual rounded card for each settings block (reference-style).
 class AccountSectionCard extends StatelessWidget {
-  const AccountSectionCard({
-    required this.child,
-    super.key,
-  });
+  const AccountSectionCard({required this.child, super.key});
 
   final Widget child;
 
@@ -324,9 +320,10 @@ class _AccountAccordionSectionState extends State<AccountAccordionSection>
       duration: const Duration(milliseconds: 240),
       value: _expanded ? 1 : 0,
     );
-    _rotation = Tween<double>(begin: 0, end: 0.5).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _rotation = Tween<double>(
+      begin: 0,
+      end: 0.5,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -346,7 +343,8 @@ class _AccountAccordionSectionState extends State<AccountAccordionSection>
 
   @override
   Widget build(BuildContext context) {
-    final body = widget.expandedBody ??
+    final body =
+        widget.expandedBody ??
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: widget.rows,
@@ -366,9 +364,7 @@ class _AccountAccordionSectionState extends State<AccountAccordionSection>
                   Expanded(
                     child: Text(
                       widget.title,
-                      style: AppTextStyles.bodyStrong.copyWith(
-                        fontSize: 16,
-                      ),
+                      style: AppTextStyles.bodyStrong.copyWith(fontSize: 16),
                     ),
                   ),
                   RotationTransition(
@@ -489,17 +485,14 @@ class AccountStatusBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final (bg, fg) = switch (tone) {
       AccountBadgeTone.active => (
-          AppColors.primary.withValues(alpha: 0.22),
-          AppColors.icon,
-        ),
+        AppColors.primary.withValues(alpha: 0.22),
+        AppColors.icon,
+      ),
       AccountBadgeTone.expired => (
-          AppColors.error.withValues(alpha: 0.16),
-          AppColors.error,
-        ),
-      AccountBadgeTone.neutral => (
-          AppColors.surface,
-          AppColors.textMuted,
-        ),
+        AppColors.error.withValues(alpha: 0.16),
+        AppColors.error,
+      ),
+      AccountBadgeTone.neutral => (AppColors.surface, AppColors.textMuted),
     };
 
     return Container(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_dimensions.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/features/delivery/presentation/utils/order_contact_launcher.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../utils/order_contact_launcher.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class OrderCaptainContactSection extends StatelessWidget {
   const OrderCaptainContactSection({
@@ -44,9 +44,9 @@ class OrderCaptainContactSection extends StatelessWidget {
   }
 
   void _showLaunchFailed(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   Future<void> _showContactSheet(BuildContext context) async {
@@ -191,11 +191,7 @@ class OrderCaptainContactSection extends StatelessWidget {
               );
               if (stacked) {
                 return Column(
-                  children: [
-                    callBtn,
-                    const SizedBox(height: 10),
-                    waBtn,
-                  ],
+                  children: [callBtn, const SizedBox(height: 10), waBtn],
                 );
               }
               return Row(

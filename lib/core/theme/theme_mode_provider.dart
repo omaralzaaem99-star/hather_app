@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/theme_preference_repository.dart';
+import 'app_colors.dart';
+import 'theme_preference_repository.dart';
 
-final themePreferenceRepositoryProvider =
-    Provider<ThemePreferenceRepository>((ref) {
+final themePreferenceRepositoryProvider = Provider<ThemePreferenceRepository>((
+  ref,
+) {
   return const ThemePreferenceRepository();
 });
 
-final themeModeProvider =
-    NotifierProvider<ThemeModeNotifier, ThemeMode>(ThemeModeNotifier.new);
+final themeModeProvider = NotifierProvider<ThemeModeNotifier, ThemeMode>(
+  ThemeModeNotifier.new,
+);
 
 class ThemeModeNotifier extends Notifier<ThemeMode> {
   @override
@@ -19,8 +21,7 @@ class ThemeModeNotifier extends Notifier<ThemeMode> {
       mode == ThemeMode.light ? Brightness.light : Brightness.dark;
 
   Future<void> loadSaved() async {
-    final saved =
-        await ref.read(themePreferenceRepositoryProvider).load();
+    final saved = await ref.read(themePreferenceRepositoryProvider).load();
     state = saved;
     AppColors.bind(_brightnessFor(saved));
   }

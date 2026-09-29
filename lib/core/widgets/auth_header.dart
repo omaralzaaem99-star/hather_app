@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_dimensions.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_dimensions.dart';
+import '../theme/app_text_styles.dart';
 
 class AuthHeader extends StatelessWidget {
   const AuthHeader({
@@ -52,13 +52,11 @@ class BrandTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       name,
-      style: (compact
-              ? AppTextStyles.brandTitle.copyWith(fontSize: 34)
-              : AppTextStyles.brandTitle)
-          .copyWith(
-        color: AppColors.onPrimary,
-        shadows: const [],
-      ),
+      style:
+          (compact
+                  ? AppTextStyles.brandTitle.copyWith(fontSize: 34)
+                  : AppTextStyles.brandTitle)
+              .copyWith(color: AppColors.onPrimary, shadows: const []),
       textAlign: TextAlign.center,
     );
   }

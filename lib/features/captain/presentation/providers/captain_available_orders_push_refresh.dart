@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hather_app/features/auth/domain/entities/account_enums.dart';
-import 'package:hather_app/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:hather_app/features/captain/presentation/providers/captain_order_providers.dart';
+import '../../../auth/domain/entities/account_enums.dart';
+import '../../../auth/presentation/controllers/auth_controller.dart';
+import 'captain_order_providers.dart';
 
 /// Push types that add or return an order to the captain available pool.
 const captainAvailableOrderPushTypes = <String>{

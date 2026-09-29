@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/core/home_ads/home_ads_constants.dart';
-import 'package:hather_app/core/widgets/home_ads_carousel.dart';
-import 'package:hather_app/features/delivery/domain/entities/delivery_entities.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../lib/core/home_ads/home_ads_constants.dart';
+import '../lib/core/widgets/home_ads_carousel.dart';
+import '../lib/features/delivery/domain/entities/delivery_entities.dart';
+import '../lib/l10n/app_localizations.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

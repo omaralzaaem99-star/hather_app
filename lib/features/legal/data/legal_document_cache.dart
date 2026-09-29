@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:hather_app/features/legal/domain/entities/legal_document.dart';
+import '../domain/entities/legal_document.dart';
 
 /// Persists last successful legal document fetch for offline reading.
 class LegalDocumentCache {
@@ -19,7 +19,10 @@ class LegalDocumentCache {
   Future<void> save(LegalDocument document) async {
     if (!document.hasContent) return;
     final prefs = await _ensurePrefs();
-    await prefs.setString(_key(document.documentType), jsonEncode(document.toCacheJson()));
+    await prefs.setString(
+      _key(document.documentType),
+      jsonEncode(document.toCacheJson()),
+    );
   }
 
   Future<LegalDocument?> read(LegalDocumentType type) async {

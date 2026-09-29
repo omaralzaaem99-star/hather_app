@@ -1,4 +1,4 @@
-import 'package:hather_app/core/utils/app_date_time_format.dart';
+import '../../../../core/utils/app_date_time_format.dart';
 
 /// Relative / absolute notification times (delegates to [AppDateTimeFormat]).
 class NotificationTimeFormat {

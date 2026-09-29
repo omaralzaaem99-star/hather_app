@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/features/auth/domain/entities/auth_user.dart';
-import 'package:hather_app/features/auth/domain/entities/pending_registration_draft.dart';
+import '../../../../core/errors/failures.dart';
+import '../../domain/entities/auth_user.dart';
+import '../../domain/entities/pending_registration_draft.dart';
 
 enum AuthStatus {
   initial,
@@ -66,13 +66,11 @@ class AuthState extends Equatable {
       AuthStatus.authenticated ||
       AuthStatus.loading ||
       AuthStatus.success ||
-      AuthStatus.failure =>
-        true,
+      AuthStatus.failure => true,
       AuthStatus.initial ||
       AuthStatus.initializing ||
       AuthStatus.unauthenticated ||
-      AuthStatus.otpRequired =>
-        false,
+      AuthStatus.otpRequired => false,
     };
   }
 
@@ -118,7 +116,7 @@ class AuthState extends Equatable {
       redirectToLoginFromRegistration: clearLoginRedirect
           ? false
           : redirectToLoginFromRegistration ??
-              this.redirectToLoginFromRegistration,
+                this.redirectToLoginFromRegistration,
     );
   }
 

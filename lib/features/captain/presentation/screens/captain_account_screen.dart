@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hather_app/core/utils/phone_number_formatter.dart';
-import 'package:hather_app/features/account/presentation/widgets/account_page_layout.dart';
-import 'package:hather_app/features/account/presentation/widgets/account_screen_sections.dart';
-import 'package:hather_app/features/account/presentation/widgets/account_theme_setting_row.dart';
-import 'package:hather_app/features/account/presentation/widgets/account_widgets.dart';
-import 'package:hather_app/features/account/presentation/widgets/captain_subscription_accordion_body.dart';
-import 'package:hather_app/features/account/presentation/widgets/delete_account_flow.dart';
-import 'package:hather_app/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:hather_app/features/subscription/domain/entities/captain_subscription_info.dart';
-import 'package:hather_app/features/subscription/presentation/providers/subscription_providers.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/utils/phone_number_formatter.dart';
+import '../../../account/presentation/widgets/account_page_layout.dart';
+import '../../../account/presentation/widgets/account_screen_sections.dart';
+import '../../../account/presentation/widgets/account_theme_setting_row.dart';
+import '../../../account/presentation/widgets/account_widgets.dart';
+import '../../../account/presentation/widgets/captain_subscription_accordion_body.dart';
+import '../../../account/presentation/widgets/delete_account_flow.dart';
+import '../../../auth/presentation/controllers/auth_controller.dart';
+import '../../../subscription/domain/entities/captain_subscription_info.dart';
+import '../../../subscription/presentation/providers/subscription_providers.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class CaptainAccountScreen extends ConsumerWidget {
   const CaptainAccountScreen({super.key});

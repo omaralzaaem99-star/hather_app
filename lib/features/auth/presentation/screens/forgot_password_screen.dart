@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hather_app/core/errors/failure_messages.dart';
-import 'package:hather_app/core/theme/app_dimensions.dart';
-import 'package:hather_app/core/utils/localization_helpers.dart';
-import 'package:hather_app/core/utils/validators.dart';
-import 'package:hather_app/core/widgets/auth_header.dart';
-import 'package:hather_app/core/widgets/error_message.dart';
-import 'package:hather_app/core/widgets/phone_text_field.dart';
-import 'package:hather_app/core/widgets/primary_button.dart';
-import 'package:hather_app/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:hather_app/features/auth/presentation/controllers/auth_state.dart';
-import 'package:hather_app/features/auth/presentation/widgets/auth_card.dart';
-import 'package:hather_app/features/auth/presentation/widgets/auth_scaffold.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/errors/failure_messages.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/utils/localization_helpers.dart';
+import '../../../../core/utils/validators.dart';
+import '../../../../core/widgets/auth_header.dart';
+import '../../../../core/widgets/error_message.dart';
+import '../../../../core/widgets/phone_text_field.dart';
+import '../../../../core/widgets/primary_button.dart';
+import '../controllers/auth_controller.dart';
+import '../controllers/auth_state.dart';
+import '../widgets/auth_card.dart';
+import '../widgets/auth_scaffold.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});

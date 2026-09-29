@@ -2,14 +2,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hather_app/core/errors/backend_error_mapper.dart';
-import 'package:hather_app/core/errors/failure_messages.dart';
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/core/widgets/app_text_field.dart';
-import 'package:hather_app/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/errors/backend_error_mapper.dart';
+import '../../../../core/errors/failure_messages.dart';
+import '../../../../core/errors/failures.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/app_text_field.dart';
+import '../../../auth/presentation/controllers/auth_controller.dart';
+import '../../../../l10n/app_localizations.dart';
 
 void _deleteAccountLog(String step) {
   if (!kDebugMode) return;
@@ -113,8 +113,7 @@ Future<void> showDeleteAccountFlow(
   _clearDeleteLoadingUi(messenger);
 
   final auth = ref.read(authControllerProvider);
-  final deletedViaAuthRedirect =
-      confirmed == null && !auth.isAuthenticated;
+  final deletedViaAuthRedirect = confirmed == null && !auth.isAuthenticated;
 
   if (confirmed?.ok == true || deletedViaAuthRedirect) {
     _deleteAccountLog('auth signed out');
@@ -185,10 +184,7 @@ String _mapDeleteFailure(
 }
 
 class _DeleteConfirmResult {
-  const _DeleteConfirmResult._({
-    required this.proceed,
-    required this.ok,
-  });
+  const _DeleteConfirmResult._({required this.proceed, required this.ok});
 
   factory _DeleteConfirmResult.cancelled() =>
       const _DeleteConfirmResult._(proceed: false, ok: false);
@@ -321,9 +317,9 @@ class _DeleteAccountConfirmDialogState
           TextButton(
             onPressed: _submitting
                 ? null
-                : () => Navigator.of(context).pop(
-                      _DeleteConfirmResult.cancelled(),
-                    ),
+                : () => Navigator.of(
+                    context,
+                  ).pop(_DeleteConfirmResult.cancelled()),
             child: Text(l10n.accountDeleteBackAction),
           ),
           TextButton(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hather_app/core/widgets/delivery_pin_painter.dart';
+import 'delivery_pin_painter.dart';
 
 /// Single delivery-pin OTP digit field (CustomPainter shape).
 class DeliveryOtpPin extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:hather_app/core/errors/failures.dart';
+import 'failures.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// User-facing error contexts for backend/Postgres/Supabase failures.
@@ -51,21 +51,15 @@ String userMessageFor(BackendErrorContext context, {bool network = false}) {
   return switch (context) {
     BackendErrorContext.deliverySettings =>
       'تعذر تحميل إعدادات الطلب حالياً. حاول مرة أخرى.',
-    BackendErrorContext.deliverySubmit =>
-      'تعذر إرسال الطلب. حاول مرة أخرى.',
+    BackendErrorContext.deliverySubmit => 'تعذر إرسال الطلب. حاول مرة أخرى.',
     BackendErrorContext.deliveryCoupon => 'كوبون غير صالح',
-    BackendErrorContext.deliveryOrders =>
-      'تعذر تحميل الطلبات. حاول مرة أخرى.',
+    BackendErrorContext.deliveryOrders => 'تعذر تحميل الطلبات. حاول مرة أخرى.',
     BackendErrorContext.deliveryDetail =>
       'تعذر تحميل تفاصيل الطلب. حاول مرة أخرى.',
-    BackendErrorContext.deliveryCancel =>
-      'تعذر إلغاء الطلب. حاول مرة أخرى.',
-    BackendErrorContext.captainOrder =>
-      'تعذر إكمال العملية. حاول مرة أخرى.',
-    BackendErrorContext.support =>
-      'تعذر إكمال طلب الدعم. حاول مرة أخرى.',
-    BackendErrorContext.notifications =>
-      'تعذر تحميل الإشعارات. حاول مرة أخرى.',
+    BackendErrorContext.deliveryCancel => 'تعذر إلغاء الطلب. حاول مرة أخرى.',
+    BackendErrorContext.captainOrder => 'تعذر إكمال العملية. حاول مرة أخرى.',
+    BackendErrorContext.support => 'تعذر إكمال طلب الدعم. حاول مرة أخرى.',
+    BackendErrorContext.notifications => 'تعذر تحميل الإشعارات. حاول مرة أخرى.',
     BackendErrorContext.generic => 'حدث خطأ، حاول مرة أخرى.',
   };
 }
@@ -118,8 +112,10 @@ bool isTechnicalUserMessage(String? message) {
   }
 
   // Migration numbers / internal paths leaking into UI
-  if (RegExp(r'\b0?\d{2,3}_[a-z0-9_]+\.sql\b', caseSensitive: false)
-      .hasMatch(value)) {
+  if (RegExp(
+    r'\b0?\d{2,3}_[a-z0-9_]+\.sql\b',
+    caseSensitive: false,
+  ).hasMatch(value)) {
     return true;
   }
   if (RegExp(r'رقم\s*0?\d{2,3}').hasMatch(value)) return true;
@@ -214,8 +210,10 @@ void _logRaw(String tag, String raw) {
   final safe = raw
       .replaceAll(RegExp(r'(bearer\s+)[^\s]+', caseSensitive: false), r'$1***')
       .replaceAll(
-        RegExp(r'(api[_-]?key|token|password|secret|otp)\s*[:=]\s*\S+',
-            caseSensitive: false),
+        RegExp(
+          r'(api[_-]?key|token|password|secret|otp)\s*[:=]\s*\S+',
+          caseSensitive: false,
+        ),
         '***',
       );
   debugPrint('$tag message=$safe');

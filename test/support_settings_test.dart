@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/features/support/core/support_launcher.dart';
-import 'package:hather_app/features/support/domain/entities/support_settings.dart';
+import '../lib/features/support/core/support_launcher.dart';
+import '../lib/features/support/domain/entities/support_settings.dart';
 
 void main() {
   group('SupportSettings', () {

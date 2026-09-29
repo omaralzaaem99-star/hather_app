@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hather_app/app/app_router.dart';
-import 'package:hather_app/core/notifications/fcm_bootstrap.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_theme.dart';
-import 'package:hather_app/core/theme/theme_mode_provider.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import 'app_router.dart';
+import '../core/notifications/fcm_bootstrap.dart';
+import '../core/theme/app_colors.dart';
+import '../core/theme/app_theme.dart';
+import '../core/theme/theme_mode_provider.dart';
+import '../l10n/app_localizations.dart';
 
 class HatherApp extends ConsumerWidget {
   const HatherApp({super.key});
@@ -23,6 +23,7 @@ class HatherApp extends ConsumerWidget {
     return FcmBootstrap(
       child: MaterialApp.router(
         title: 'حاضر',
+        onGenerateTitle: (context) => AppLocalizations.of(context).appName,
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
@@ -37,7 +38,9 @@ class HatherApp extends ConsumerWidget {
         ],
         builder: (context, child) {
           AppColors.bind(brightness);
-          SystemChrome.setSystemUIOverlayStyle(AppTheme.overlayStyle(brightness));
+          SystemChrome.setSystemUIOverlayStyle(
+            AppTheme.overlayStyle(brightness),
+          );
           return Directionality(
             textDirection: TextDirection.rtl,
             child: KeyedSubtree(

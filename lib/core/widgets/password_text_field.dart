@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_dimensions.dart';
-import 'package:hather_app/core/widgets/app_text_field.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_dimensions.dart';
+import 'app_text_field.dart';
+import '../../l10n/app_localizations.dart';
 
 class PasswordTextField extends StatefulWidget {
   const PasswordTextField({

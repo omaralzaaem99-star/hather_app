@@ -1,0 +1,4 @@
+/* Localized versions of Info.plist keys for Arabic */
+"CFBundleDisplayName" = "حاضر";
+"CFBundleName" = "حاضر";
+"NSLocationWhenInUseUsageDescription" = "نحتاج موقعك لتحديد وجهة التوصيل";

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hather_app/core/routing/authenticated_routes.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/core/utils/app_date_time_format.dart';
-import 'package:hather_app/core/utils/phone_number_formatter.dart';
-import 'package:hather_app/features/support/core/support_launcher.dart';
-import 'package:hather_app/features/support/domain/entities/support_faq.dart';
-import 'package:hather_app/features/support/domain/entities/support_form.dart';
-import 'package:hather_app/features/support/domain/entities/support_request.dart';
-import 'package:hather_app/features/support/domain/entities/support_settings.dart';
-import 'package:hather_app/features/support/presentation/providers/support_providers.dart';
-import 'package:hather_app/features/support/presentation/widgets/support_widgets.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/routing/authenticated_routes.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/app_date_time_format.dart';
+import '../../../../core/utils/phone_number_formatter.dart';
+import '../../core/support_launcher.dart';
+import '../../domain/entities/support_faq.dart';
+import '../../domain/entities/support_form.dart';
+import '../../domain/entities/support_request.dart';
+import '../../domain/entities/support_settings.dart';
+import '../providers/support_providers.dart';
+import '../widgets/support_widgets.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SupportScreen extends ConsumerStatefulWidget {
@@ -89,14 +89,17 @@ class _SupportScreenState extends ConsumerState<SupportScreen> {
             onFailure: _showLaunchFailed,
           ),
           onOpenPhone: (n) async {
-            if (!await _tryLaunch(SupportLauncher.telUri(n))) _showLaunchFailed();
+            if (!await _tryLaunch(SupportLauncher.telUri(n))) {
+              _showLaunchFailed();
+            }
           },
           onOpenEmail: (e) async {
             if (!await _tryLaunch(SupportLauncher.mailtoUri(e))) {
               _showLaunchFailed();
             }
           },
-          onOpenForm: (id) => context.push(AuthenticatedRoutes.supportFormPath(id)),
+          onOpenForm: (id) =>
+              context.push(AuthenticatedRoutes.supportFormPath(id)),
           onOpenRequest: (id) =>
               context.push(AuthenticatedRoutes.supportRequestPath(id)),
         ),
@@ -111,14 +114,17 @@ class _SupportScreenState extends ConsumerState<SupportScreen> {
             onFailure: _showLaunchFailed,
           ),
           onOpenPhone: (n) async {
-            if (!await _tryLaunch(SupportLauncher.telUri(n))) _showLaunchFailed();
+            if (!await _tryLaunch(SupportLauncher.telUri(n))) {
+              _showLaunchFailed();
+            }
           },
           onOpenEmail: (e) async {
             if (!await _tryLaunch(SupportLauncher.mailtoUri(e))) {
               _showLaunchFailed();
             }
           },
-          onOpenForm: (id) => context.push(AuthenticatedRoutes.supportFormPath(id)),
+          onOpenForm: (id) =>
+              context.push(AuthenticatedRoutes.supportFormPath(id)),
           onOpenRequest: (id) =>
               context.push(AuthenticatedRoutes.supportRequestPath(id)),
         ),
@@ -177,7 +183,8 @@ class _SupportHubBody extends StatelessWidget {
             _ContactCard(
               icon: '🟢',
               title: l10n.supportChannelWhatsapp,
-              subtitle: PhoneNumberFormatter.toLocalDisplay(
+              subtitle:
+                  PhoneNumberFormatter.toLocalDisplay(
                     settings.whatsappNumber!,
                   ) ??
                   settings.whatsappNumber!,
@@ -187,9 +194,8 @@ class _SupportHubBody extends StatelessWidget {
             _ContactCard(
               icon: '📞',
               title: l10n.supportChannelPhone,
-              subtitle: PhoneNumberFormatter.toLocalDisplay(
-                    settings.phoneNumber!,
-                  ) ??
+              subtitle:
+                  PhoneNumberFormatter.toLocalDisplay(settings.phoneNumber!) ??
                   settings.phoneNumber!,
               onTap: () => onOpenPhone(settings.phoneNumber!),
             ),
@@ -283,8 +289,9 @@ class _ContactCard extends StatelessWidget {
                         style: AppTextStyles.caption.copyWith(
                           color: AppColors.textSecondary,
                           decoration: TextDecoration.underline,
-                          decorationColor:
-                              AppColors.textSecondary.withValues(alpha: 0.45),
+                          decorationColor: AppColors.textSecondary.withValues(
+                            alpha: 0.45,
+                          ),
                         ),
                         textDirection: TextDirection.ltr,
                       ),
@@ -315,7 +322,10 @@ class _FaqTile extends StatelessWidget {
         child: Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
-            tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+            tilePadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 2,
+            ),
             childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
             iconColor: AppColors.icon,
             collapsedIconColor: AppColors.textMuted,
@@ -380,7 +390,9 @@ class _RequestTile extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: AppColors.borderSubtle.withValues(alpha: 0.35)),
+              border: Border.all(
+                color: AppColors.borderSubtle.withValues(alpha: 0.35),
+              ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -389,7 +401,9 @@ class _RequestTile extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   '#${request.requestNumber}',
-                  style: AppTextStyles.caption.copyWith(color: AppColors.textMuted),
+                  style: AppTextStyles.caption.copyWith(
+                    color: AppColors.textMuted,
+                  ),
                   textDirection: TextDirection.ltr,
                   textAlign: TextAlign.end,
                 ),
@@ -400,7 +414,9 @@ class _RequestTile extends StatelessWidget {
                     const Spacer(),
                     Text(
                       date,
-                      style: AppTextStyles.caption.copyWith(color: AppColors.textMuted),
+                      style: AppTextStyles.caption.copyWith(
+                        color: AppColors.textMuted,
+                      ),
                       textDirection: TextDirection.ltr,
                     ),
                   ],

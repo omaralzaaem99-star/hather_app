@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_dimensions.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/core/widgets/primary_button.dart';
-import 'package:hather_app/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:hather_app/features/auth/presentation/widgets/account_restricted_actions.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/primary_button.dart';
+import '../controllers/auth_controller.dart';
+import '../widgets/account_restricted_actions.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Full-screen block for admin-disabled regular user accounts.
 class AccountBlockedScreen extends ConsumerWidget {
@@ -74,7 +74,9 @@ class AccountBlockedScreen extends ConsumerWidget {
                   onPressed: () => _signOut(ref, context),
                   child: Text(
                     l10n.signOut,
-                    style: AppTextStyles.caption.copyWith(color: AppColors.error),
+                    style: AppTextStyles.caption.copyWith(
+                      color: AppColors.error,
+                    ),
                   ),
                 ),
                 const SizedBox(height: AppDimensions.spaceLg),

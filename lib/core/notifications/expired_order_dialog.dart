@@ -2,16 +2,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hather_app/core/notifications/handled_expired_order_storage.dart';
-import 'package:hather_app/features/delivery/presentation/providers/delivery_providers.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import 'handled_expired_order_storage.dart';
+import '../../features/delivery/presentation/providers/delivery_providers.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:uuid/uuid.dart';
 
 /// Shows the expired-order dialog at most once per [orderId].
 abstract final class ExpiredOrderDialog {
   static const _eventType = 'delivery_order_expired';
 
-  static final HandledExpiredOrderStorage _storage = HandledExpiredOrderStorage();
+  static final HandledExpiredOrderStorage _storage =
+      HandledExpiredOrderStorage();
   static final Set<String> _handledOrderIds = <String>{};
   static String? _openOrderId;
   static Future<void>? _loadFuture;

@@ -1,21 +1,21 @@
 import 'package:flutter/foundation.dart';
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/core/storage/secure_session_storage.dart';
-import 'package:hather_app/core/utils/phone_number_formatter.dart';
-import 'package:hather_app/core/utils/result.dart';
-import 'package:hather_app/features/auth/core/auth_log.dart';
-import 'package:hather_app/features/auth/data/datasources/auth_remote_datasource.dart';
-import 'package:hather_app/features/auth/data/datasources/supabase_auth_remote_datasource.dart';
-import 'package:hather_app/features/auth/data/models/auth_session_model.dart';
-import 'package:hather_app/features/auth/data/models/login_request_model.dart';
-import 'package:hather_app/features/auth/data/models/otp_request_models.dart';
-import 'package:hather_app/features/auth/data/models/register_request_model.dart';
-import 'package:hather_app/features/auth/domain/entities/account_enums.dart';
-import 'package:hather_app/features/auth/domain/entities/auth_user.dart';
-import 'package:hather_app/features/auth/domain/entities/login_phone_status.dart';
-import 'package:hather_app/features/auth/domain/entities/restore_session_outcome.dart';
-import 'package:hather_app/features/auth/domain/entities/verify_otp_result.dart';
-import 'package:hather_app/features/auth/domain/repositories/auth_repository.dart';
+import '../../../../core/errors/failures.dart';
+import '../../../../core/storage/secure_session_storage.dart';
+import '../../../../core/utils/phone_number_formatter.dart';
+import '../../../../core/utils/result.dart';
+import '../../core/auth_log.dart';
+import '../datasources/auth_remote_datasource.dart';
+import '../datasources/supabase_auth_remote_datasource.dart';
+import '../models/auth_session_model.dart';
+import '../models/login_request_model.dart';
+import '../models/otp_request_models.dart';
+import '../models/register_request_model.dart';
+import '../../domain/entities/account_enums.dart';
+import '../../domain/entities/auth_user.dart';
+import '../../domain/entities/login_phone_status.dart';
+import '../../domain/entities/restore_session_outcome.dart';
+import '../../domain/entities/verify_otp_result.dart';
+import '../../domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({
@@ -79,9 +79,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return Err(failure);
     } on Object {
       AuthLog.loginResolveSkipped(e164, reason: 'unknown');
-      return const Err(
-        ServerFailure(message: 'حدث خطأ، حاول مرة أخرى.'),
-      );
+      return const Err(ServerFailure(message: 'حدث خطأ، حاول مرة أخرى.'));
     }
   }
 
@@ -320,9 +318,7 @@ class AuthRepositoryImpl implements AuthRepository {
         return Success(cached.toEntity());
       }
 
-      final outcome = await remote.restoreAuthSession(
-        cachedUser: cached?.user,
-      );
+      final outcome = await remote.restoreAuthSession(cachedUser: cached?.user);
       return _mapRestoreOutcome(outcome, clearOnNoSession: false);
     } on Object {
       final cached = await _sessionStorage.readSession();
@@ -396,9 +392,7 @@ class AuthRepositoryImpl implements AuthRepository {
             return Success(session.user);
           case RestoreSessionInvalidRefresh():
           case RestoreSessionNoSession():
-            return const Err(
-              UnauthorizedFailure(message: 'تعذر تحديث الحساب'),
-            );
+            return const Err(UnauthorizedFailure(message: 'تعذر تحديث الحساب'));
         }
       }
       return Success(session.user.toEntity());

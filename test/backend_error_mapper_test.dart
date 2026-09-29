@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/core/errors/backend_error_mapper.dart';
-import 'package:hather_app/core/errors/failures.dart';
+import '../lib/core/errors/backend_error_mapper.dart';
+import '../lib/core/errors/failures.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {
@@ -48,10 +48,7 @@ void main() {
       context: BackendErrorContext.captainOrder,
     );
 
-    expect(
-      (failure as ServerFailure).message,
-      contains('كابتن آخر'),
-    );
+    expect((failure as ServerFailure).message, contains('كابتن آخر'));
   });
 
   test('detects technical UI messages', () {

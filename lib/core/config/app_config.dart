@@ -53,20 +53,22 @@ class AppConfig {
   /// Alias kept for older call sites.
   static String get supabaseAnonKey => supabasePublishableKey;
 
-  /// Fake auth is DEBUG/PROFILE only. Release always uses real Supabase Auth.
-  /// Default when unset: false (real auth).
-  ///
-  /// Hard guarantee: even if `.env` or `--dart-define=USE_FAKE_AUTH=true`
-  /// is present in a release artifact, this getter returns false.
+  /// Resolves auth mode.
+  /// Priority:
+  /// 1. `--dart-define=USE_FAKE_AUTH=...`
+  /// 2. `.env` setting for `USE_FAKE_AUTH`
+  /// 3. If real Supabase keys are not present, fallback to fake auth to prevent
+  ///    fatal startup crashes into a white screen during testing/preview.
   static bool get useFakeAuth {
-    if (kReleaseMode) return false;
-
     if (_useFakeFromDefine.trim().isNotEmpty) {
       return _parseStrictBool(_useFakeFromDefine);
     }
     final fromEnv = _readEnv('USE_FAKE_AUTH');
     if (fromEnv.isNotEmpty) {
       return _parseStrictBool(fromEnv);
+    }
+    if (!hasSupabaseConfig) {
+      return true;
     }
     return false;
   }

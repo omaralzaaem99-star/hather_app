@@ -1,5 +1,5 @@
-import 'package:hather_app/features/auth/domain/entities/account_enums.dart';
-import 'package:hather_app/features/auth/domain/entities/auth_user.dart';
+import '../../features/auth/domain/entities/account_enums.dart';
+import '../../features/auth/domain/entities/auth_user.dart';
 
 /// Server-backed account access rules for routing and guards.
 class AccountAccess {

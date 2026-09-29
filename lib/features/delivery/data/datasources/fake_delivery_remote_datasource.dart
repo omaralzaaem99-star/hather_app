@@ -1,7 +1,7 @@
 import 'package:uuid/uuid.dart';
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/features/delivery/data/datasources/delivery_remote_datasource.dart';
-import 'package:hather_app/features/delivery/domain/entities/delivery_entities.dart';
+import '../../../../core/errors/failures.dart';
+import 'delivery_remote_datasource.dart';
+import '../../domain/entities/delivery_entities.dart';
 
 class FakeDeliveryRemoteDataSource implements DeliveryRemoteDataSource {
   final _uuid = const Uuid();
@@ -102,8 +102,9 @@ class FakeDeliveryRemoteDataSource implements DeliveryRemoteDataSource {
       deliveryFeeIqd: input.feeOption.amountIqd,
       couponDiscountIqd: discount,
       deliveryFeeFinal: input.feeOption.amountIqd - discount,
-      destinationType:
-          input.destination.type == DestinationType.current ? 'current' : 'map',
+      destinationType: input.destination.type == DestinationType.current
+          ? 'current'
+          : 'map',
       destinationLat: input.destination.lat,
       destinationLng: input.destination.lng,
       destinationAddress: input.destination.address,
@@ -116,9 +117,8 @@ class FakeDeliveryRemoteDataSource implements DeliveryRemoteDataSource {
   }
 
   @override
-  Future<List<DeliveryOrder>> fetchMyOrders() async => List.unmodifiable(
-        _orders.where((o) => !o.isExpired).toList(),
-      );
+  Future<List<DeliveryOrder>> fetchMyOrders() async =>
+      List.unmodifiable(_orders.where((o) => !o.isExpired).toList());
 
   @override
   Future<DeliveryOrder> getOrderDetail(String orderId) async {

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/features/captain/data/captain_order_error_mapper.dart';
-import 'package:hather_app/features/captain/domain/entities/captain_order.dart';
+import '../../../../core/errors/failures.dart';
+import '../captain_order_error_mapper.dart';
+import '../../domain/entities/captain_order.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class CaptainOrderRemoteDataSource {
@@ -19,7 +19,7 @@ abstract class CaptainOrderRemoteDataSource {
 class SupabaseCaptainOrderRemoteDataSource
     implements CaptainOrderRemoteDataSource {
   SupabaseCaptainOrderRemoteDataSource({SupabaseClient? client})
-      : _client = client ?? Supabase.instance.client;
+    : _client = client ?? Supabase.instance.client;
 
   final SupabaseClient _client;
 
@@ -31,10 +31,7 @@ class SupabaseCaptainOrderRemoteDataSource
       final list = _decodeJsonList(raw);
       return parseAvailableOrdersJson(list);
     } on Object catch (error) {
-      logCaptainOrderEvent(
-        'CAPTAIN_AVAILABLE_ORDERS_LOAD',
-        detail: 'failed',
-      );
+      logCaptainOrderEvent('CAPTAIN_AVAILABLE_ORDERS_LOAD', detail: 'failed');
       throw mapCaptainOrderError(error);
     }
   }
@@ -57,8 +54,8 @@ class SupabaseCaptainOrderRemoteDataSource
       final map = raw is Map<String, dynamic>
           ? raw
           : raw is Map
-              ? Map<String, dynamic>.from(raw)
-              : <String, dynamic>{};
+          ? Map<String, dynamic>.from(raw)
+          : <String, dynamic>{};
       return CaptainActiveOrderCapacity.fromJson(map);
     } on Object catch (error) {
       throw mapCaptainOrderError(error);
@@ -136,10 +133,7 @@ class SupabaseCaptainOrderRemoteDataSource
     try {
       await _client.rpc(
         'captain_transfer_delivery_order',
-        params: {
-          'p_order_id': orderId,
-          'p_reason': reason,
-        },
+        params: {'p_order_id': orderId, 'p_reason': reason},
       );
       logCaptainOrderEvent('CAPTAIN_TRANSFER_SUCCESS');
     } on Object catch (error) {

@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
-import 'package:hather_app/core/notifications/fcm_payload_contract.dart';
-import 'package:hather_app/firebase_options.dart';
+import 'fcm_payload_contract.dart';
+import '../../firebase_options.dart';
 
 /// Background / terminated isolate entry point for FCM.
 /// Does not insert into [user_notifications] — server remains source of truth.

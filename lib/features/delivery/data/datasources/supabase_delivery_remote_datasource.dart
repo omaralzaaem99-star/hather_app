@@ -1,12 +1,12 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:hather_app/core/errors/backend_error_mapper.dart';
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/features/delivery/data/datasources/delivery_remote_datasource.dart';
-import 'package:hather_app/features/delivery/domain/entities/delivery_entities.dart';
+import '../../../../core/errors/backend_error_mapper.dart';
+import '../../../../core/errors/failures.dart';
+import 'delivery_remote_datasource.dart';
+import '../../domain/entities/delivery_entities.dart';
 
 class SupabaseDeliveryRemoteDataSource implements DeliveryRemoteDataSource {
   SupabaseDeliveryRemoteDataSource({SupabaseClient? client})
-      : _client = client ?? Supabase.instance.client;
+    : _client = client ?? Supabase.instance.client;
 
   final SupabaseClient _client;
 
@@ -116,8 +116,9 @@ class SupabaseDeliveryRemoteDataSource implements DeliveryRemoteDataSource {
           'p_details': details,
           'p_duration_option_id': input.deleteDuration.id,
           'p_fee_option_id': input.feeOption.id,
-          'p_destination_type':
-              dest.type == DestinationType.current ? 'current' : 'map',
+          'p_destination_type': dest.type == DestinationType.current
+              ? 'current'
+              : 'map',
           'p_destination_lat': dest.lat,
           'p_destination_lng': dest.lng,
           'p_destination_address': dest.address,
@@ -163,9 +164,8 @@ class SupabaseDeliveryRemoteDataSource implements DeliveryRemoteDataSource {
 
       return (rows as List)
           .map(
-            (row) => DeliveryOrder.fromJson(
-              Map<String, dynamic>.from(row as Map),
-            ),
+            (row) =>
+                DeliveryOrder.fromJson(Map<String, dynamic>.from(row as Map)),
           )
           .toList();
     } on PostgrestException catch (error) {
@@ -222,10 +222,6 @@ class SupabaseDeliveryRemoteDataSource implements DeliveryRemoteDataSource {
     required BackendErrorContext context,
     required String debugTag,
   }) {
-    return mapBackendError(
-      error,
-      context: context,
-      debugTag: debugTag,
-    );
+    return mapBackendError(error, context: context, debugTag: debugTag);
   }
 }

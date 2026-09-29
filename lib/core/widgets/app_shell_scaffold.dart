@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/widgets/hather_floating_bottom_nav_bar.dart';
+import '../theme/app_colors.dart';
+import 'hather_floating_bottom_nav_bar.dart';
 
 /// Shared shell wrapper for user and captain bottom navigation.
 class AppShellScaffold extends StatelessWidget {

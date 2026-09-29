@@ -1,7 +1,7 @@
-import 'package:hather_app/core/errors/backend_error_mapper.dart';
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/core/utils/result.dart';
-import 'package:hather_app/features/subscription/domain/entities/captain_subscription_info.dart';
+import '../../../core/errors/backend_error_mapper.dart';
+import '../../../core/errors/failures.dart';
+import '../../../core/utils/result.dart';
+import '../domain/entities/captain_subscription_info.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class SubscriptionRemoteDataSource {
@@ -11,7 +11,7 @@ abstract class SubscriptionRemoteDataSource {
 class SupabaseSubscriptionRemoteDataSource
     implements SubscriptionRemoteDataSource {
   SupabaseSubscriptionRemoteDataSource({SupabaseClient? client})
-      : _client = client ?? Supabase.instance.client;
+    : _client = client ?? Supabase.instance.client;
 
   final SupabaseClient _client;
 
@@ -23,9 +23,7 @@ class SupabaseSubscriptionRemoteDataSource
         return CaptainSubscriptionInfo.fromJson(row);
       }
       if (row is Map) {
-        return CaptainSubscriptionInfo.fromJson(
-          Map<String, dynamic>.from(row),
-        );
+        return CaptainSubscriptionInfo.fromJson(Map<String, dynamic>.from(row));
       }
       return CaptainSubscriptionInfo.none();
     } on Object catch (error) {
@@ -47,7 +45,7 @@ class FakeSubscriptionRemoteDataSource implements SubscriptionRemoteDataSource {
 
 class SubscriptionRepository {
   SubscriptionRepository({required SubscriptionRemoteDataSource remote})
-      : _remote = remote;
+    : _remote = remote;
 
   final SubscriptionRemoteDataSource _remote;
 

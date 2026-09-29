@@ -1,5 +1,5 @@
-import 'package:hather_app/core/utils/phone_number_formatter.dart';
-import 'package:hather_app/features/support/core/support_launcher.dart';
+import '../utils/phone_number_formatter.dart';
+import '../../features/support/core/support_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Tap actions for home banner ads.

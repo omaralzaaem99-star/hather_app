@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:hather_app/features/auth/domain/entities/account_enums.dart';
+import '../../domain/entities/account_enums.dart';
 
 class RegisterRequestModel extends Equatable {
   const RegisterRequestModel({

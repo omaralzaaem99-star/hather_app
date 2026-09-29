@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/features/captain/domain/entities/captain_order.dart';
-import 'package:hather_app/features/captain/presentation/utils/captain_available_orders_sort.dart';
+import '../lib/features/captain/domain/entities/captain_order.dart';
+import '../lib/features/captain/presentation/utils/captain_available_orders_sort.dart';
 
 void main() {
   CaptainAvailableOrder orderAt(DateTime createdAt, {String id = 'o1'}) {

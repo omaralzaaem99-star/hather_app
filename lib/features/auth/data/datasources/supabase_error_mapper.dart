@@ -1,6 +1,6 @@
-import 'package:hather_app/core/errors/failures.dart';
-import 'package:hather_app/core/utils/phone_auth_identifier.dart';
-import 'package:hather_app/features/auth/domain/entities/account_enums.dart';
+import '../../../../core/errors/failures.dart';
+import '../../../../core/utils/phone_auth_identifier.dart';
+import '../../domain/entities/account_enums.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Maps Supabase/Auth/network errors to domain [Failure].
@@ -58,7 +58,8 @@ Failure mapSupabaseError(Object error, {OtpPurpose? otpPurpose}) {
         message.contains('duplicate') ||
         message.contains('unique')) {
       return const ServerFailure(
-        message: 'تعذر إكمال العملية. جرّب تسجيل الدخول أو استعادة الرمز السري.',
+        message:
+            'تعذر إكمال العملية. جرّب تسجيل الدخول أو استعادة الرمز السري.',
       );
     }
     return const ServerFailure();

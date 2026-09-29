@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
 
 class SupportSectionHeader extends StatelessWidget {
-  const SupportSectionHeader({
-    required this.title,
-    super.key,
-  });
+  const SupportSectionHeader({required this.title, super.key});
 
   final String title;
 
@@ -114,7 +111,9 @@ class SupportEmptyCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.borderSubtle.withValues(alpha: 0.35)),
+        border: Border.all(
+          color: AppColors.borderSubtle.withValues(alpha: 0.35),
+        ),
       ),
       child: Text(
         message,

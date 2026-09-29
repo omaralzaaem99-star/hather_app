@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/core/routing/authenticated_routes.dart';
-import 'package:hather_app/features/auth/domain/entities/account_enums.dart';
-import 'package:hather_app/features/auth/domain/entities/auth_user.dart';
+import '../lib/core/routing/authenticated_routes.dart';
+import '../lib/features/auth/domain/entities/account_enums.dart';
+import '../lib/features/auth/domain/entities/auth_user.dart';
 
 void main() {
   AuthUser user({
@@ -146,35 +146,38 @@ void main() {
     );
   });
 
-  test('redirectForAuthenticated allows shared legal routes for user and captain', () {
-    final activeCaptain = user(
-      type: AccountType.captain,
-      status: AccountStatus.active,
-    );
-    final activeUser = user();
+  test(
+    'redirectForAuthenticated allows shared legal routes for user and captain',
+    () {
+      final activeCaptain = user(
+        type: AccountType.captain,
+        status: AccountStatus.active,
+      );
+      final activeUser = user();
 
-    for (final route in [
-      AuthenticatedRoutes.privacyPolicy,
-      AuthenticatedRoutes.terms,
-      AuthenticatedRoutes.about,
-      AuthenticatedRoutes.support,
-    ]) {
-      expect(
-        AuthenticatedRoutes.redirectForAuthenticated(
-          user: activeCaptain,
-          location: route,
-        ),
-        isNull,
-      );
-      expect(
-        AuthenticatedRoutes.redirectForAuthenticated(
-          user: activeUser,
-          location: route,
-        ),
-        isNull,
-      );
-    }
-  });
+      for (final route in [
+        AuthenticatedRoutes.privacyPolicy,
+        AuthenticatedRoutes.terms,
+        AuthenticatedRoutes.about,
+        AuthenticatedRoutes.support,
+      ]) {
+        expect(
+          AuthenticatedRoutes.redirectForAuthenticated(
+            user: activeCaptain,
+            location: route,
+          ),
+          isNull,
+        );
+        expect(
+          AuthenticatedRoutes.redirectForAuthenticated(
+            user: activeUser,
+            location: route,
+          ),
+          isNull,
+        );
+      }
+    },
+  );
 
   test('public legal routes stay open for restricted account zones', () {
     final pending = user(

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hather_app/core/widgets/app_shell_scaffold.dart';
-import 'package:hather_app/core/widgets/hather_floating_bottom_nav_bar.dart';
-import 'package:hather_app/features/captain/presentation/providers/captain_order_providers.dart';
-import 'package:hather_app/features/subscription/presentation/providers/subscription_providers.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/widgets/app_shell_scaffold.dart';
+import '../../../../core/widgets/hather_floating_bottom_nav_bar.dart';
+import '../providers/captain_order_providers.dart';
+import '../../../subscription/presentation/providers/subscription_providers.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Captain bottom shell — same visual as user [MainShell].
 /// Branches: 0=orders, 1=home, 2=account.

@@ -1,4 +1,4 @@
-import 'package:hather_app/core/utils/phone_number_formatter.dart';
+import '../../../core/utils/phone_number_formatter.dart';
 
 /// Builds external URLs for support channels.
 class SupportLauncher {
@@ -25,10 +25,7 @@ class SupportLauncher {
 
   /// Ordered launch targets: native app first, then universal link.
   static List<Uri> whatsAppLaunchUris(String phoneNumber) {
-    return [
-      whatsAppSendUri(phoneNumber),
-      Uri.parse(whatsAppUrl(phoneNumber)),
-    ];
+    return [whatsAppSendUri(phoneNumber), Uri.parse(whatsAppUrl(phoneNumber))];
   }
 
   static Uri telUri(String phoneNumber) {

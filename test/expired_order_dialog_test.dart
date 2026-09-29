@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/core/notifications/expired_order_dialog.dart';
+import '../lib/core/notifications/expired_order_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {

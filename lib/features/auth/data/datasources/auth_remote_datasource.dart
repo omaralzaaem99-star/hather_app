@@ -1,12 +1,12 @@
-import 'package:hather_app/features/auth/data/models/auth_session_model.dart';
-import 'package:hather_app/features/auth/data/models/auth_user_model.dart';
-import 'package:hather_app/features/auth/data/models/login_request_model.dart';
-import 'package:hather_app/features/auth/data/models/otp_request_models.dart';
-import 'package:hather_app/features/auth/data/models/register_request_model.dart';
-import 'package:hather_app/features/auth/domain/entities/account_enums.dart';
-import 'package:hather_app/features/auth/domain/entities/login_phone_status.dart';
-import 'package:hather_app/features/auth/domain/entities/phone_registration_status.dart';
-import 'package:hather_app/features/auth/domain/entities/verify_otp_result.dart';
+import '../models/auth_session_model.dart';
+import '../models/auth_user_model.dart';
+import '../models/login_request_model.dart';
+import '../models/otp_request_models.dart';
+import '../models/register_request_model.dart';
+import '../../domain/entities/account_enums.dart';
+import '../../domain/entities/login_phone_status.dart';
+import '../../domain/entities/phone_registration_status.dart';
+import '../../domain/entities/verify_otp_result.dart';
 
 /// Remote auth contract. Swap Fake → Supabase without touching presentation.
 abstract class AuthRemoteDataSource {

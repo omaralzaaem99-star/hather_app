@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_dimensions.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/core/utils/app_date_time_format.dart';
-import 'package:hather_app/features/delivery/domain/entities/delivery_entities.dart';
-import 'package:hather_app/features/delivery/presentation/providers/delivery_providers.dart';
-import 'package:hather_app/features/delivery/presentation/utils/delivery_request_number.dart';
-import 'package:hather_app/features/delivery/presentation/utils/user_orders_sort.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/app_date_time_format.dart';
+import '../../../delivery/domain/entities/delivery_entities.dart';
+import '../../../delivery/presentation/providers/delivery_providers.dart';
+import '../../../delivery/presentation/utils/delivery_request_number.dart';
+import '../../../delivery/presentation/utils/user_orders_sort.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// User "طلباتي": single list sorted by status priority, then newest first.
 class OrdersScreen extends ConsumerWidget {
@@ -93,8 +93,9 @@ class OrdersScreen extends ConsumerWidget {
                               Icon(
                                 Icons.receipt_long_outlined,
                                 size: 52,
-                                color: AppColors.textMuted
-                                    .withValues(alpha: 0.7),
+                                color: AppColors.textMuted.withValues(
+                                  alpha: 0.7,
+                                ),
                               ),
                               const SizedBox(height: 14),
                               Text(
@@ -114,8 +115,7 @@ class OrdersScreen extends ConsumerWidget {
                                 padding: const EdgeInsets.only(bottom: 10),
                                 child: _OrderCard(
                                   order: order,
-                                  statusLabel:
-                                      _statusLabel(l10n, order.status),
+                                  statusLabel: _statusLabel(l10n, order.status),
                                   statusColor: _statusColor(order.status),
                                   onTap: () => context.push(
                                     '/delivery/orders/${order.id}',
@@ -172,10 +172,7 @@ class _OrderCard extends StatelessWidget {
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
-            border: Border.all(
-              color: cardBorder,
-              width: isPending ? 1.4 : 1,
-            ),
+            border: Border.all(color: cardBorder, width: isPending ? 1.4 : 1),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,16 +184,18 @@ class _OrderCard extends StatelessWidget {
                       order.requestNumber != null
                           ? DeliveryRequestNumber.display(order.requestNumber!)
                           : order.orderTypeName.isEmpty
-                              ? 'طلب توصيل'
-                              : order.orderTypeName,
+                          ? 'طلب توصيل'
+                          : order.orderTypeName,
                       style: AppTextStyles.bodyStrong,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: badgeBg,
                       borderRadius: BorderRadius.circular(20),

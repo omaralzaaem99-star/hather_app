@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hather_app/core/utils/phone_number_formatter.dart';
-import 'package:hather_app/core/utils/validators.dart';
+import '../lib/core/utils/phone_number_formatter.dart';
+import '../lib/core/utils/validators.dart';
 
 void main() {
   group('PhoneNumberFormatter', () {

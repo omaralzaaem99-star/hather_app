@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:hather_app/core/constants/app_info.dart';
-import 'package:hather_app/core/theme/app_colors.dart';
-import 'package:hather_app/core/theme/app_text_styles.dart';
-import 'package:hather_app/features/legal/domain/entities/legal_document.dart';
-import 'package:hather_app/features/legal/presentation/screens/legal_document_screen.dart';
-import 'package:hather_app/features/legal/presentation/widgets/about_developer_section.dart';
-import 'package:hather_app/l10n/app_localizations.dart';
+import '../../../../core/constants/app_info.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../domain/entities/legal_document.dart';
+import 'legal_document_screen.dart';
+import '../widgets/about_developer_section.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
