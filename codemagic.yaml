@@ -13,7 +13,7 @@ workflows:
         bundle_identifier: com.hather.hatherios
 
       flutter: stable
-      xcode: latest
+      xcode: 26.3
       cocoapods: default
 
     scripts:
