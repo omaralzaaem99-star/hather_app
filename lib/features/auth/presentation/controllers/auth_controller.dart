@@ -159,8 +159,11 @@ class AuthController extends Notifier<AuthState> {
     required String phone,
     required String secretCode,
   }) async {
-    final phoneError = Validators.validatePhone(phone);
-    final codeError = Validators.validateSecretCode(secretCode);
+    final cleanPhone = PhoneNumberFormatter.toEnglishDigits(phone).trim();
+    final cleanSecretCode =
+        PhoneNumberFormatter.toEnglishDigits(secretCode).trim();
+    final phoneError = Validators.validatePhone(cleanPhone);
+    final codeError = Validators.validateSecretCode(cleanSecretCode);
     if (phoneError != null || codeError != null) {
       state = state.copyWith(
         status: AuthStatus.failure,
@@ -175,8 +178,8 @@ class AuthController extends Notifier<AuthState> {
       clearRegisterRedirect: true,
     );
     final result = await _repository.signInWithPhoneAndPassword(
-      phone: phone,
-      secretCode: secretCode,
+      phone: cleanPhone,
+      secretCode: cleanSecretCode,
     );
     return result.when(
       success: (session) {
@@ -229,9 +232,12 @@ class AuthController extends Notifier<AuthState> {
     required String phone,
     required String secretCode,
   }) async {
+    final cleanPhone = PhoneNumberFormatter.toEnglishDigits(phone).trim();
+    final cleanSecretCode =
+        PhoneNumberFormatter.toEnglishDigits(secretCode).trim();
     final nameError = Validators.validateFullName(fullName);
-    final phoneError = Validators.validatePhone(phone);
-    final codeError = Validators.validateSecretCode(secretCode);
+    final phoneError = Validators.validatePhone(cleanPhone);
+    final codeError = Validators.validateSecretCode(cleanSecretCode);
     if (nameError != null || phoneError != null || codeError != null) {
       state = state.copyWith(
         status: AuthStatus.failure,
@@ -243,8 +249,8 @@ class AuthController extends Notifier<AuthState> {
     state = state.copyWith(status: AuthStatus.loading, clearFailure: true);
     final result = await _repository.registerAccount(
       fullName: Validators.normalizeFullName(fullName),
-      phone: phone,
-      secretCode: secretCode,
+      phone: cleanPhone,
+      secretCode: cleanSecretCode,
     );
     return result.when(
       success: (session) {
@@ -270,9 +276,12 @@ class AuthController extends Notifier<AuthState> {
     required String phone,
     required String secretCode,
   }) async {
+    final cleanPhone = PhoneNumberFormatter.toEnglishDigits(phone).trim();
+    final cleanSecretCode =
+        PhoneNumberFormatter.toEnglishDigits(secretCode).trim();
     final nameError = Validators.validateFullName(fullName);
-    final phoneError = Validators.validatePhone(phone);
-    final codeError = Validators.validateSecretCode(secretCode);
+    final phoneError = Validators.validatePhone(cleanPhone);
+    final codeError = Validators.validateSecretCode(cleanSecretCode);
     if (nameError != null || phoneError != null || codeError != null) {
       state = state.copyWith(
         status: AuthStatus.failure,
@@ -282,7 +291,7 @@ class AuthController extends Notifier<AuthState> {
     }
 
     final normalizedName = Validators.normalizeFullName(fullName);
-    final e164 = PhoneNumberFormatter.normalizeToE164(phone);
+    final e164 = PhoneNumberFormatter.normalizeToE164(cleanPhone);
     if (e164 != null) {
       AuthLog.registerStarting(e164);
     }
@@ -455,10 +464,12 @@ class AuthController extends Notifier<AuthState> {
     required String challengeId,
     required String newSecretCode,
   }) async {
+    final cleanCode =
+        PhoneNumberFormatter.toEnglishDigits(newSecretCode).trim();
     state = state.copyWith(status: AuthStatus.loading, clearFailure: true);
     final result = await _repository.resetPassword(
       challengeId: challengeId,
-      newSecretCode: newSecretCode,
+      newSecretCode: cleanCode,
     );
     return result.when(
       success: (_) {

@@ -23,6 +23,9 @@ class AppTextField extends StatefulWidget {
     this.autofillHints,
     this.textDirection,
     this.maxLength,
+    this.autocorrect = true,
+    this.enableSuggestions = true,
+    this.textCapitalization = TextCapitalization.none,
   });
 
   final TextEditingController controller;
@@ -40,6 +43,9 @@ class AppTextField extends StatefulWidget {
   final Iterable<String>? autofillHints;
   final TextDirection? textDirection;
   final int? maxLength;
+  final bool autocorrect;
+  final bool enableSuggestions;
+  final TextCapitalization textCapitalization;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -96,6 +102,9 @@ class _AppTextFieldState extends State<AppTextField> {
             focusNode: _focusNode,
             enabled: widget.enabled,
             obscureText: widget.obscureText,
+            autocorrect: widget.autocorrect,
+            enableSuggestions: widget.enableSuggestions,
+            textCapitalization: widget.textCapitalization,
             keyboardType: widget.keyboardType,
             textInputAction: widget.textInputAction,
             onChanged: widget.onChanged,
