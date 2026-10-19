@@ -88,3 +88,4 @@ class _ArabicDigitsToEnglishFormatter extends TextInputFormatter {
     );
   }
 }
+
