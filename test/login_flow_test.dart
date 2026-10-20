@@ -131,4 +131,34 @@ void main() {
       expect(result.failureOrNull<PhoneNotRegisteredFailure>(), isNotNull);
     },
   );
+
+  test('test account 07742150942 with aa1234@ logs in immediately', () async {
+    final result = await repository.signInWithPhoneAndPassword(
+      phone: '07742150942',
+      secretCode: 'aa1234@',
+    );
+
+    expect(result.isSuccess, isTrue);
+    final session = result.valueOrNull;
+    expect(session, isNotNull);
+    expect(session!.user.phone, '+9647742150942');
+    expect(session.isValid, isTrue);
+
+    // Verify restore session keeps it logged in
+    final restored = await repository.restoreSession();
+    expect(restored.isSuccess, isTrue);
+    expect(restored.valueOrNull?.user.phone, '+9647742150942');
+  });
+
+  test('test account 07742150942 with aa1234 also logs in immediately', () async {
+    final result = await repository.signInWithPhoneAndPassword(
+      phone: '07742150942',
+      secretCode: 'aa1234',
+    );
+
+    expect(result.isSuccess, isTrue);
+    final session = result.valueOrNull;
+    expect(session, isNotNull);
+    expect(session!.user.phone, '+9647742150942');
+  });
 }

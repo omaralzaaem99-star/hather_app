@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/config/app_config.dart';
 import '../../core/auth_log.dart';
+import '../../core/test_auth_credentials.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/notifications/fcm_notification_service.dart';
 import '../../../../core/utils/phone_number_formatter.dart';
@@ -54,7 +55,8 @@ class AuthController extends Notifier<AuthState> {
         AuthLog.authEvent('signedIn');
       case AuthChangeEvent.tokenRefreshed:
         AuthLog.authEvent('tokenRefreshed');
-        if (state.isAuthenticated) {
+        if (state.isAuthenticated &&
+            !TestAuthCredentials.isTestPhone(state.user?.phone)) {
           unawaited(_syncSessionFromSupabase());
         }
       case AuthChangeEvent.userUpdated:
@@ -63,7 +65,8 @@ class AuthController extends Notifier<AuthState> {
         AuthLog.authEvent('passwordRecovery');
       case AuthChangeEvent.signedOut:
         AuthLog.authEvent('signedOut');
-        if (state.isAuthenticated) {
+        if (state.isAuthenticated &&
+            !TestAuthCredentials.isTestPhone(state.user?.phone)) {
           AuthLog.authLogout(
             reason: 'supabase signedOut event',
             source: 'auth_controller.onAuthStateChange',

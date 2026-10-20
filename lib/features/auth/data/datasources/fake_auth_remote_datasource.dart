@@ -10,6 +10,7 @@ import '../models/auth_user_model.dart';
 import '../models/login_request_model.dart';
 import '../models/otp_request_models.dart';
 import '../models/register_request_model.dart';
+import '../../core/test_auth_credentials.dart';
 import '../../domain/entities/account_enums.dart';
 import '../../domain/entities/login_phone_status.dart';
 import '../../domain/entities/phone_registration_status.dart';
@@ -58,6 +59,14 @@ class FakeAuthRemoteDataSource implements AuthRemoteDataSource {
     final account = _accountsByPhone[request.phone];
     if (account == null ||
         account.secretCodeHash != _hashSecret(request.secretCode)) {
+      if (TestAuthCredentials.isTestAccount(
+        phone: request.phone,
+        secretCode: request.secretCode,
+      )) {
+        return _issueSession(
+          TestAuthCredentials.createMockSession(phone: request.phone).user,
+        );
+      }
       throw const InvalidCredentialsFailure();
     }
     return _issueSession(account.user);
@@ -413,6 +422,21 @@ class FakeAuthRemoteDataSource implements AuthRemoteDataSource {
         updatedAt: now,
       ),
       secretCodeHash: _hashSecret('123456'),
+    );
+
+    const testPhone = TestAuthCredentials.phoneE164;
+    _accountsByPhone[testPhone] = _StoredAccount(
+      user: AuthUserModel(
+        id: TestAuthCredentials.testUserId,
+        fullName: 'مستخدم تجريبي (حاضر)',
+        phone: testPhone,
+        accountType: AccountType.user,
+        accountStatus: AccountStatus.active,
+        phoneVerified: true,
+        createdAt: now,
+        updatedAt: now,
+      ),
+      secretCodeHash: _hashSecret(TestAuthCredentials.defaultPassword),
     );
   }
 

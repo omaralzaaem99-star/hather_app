@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +8,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/localization_helpers.dart';
 import '../../../../core/utils/validators.dart';
+import '../../core/test_auth_credentials.dart';
 import '../../../../core/widgets/auth_header.dart';
 import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/password_text_field.dart';
@@ -192,6 +194,31 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                     isLoading: _submitting,
                     onPressed: _submit,
                   ),
+                  // if (!kReleaseMode) ...[
+                  //   const SizedBox(height: 6),
+                  //   Center(
+                  //     child: TextButton.icon(
+                  //       onPressed: () {
+                  //         setState(() {
+                  //           _phoneController.text = TestAuthCredentials.phoneLocal;
+                  //           _secretController.text = TestAuthCredentials.defaultPassword;
+                  //           _phoneError = null;
+                  //           _secretError = null;
+                  //         });
+                  //         ref.read(authControllerProvider.notifier).clearFailure();
+                  //       },
+                  //       icon: const Icon(Icons.bolt, size: 16, color: AppColors.primary),
+                  //       label: const Text(
+                  //         'تعبئة حساب الاختبار (07742150942)',
+                  //         style: TextStyle(
+                  //           fontSize: 12,
+                  //           fontWeight: FontWeight.w600,
+                  //           color: AppColors.primary,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ],
                   const SizedBox(height: 10),
                   Text(
                     l10n.noAccount,
